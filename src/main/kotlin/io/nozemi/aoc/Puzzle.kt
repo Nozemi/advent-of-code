@@ -1,34 +1,34 @@
 package io.nozemi.aoc
 
 import com.github.michaelbull.logging.InlineLogger
-import java.nio.file.Path
-import kotlin.io.path.absolutePathString
-import kotlin.io.path.notExists
 
-abstract class Puzzle<T>(year: Int) {
+abstract class Puzzle<T>(private val year: Int, private var input: String) {
     protected val logger = InlineLogger()
-    private val inputFilePath: Path = Path.of("./data/year-$year/${this.javaClass.simpleName.lowercase()}-input.txt")
 
     protected abstract val solutionInput: T?
 
-    init {
-        execute()
-    }
-
-    private fun execute() {
+    fun execute() {
         logger.debug { "Loading solution data..." }
-        if(inputFilePath.notExists()) {
-            logger.error { "Skipping ${this.javaClass.simpleName} because input file was not found at ${inputFilePath.absolutePathString()}." }
+
+        val inputFile = this::class.java.getResource("/puzzle-input/year-$year/${this.javaClass.simpleName.lowercase()}-input.txt")
+        if(input.isBlank() && inputFile != null) {
+            input = inputFile.readText()
+        } else {
+            logger.debug { "Couldn't find input file" }
+        }
+
+        if(input.isBlank()) {
+            logger.error { "Skipping puzzle because input was empty." }
             return
         }
 
-        loadInput(inputFilePath)
+        loadInput(input)
         logger.debug { "Solution data was successfully loaded." }
         logger.info { "[Part 1]: ${part1()}" }
         logger.info { "[Part 2]: ${part2()}" }
     }
 
-    abstract fun loadInput(inputFilePath: Path)
+    abstract fun loadInput(input: String)
 
     open fun part1(): String {
         return "Part 1 is not yet implemented."

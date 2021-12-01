@@ -42,7 +42,9 @@ class Application {
             } else {
                 classes.forEach {
                     logger.warn { "==   Solution for ${it.simpleName}   ==" }
-                    it.loadClass().getConstructor(Int::class.java).newInstance(year)
+                    val instance: Puzzle<Any> =
+                        it.loadClass().getConstructor(Int::class.java, String::class.java).newInstance(year, "") as Puzzle<Any>
+                    instance.execute()
                 }
             }
         }

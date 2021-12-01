@@ -22,6 +22,8 @@ dependencies {
     implementation("io.github.classgraph:classgraph:4.8.137")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation(kotlin("test"))
 }
 
 tasks.withType<KotlinCompile> {
@@ -29,4 +31,8 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "16"
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

@@ -1,32 +1,30 @@
 package io.nozemi.aoc.year2021.solutions.day01
 
 import io.nozemi.aoc.Puzzle
-import java.nio.file.Files
-import java.nio.file.Path
 
-class Day01(year: Int) : Puzzle<MutableList<Int>>(year) {
+class Day01(year: Int, input: String) : Puzzle<MutableList<Int>>(year, input) {
 
-    override lateinit var solutionInput: MutableList<Int>
+    public override lateinit var solutionInput: MutableList<Int>
 
     private fun Int.isGreaterThan(than: Int): Boolean {
         return this > than
     }
 
-    override fun loadInput(inputFilePath: Path) {
-        solutionInput = mutableListOf()
-        Files.readAllLines(inputFilePath).forEach {
-            solutionInput.add(it.toInt())
-        }
+    override fun loadInput(input: String) {
+        solutionInput = input.split("\n")
+            .mapTo(mutableListOf()) {
+                it.trim().toInt()
+            }
     }
 
-    private fun totalIncreases(groupSize: Int): Int {
+    fun totalIncreases(groupSize: Int): Int {
         var totalIncreases = 0
 
         val groups = solutionInput.windowed(groupSize)
         logger.debug { "Groups (amount=${groups.size}, groupSize=$groupSize): $groups" }
 
         for (i in 1 until groups.size) {
-            if(groups[i].sum().isGreaterThan(groups[i - 1].sum()))
+            if (groups[i].sum().isGreaterThan(groups[i - 1].sum()))
                 totalIncreases++
         }
 
