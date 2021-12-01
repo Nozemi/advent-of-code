@@ -2,6 +2,8 @@ package io.nozemi.aoc
 
 import com.github.michaelbull.logging.InlineLogger
 import java.nio.file.Path
+import kotlin.io.path.absolutePathString
+import kotlin.io.path.notExists
 
 abstract class Solution<T>(year: Int) {
     protected val logger = InlineLogger()
@@ -15,6 +17,11 @@ abstract class Solution<T>(year: Int) {
 
     private fun execute() {
         logger.debug { "Loading solution data..." }
+        if(inputFilePath.notExists()) {
+            logger.error { "Skipping ${this.javaClass.simpleName} because input file was not found at ${inputFilePath.absolutePathString()}." }
+            return
+        }
+
         loadInput(inputFilePath)
         logger.debug { "Solution data was successfully loaded." }
         logger.info { "[Part 1]: ${part1()}" }
