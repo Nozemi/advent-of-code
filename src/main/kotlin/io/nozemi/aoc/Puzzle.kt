@@ -5,7 +5,7 @@ import java.nio.file.Path
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.notExists
 
-abstract class Solution<T>(year: Int) {
+abstract class Puzzle<T>(year: Int) {
     protected val logger = InlineLogger()
     private val inputFilePath: Path = Path.of("./data/year-$year/${this.javaClass.simpleName.lowercase()}-input.txt")
 

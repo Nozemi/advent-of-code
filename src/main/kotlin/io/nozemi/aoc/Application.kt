@@ -23,7 +23,7 @@ class Application {
             ClassGraph()
                 .enableAllInfo()
                 .acceptPackages("io.nozemi.aoc.year$year")
-                .scan().getSubclasses(Solution::class.java).forEach {
+                .scan().getSubclasses(Puzzle::class.java).forEach {
                     logger.warn { "==   Solution for ${it.simpleName}   ==" }
                     it.loadClass().getConstructor(Int::class.java).newInstance(year)
                 }

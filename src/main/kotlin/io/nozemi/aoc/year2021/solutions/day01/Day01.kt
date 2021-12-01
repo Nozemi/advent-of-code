@@ -1,10 +1,10 @@
 package io.nozemi.aoc.year2021.solutions.day01
 
-import io.nozemi.aoc.Solution
+import io.nozemi.aoc.Puzzle
 import java.nio.file.Files
 import java.nio.file.Path
 
-class Day01(year: Int) : Solution<MutableList<Int>>(year) {
+class Day01(year: Int) : Puzzle<MutableList<Int>>(year) {
 
     override lateinit var solutionInput: MutableList<Int>
 
