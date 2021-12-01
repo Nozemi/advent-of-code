@@ -15,3 +15,4 @@ If for whatever reason you want to use my code to test your own input, follow th
      - year-...
 3. Then populate the needed puzzles with its data.\
    Puzzles that doesn't have an input file, will be skipped with an error message.
+4. Run the Gradle task called `run`. If you want to run for multiple years, you need to specify a comma separated list of years. Example: `2021,2022,2023`
