@@ -12,21 +12,39 @@ class Application {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            var year = Year.now().value
+            var year = "${Year.now().value}"
+            if (args.isNotEmpty() && args[0].isNotBlank()) {
+                year = args[0]
+            }
 
-            if(args.isNotEmpty() && args[0].isNotBlank())
-                year = args[0].toInt()
+            if(year.contains(",")) {
+                year.replace(" ", "")
+                    .split(",").forEach {
+                        executeApplication(it.toInt())
+                    }
+                return
+            }
 
+            executeApplication(year.toInt())
+        }
+
+        private fun executeApplication(year: Int) {
             logger.warn { "==== Solutions for $year ====" }
             logger.warn { "============================" }
 
-            ClassGraph()
+            val classes = ClassGraph()
                 .enableAllInfo()
                 .acceptPackages("io.nozemi.aoc.year$year")
-                .scan().getSubclasses(Puzzle::class.java).forEach {
+                .scan().getSubclasses(Puzzle::class.java)
+
+            if(classes.size == 0) {
+                logger.error { "No puzzles to solve for $year." }
+            } else {
+                classes.forEach {
                     logger.warn { "==   Solution for ${it.simpleName}   ==" }
                     it.loadClass().getConstructor(Int::class.java).newInstance(year)
                 }
+            }
         }
     }
 }
