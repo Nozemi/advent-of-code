@@ -6,10 +6,6 @@ class Day01(year: Int, input: String) : Puzzle<MutableList<Int>>(year, input) {
 
     public override lateinit var solutionInput: MutableList<Int>
 
-    private fun Int.isGreaterThan(than: Int): Boolean {
-        return this > than
-    }
-
     override fun loadInput(input: String) {
         solutionInput = input.split("\n")
             .mapTo(mutableListOf()) {
@@ -24,7 +20,7 @@ class Day01(year: Int, input: String) : Puzzle<MutableList<Int>>(year, input) {
         logger.debug { "Groups (amount=${groups.size}, groupSize=$groupSize): $groups" }
 
         for (i in 1 until groups.size) {
-            if (groups[i].sum().isGreaterThan(groups[i - 1].sum()))
+            if (groups[i].sum() > groups[i - 1].sum())
                 totalIncreases++
         }
 
