@@ -2,14 +2,8 @@ package io.nozemi.aoc.year2021.day02.impl
 
 class Command(
     val units: Int = 0,
-    val direction: Direction = Direction.FORWARD,
-    var aimed: Boolean = false
+    val direction: Direction = Direction.FORWARD
 ) {
-
-    fun setAimed(aimed: Boolean): Command {
-        this.aimed = aimed
-        return this
-    }
 
     companion object {
         @JvmStatic
@@ -17,8 +11,7 @@ class Command(
             val raw = input.split(" ")
             return Command(
                 units = raw[1].toInt(),
-                direction = Direction.valueOf(raw[0].uppercase()),
-                aimed = false
+                direction = Direction.valueOf(raw[0].uppercase())
             )
         }
     }

@@ -3,34 +3,38 @@ package io.nozemi.aoc.year2021.day02.impl
 class Submarine(
     var depth: Long = 0L,
     var horizontal: Long = 0L,
-    private var aim: Long = 0L
+    var aim: Long = 0L,
+    var aimedMode: Boolean = false
 ) {
 
-    fun moveSubmarine(input: MutableList<String>, aimed: Boolean = false) {
-        input.forEach {
-            val command: Command = Command.parse(it)
-            command.setAimed(aimed)
+    fun moveSubmarine(commands: MutableList<String>) {
+        commands.forEach {
+            moveSubmarine(it)
+        }
+    }
 
-            when (command.direction) {
-                Direction.FORWARD -> {
-                    if (command.aimed) {
-                        this.depth += (command.units * this.aim)
-                    }
-                    this.horizontal += command.units
+    fun moveSubmarine(command: String) {
+        val parsedCommand: Command = Command.parse(command)
+
+        when (parsedCommand.direction) {
+            Direction.FORWARD -> {
+                if (this.aimedMode) {
+                    this.depth += (parsedCommand.units * this.aim)
                 }
-                Direction.DOWN -> {
-                    if(command.aimed) {
-                        this.aim += command.units
-                    } else {
-                        this.depth += command.units
-                    }
+                this.horizontal += parsedCommand.units
+            }
+            Direction.DOWN -> {
+                if(this.aimedMode) {
+                    this.aim += parsedCommand.units
+                } else {
+                    this.depth += parsedCommand.units
                 }
-                Direction.UP -> {
-                    if(command.aimed) {
-                        this.aim -= command.units
-                    } else {
-                        this.depth -= command.units
-                    }
+            }
+            Direction.UP -> {
+                if(this.aimedMode) {
+                    this.aim -= parsedCommand.units
+                } else {
+                    this.depth -= parsedCommand.units
                 }
             }
         }

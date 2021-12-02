@@ -27,8 +27,8 @@ internal class Day02Test {
     @Test
     fun examplePart2Test() {
         day02.loadInput(input)
-        val submarine = Submarine()
-        submarine.moveSubmarine(day02.solutionInput, aimed = true)
+        val submarine = Submarine(aimedMode = true)
+        submarine.moveSubmarine(day02.solutionInput)
         assertEquals(15, submarine.horizontal)
         assertEquals(60, submarine.depth)
         assertEquals(900, (submarine.horizontal * submarine.depth))
