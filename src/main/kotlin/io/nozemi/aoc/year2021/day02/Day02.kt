@@ -13,13 +13,13 @@ class Day02(year: Int, input: String) : Puzzle<MutableList<String>>(year, input)
 
     override fun part1(): String {
         val submarine = Submarine()
-        submarine.moveSubmarine(commands = solutionInput)
-        return "${submarine.horizontal * submarine.depth} (Submarine(horizontal=${submarine.horizontal}, vertical=${submarine.depth}))"
+        submarine.moveSubmarine(rawCommands = solutionInput)
+        return "${submarine.horizontal * submarine.depth} (Submarine(horizontal=${submarine.horizontal}, depth=${submarine.depth}))"
     }
 
     override fun part2(): String {
         val submarine = Submarine(aimedMode = true)
-        submarine.moveSubmarine(commands = solutionInput)
-        return "${submarine.horizontal * submarine.depth} (Submarine(horizontal=${submarine.horizontal}, vertical=${submarine.depth}))"
+        submarine.moveSubmarine(rawCommands = solutionInput)
+        return "${submarine.horizontal * submarine.depth} (Submarine(horizontal=${submarine.horizontal}, depth=${submarine.depth}))"
     }
 }
