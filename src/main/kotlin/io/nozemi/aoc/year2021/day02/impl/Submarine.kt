@@ -6,19 +6,16 @@ class Submarine(
     var aim: Long = 0L,
     var aimedMode: Boolean = false
 ) {
-
-    fun moveSubmarine(commands: Iterable<Command>) {
-        commands.forEach { moveSubmarine(it) }
-    }
-
     fun moveSubmarine(rawCommands: MutableList<String>) {
-        rawCommands.forEach {
-            moveSubmarine(it.toCommand())
-        }
+        rawCommands.forEach { moveSubmarine(it.toCommand()) }
     }
 
     fun moveSubmarine(rawCommand: String) {
         moveSubmarine(rawCommand.toCommand())
+    }
+
+    fun moveSubmarine(commands: Iterable<Command>) {
+        commands.forEach { moveSubmarine(it) }
     }
 
     fun moveSubmarine(command: Command) {
