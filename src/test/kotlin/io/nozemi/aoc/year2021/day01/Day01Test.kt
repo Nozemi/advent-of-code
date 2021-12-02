@@ -1,4 +1,4 @@
-package io.nozemi.aoc.year2021.solutions.day01
+package io.nozemi.aoc.year2021.day01
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -21,13 +21,13 @@ internal class Day01Test {
         """.trimIndent()
 
     @Test
-    fun examplePart1() {
+    fun examplePart1Test() {
         day01.loadInput(input)
         assertEquals(7, day01.totalIncreases(1))
     }
 
     @Test
-    fun examplePart2() {
+    fun examplePart2Test() {
         day01.loadInput(input)
         assertEquals(5, day01.totalIncreases(3))
     }

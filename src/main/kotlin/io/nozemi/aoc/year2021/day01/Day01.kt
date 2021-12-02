@@ -1,4 +1,4 @@
-package io.nozemi.aoc.year2021.solutions.day01
+package io.nozemi.aoc.year2021.day01
 
 import io.nozemi.aoc.Puzzle
 
