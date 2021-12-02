@@ -17,7 +17,7 @@ class Application {
                 year = args[0]
             }
 
-            if(year.contains(",")) {
+            if (year.contains(",")) {
                 year.replace(" ", "")
                     .split(",").forEach {
                         executeApplication(it.toInt())
@@ -37,13 +37,14 @@ class Application {
                 .acceptPackages("io.nozemi.aoc.year$year")
                 .scan().getSubclasses(Puzzle::class.java)
 
-            if(classes.size == 0) {
+            if (classes.size == 0) {
                 logger.error { "No puzzles to solve for $year." }
             } else {
                 classes.forEach {
                     logger.warn { "==   Solution for ${it.simpleName}   ==" }
-                    val instance: Puzzle<Any> =
-                        it.loadClass().getConstructor(Int::class.java, String::class.java).newInstance(year, "") as Puzzle<Any>
+                    val instance: Puzzle<Any> = it.loadClass()
+                        .getConstructor(Int::class.java, String::class.java)
+                        .newInstance(year, "") as Puzzle<Any>
                     instance.execute()
                 }
             }

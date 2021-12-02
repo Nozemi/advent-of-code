@@ -4,9 +4,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class Day01Test {
-
-    private val day01 = Day01(2021, "")
-
     private val input = """
             199
             200
@@ -20,15 +17,15 @@ internal class Day01Test {
             263
         """.trimIndent()
 
+    private val day01 = Day01(2021, input)
+
     @Test
     fun examplePart1Test() {
-        day01.loadInput(input)
         assertEquals(7, day01.totalIncreases(1))
     }
 
     @Test
     fun examplePart2Test() {
-        day01.loadInput(input)
         assertEquals(5, day01.totalIncreases(3))
     }
 }

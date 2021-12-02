@@ -2,6 +2,7 @@ package io.nozemi.aoc.year2020.day02
 
 import io.nozemi.aoc.Puzzle
 import java.util.regex.Pattern
+import java.util.stream.Stream
 
 fun String.parsePasswordAndPolicy(): Day02.PasswordAndPolicy? {
     val pattern = Pattern.compile("(\\d*)-(\\d*) (\\w): (.*)")
@@ -29,18 +30,16 @@ fun String.countChar(char: Char): Int {
     return count
 }
 
-class Day02(year: Int, input: String) : Puzzle<MutableList<String>>(year, input) {
+class Day02(year: Int, input: String) : Puzzle<List<String>>(year, input) {
 
-    public override lateinit var solutionInput: MutableList<String>
+    public override lateinit var parsedInput: List<String>
 
-    override fun loadInput(input: String) {
-        solutionInput = input.split("\n").mapTo(mutableListOf()) { it.trim() }
-    }
+    override fun Stream<String>.parse(): List<String> = this.toStringList()
 
     fun countValidPart1(): Int {
         var validPasswords = 0
 
-        solutionInput.forEach {
+        parsedInput.forEach {
             val passwordAndPolicy = it.parsePasswordAndPolicy()
 
             if (passwordAndPolicy != null) {
@@ -55,7 +54,7 @@ class Day02(year: Int, input: String) : Puzzle<MutableList<String>>(year, input)
     fun countValidPart2(): Int {
         var validPasswords = 0
 
-        solutionInput.forEach {
+        parsedInput.forEach {
             var passwordAndPolicy = it.parsePasswordAndPolicy()
 
             if (passwordAndPolicy != null) {

@@ -1,22 +1,18 @@
 package io.nozemi.aoc.year2021.day01
 
 import io.nozemi.aoc.Puzzle
+import java.util.stream.Stream
 
-class Day01(year: Int, input: String) : Puzzle<MutableList<Int>>(year, input) {
+class Day01(year: Int, input: String) : Puzzle<List<Int>>(year, input) {
 
-    public override lateinit var solutionInput: MutableList<Int>
+    public override lateinit var parsedInput: List<Int>
 
-    override fun loadInput(input: String) {
-        solutionInput = input.split("\n")
-            .mapTo(mutableListOf()) {
-                it.trim().toInt()
-            }
-    }
+    override fun Stream<String>.parse(): List<Int> = this.toIntList()
 
     fun totalIncreases(groupSize: Int): Int {
         var totalIncreases = 0
 
-        val groups = solutionInput.windowed(groupSize)
+        val groups = parsedInput.windowed(groupSize)
         logger.debug { "Groups (amount=${groups.size}, groupSize=$groupSize): $groups" }
 
         for (i in 1 until groups.size) {

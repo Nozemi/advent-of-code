@@ -6,7 +6,7 @@ class Submarine(
     var aim: Long = 0L,
     var aimedMode: Boolean = false
 ) {
-    fun moveSubmarine(rawCommands: MutableList<String>) {
+    fun moveSubmarine(rawCommands: List<String>) {
         rawCommands.forEach { moveSubmarine(it.toCommand()) }
     }
 

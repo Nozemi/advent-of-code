@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 internal class Day02Test {
-    private val day02 = Day02(2020, "")
-
     private val input = """
         1-3 a: abcde
         1-3 b: cdefg
         2-9 c: ccccccccc
     """.trimIndent()
+
+    private val day02 = Day02(2020, input)
 
     @Test
     fun parsePasswordAndPolicyTest() {
@@ -32,13 +32,11 @@ internal class Day02Test {
 
     @Test
     fun examplePart1Test() {
-        day02.loadInput(input)
         assertEquals(2, day02.countValidPart1())
     }
 
     @Test
     fun examplePart2Test() {
-        day02.loadInput(input)
         assertEquals(1, day02.countValidPart2())
     }
 }
