@@ -7,36 +7,30 @@ class Submarine(
     var aimedMode: Boolean = false
 ) {
 
-    fun moveSubmarine(commands: MutableList<String>) {
-        commands.forEach {
-            moveSubmarine(it)
+    fun moveSubmarine(commands: Iterable<Command>) {
+        commands.forEach { moveSubmarine(it) }
+    }
+
+    fun moveSubmarine(rawCommands: MutableList<String>) {
+        rawCommands.forEach {
+            moveSubmarine(it.toCommand())
         }
     }
 
-    fun moveSubmarine(command: String) {
-        val parsedCommand: Command = Command.parse(command)
+    fun moveSubmarine(rawCommand: String) {
+        moveSubmarine(rawCommand.toCommand())
+    }
 
-        when (parsedCommand.direction) {
+    fun moveSubmarine(command: Command) {
+        when (command.direction) {
             Direction.FORWARD -> {
-                if (this.aimedMode) {
-                    this.depth += (parsedCommand.units * this.aim)
+                if (aimedMode) {
+                    depth += (command.units * aim)
                 }
-                this.horizontal += parsedCommand.units
+                horizontal += command.units
             }
-            Direction.DOWN -> {
-                if(this.aimedMode) {
-                    this.aim += parsedCommand.units
-                } else {
-                    this.depth += parsedCommand.units
-                }
-            }
-            Direction.UP -> {
-                if(this.aimedMode) {
-                    this.aim -= parsedCommand.units
-                } else {
-                    this.depth -= parsedCommand.units
-                }
-            }
+            Direction.DOWN -> if (aimedMode) aim += command.units else depth += command.units
+            Direction.UP -> if (aimedMode) aim -= command.units else depth -= command.units
         }
     }
 }
