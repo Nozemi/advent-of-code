@@ -37,12 +37,15 @@ class Day03(year: Int, input: String) : Puzzle<List<String>>(year, input) {
     fun findMeasureTypeRating(measureType: MeasureType, input: List<String> = this.parsedInput): String {
         var ratings = input
 
-        val counts = ratings.countBitsInPosition()
+        var counts = ratings.countBitsInPosition()
         while (ratings.size > 1) {
             counts.forEach { count ->
+                counts = ratings.countBitsInPosition()
+
                 if (ratings.size <= 1) return@forEach
-                val zeroCount = count.value.first
-                val oneCount = count.value.second
+
+                val zeroCount = counts[count.key]?.first
+                val oneCount = counts[count.key]?.second
 
                 ratings = when (measureType) {
                     /**
