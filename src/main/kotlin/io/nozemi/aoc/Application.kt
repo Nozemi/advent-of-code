@@ -2,6 +2,7 @@ package io.nozemi.aoc
 
 import com.github.michaelbull.logging.InlineLogger
 import io.github.classgraph.ClassGraph
+import io.nozemi.aoc.puzzles.Puzzle
 import java.time.Year
 
 private val logger = InlineLogger()
@@ -34,7 +35,7 @@ class Application {
 
             val classes = ClassGraph()
                 .enableAllInfo()
-                .acceptPackages("io.nozemi.aoc.year$year")
+                .acceptPackages("io.nozemi.aoc.puzzles.year$year")
                 .scan().getSubclasses(Puzzle::class.java)
 
             if (classes.size == 0) {
