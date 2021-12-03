@@ -78,7 +78,7 @@ class PuzzleSelectScreen : CliktCommand() {
                 val className = dayPadded.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
                 try {
                     val clazz = Class.forName("$basePackage.year$year.${dayPadded}.${className}")
-                    logger.info { "$ANSI_BLUE==   Solution for ${clazz.simpleName}   ==$ANSI_RESET" }
+                    logger.info { "$ANSI_BLUE$ANSI_BOLD==   Solution for ${clazz.simpleName}   ==$ANSI_RESET" }
                     val instance = clazz.getDeclaredConstructor(Int::class.java, String::class.java).newInstance(year, "") as Puzzle<*>
                     instance.execute()
                 } catch (ignored: ClassNotFoundException) {
