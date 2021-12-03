@@ -1,19 +1,21 @@
 # Advent of Code Solutions
-This project will house my solutions for [Advent of Code](https://adventofcode.com/).
+[![license][license-badge]][mit]
+
+This project will house my solutions for [Advent of Code][aoc-url] (AoC). I've decided to use this project to experiment with various functionalities. Such as creating a console interface for it, so it can be used more dynamically and outside an IDE. I treat this project as a learning opportunity both in the way I shape the solution, and all the different problems I have to solve in [AoC][aoc-url].
 
 ### Usage
-If for whatever reason you want to use my code to test your own input, follow the steps below.
-1. Clone this repository.
-2. Create appropriate folders in the [resources](/src/main/resources)-directory.\
-    Folder structure is as following:
-   - [resources](/src/main/resources)
-     - puzzle-input
-       - year-... 
-       - year-2021
-         - day01-input.txt
-         - day02-input.txt
-         - ...-input.txt
-       - year-...
-3. Then populate the needed puzzles with its data.\
-   Puzzles that doesn't have an input file, will be skipped with an error message.
-4. Run the Gradle task called `run`. If you want to run for multiple years, you need to specify a comma separated list of years. Example: `2021,2022,2023`
+If you want to use my project to test your input, you can do so by cloning my repo. If you don't intend to manually fetch the puzzle input data, you can setup the `.env`-file with a token from [AoC][aoc-url]. This token is found in the `session`-cookie.
+
+If you intend to manually fetch the puzzle input data, you follow this folder-structure: `data/inputs/<YEAR>/<DAY>.txt`, example: `data/inputs/2021/day01.txt`.
+
+I've added a few Gradle-tasks for the sake of convenience. They can be found under `application`.
+- `runThisYear` - Runs every implemented day from this year's puzzle, no need to provide any user inputs.
+- `runToday` - Runs today's puzzle, if implemented, and there is no need to provide any user input.
+- `runWithInput` - Just a task to allow you to run it from Gradle and still accept user input.
+
+You can otherwise run the [Application](/src/main/kotlin/io/nozemi/aoc/Application.kt)-class directly. This however requires you to provide some user input.
+
+[aoc-url]:https://adventofcode.com/
+[mit]: https://opensource.org/licenses/MIT
+[license]: /LICENSE.md
+[license-badge]: https://img.shields.io/badge/license-MIT-informational
