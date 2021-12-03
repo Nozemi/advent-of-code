@@ -15,6 +15,27 @@ I've added a few Gradle-tasks for the sake of convenience. They can be found und
 
 You can otherwise run the [Application](/src/main/kotlin/io/nozemi/aoc/Application.kt)-class directly. This however requires you to provide some user input.
 
+### Solved Puzzles
+- Year 2020
+  - Part 1
+    - Day 1
+    - Day 2
+    - Day 3
+    - Day 4
+  - Part 2
+    - Day 1
+    - Day 2
+    - Day 3
+- Year 2021
+  - Part 1
+    - Day 1
+    - Day 2
+    - Day 3
+  - Part 2
+    - Day 1
+    - Day 2
+    - Day 3
+
 [aoc-url]:https://adventofcode.com/
 [mit]: https://opensource.org/licenses/MIT
 [license]: /LICENSE.md
