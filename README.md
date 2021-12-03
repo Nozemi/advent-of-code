@@ -16,25 +16,38 @@ I've added a few Gradle-tasks for the sake of convenience. They can be found und
 You can otherwise run the [Application](/src/main/kotlin/io/nozemi/aoc/Application.kt)-class directly. This however requires you to provide some user input.
 
 ### Solved Puzzles
-- Year 2020
-  - Part 1
-    - Day 1
-    - Day 2
-    - Day 3
-    - Day 4
-  - Part 2
-    - Day 1
-    - Day 2
-    - Day 3
-- Year 2021
-  - Part 1
-    - Day 1
-    - Day 2
-    - Day 3
-  - Part 2
-    - Day 1
-    - Day 2
-    - Day 3
+Below is a table showing which statuses for each day of each year.
+- ❌ means neither of the two puzzles have working implementations.
+- 🚧 means part one is done. Part two is either not started or has an incomplete implementation.
+- ✅ means fully implemented and working.
+
+| Days 	| 2021 	| 2020 	|
+|---	|---	|---	|
+| 1 	| ✅ 	| ✅ 	|
+| 2 	| ✅	| ✅ 	|
+| 3 	| ✅	| ✅ 	|
+| 4 	| ❌    | 🚧 	|
+| 5 	| ❌    | ❌	    |
+| 6 	| ❌    | ❌	    |
+| 7 	| ❌    | ❌	    |
+| 8 	| ❌    | ❌	    |
+| 9 	| ❌    | ❌	    |
+| 10 	| ❌    | ❌	    |
+| 11 	| ❌    | ❌	    |
+| 12 	| ❌    | ❌	    |
+| 13 	| ❌    | ❌	    |
+| 14 	| ❌    | ❌	    |
+| 15 	| ❌    | ❌	    |
+| 16 	| ❌    | ❌	    |
+| 17 	| ❌    | ❌	    |
+| 18 	| ❌    | ❌	    |
+| 19 	| ❌    | ❌	    |
+| 20 	| ❌    | ❌	    |
+| 21 	| ❌    | ❌	    |
+| 22 	| ❌    | ❌	    |
+| 23 	| ❌    | ❌	    |
+| 24 	| ❌    | ❌	    |
+| 25 	| ❌    | ❌	    |
 
 [aoc-url]:https://adventofcode.com/
 [mit]: https://opensource.org/licenses/MIT
