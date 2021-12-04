@@ -19,8 +19,6 @@ application {
 }
 
 release {
-    failOnUpdateNeeded = false
-    revertOnFail = false
     tagTemplate = "v${version}"
 }
 
@@ -34,7 +32,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.logging.log4j:log4j-core:2.14.1")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
     testImplementation(kotlin("test"))
 }
