@@ -1,5 +1,5 @@
 # Advent of Code Solutions
-[![license][license-badge]][mit]
+[![license][license-badge]][mit] ![build][ci-badge]
 
 This project will house my solutions for [Advent of Code][aoc-url] (AoC). I've decided to use this project to experiment with various functionalities. Such as creating a console interface for it, so it can be used more dynamically and outside an IDE. I treat this project as a learning opportunity both in the way I shape the solution, and all the different problems I have to solve in [AoC][aoc-url].
 
@@ -52,6 +52,9 @@ Below is a table showing which statuses for each day of each year.
 [aoc-url]:https://adventofcode.com/
 [mit]: https://opensource.org/licenses/MIT
 [license]: /LICENSE.md
+
 [license-badge]: https://img.shields.io/badge/license-MIT-informational
+[ci-badge]: https://github.com/nozemi/advent-of-code/actions/workflows/gradle-build.yml/badge.svg
+
 [2020]: https://adventofcode.com/2020
 [2021]: https://adventofcode.com/2021
