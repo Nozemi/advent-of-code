@@ -21,6 +21,7 @@ application {
 release {
     failOnUpdateNeeded = false
     revertOnFail = false
+    tagTemplate = "v${version}"
 }
 
 repositories {
