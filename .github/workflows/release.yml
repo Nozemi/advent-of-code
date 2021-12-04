@@ -2,9 +2,8 @@ name: release
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -20,19 +19,6 @@ jobs:
           distribution: 'adopt'
 
       - run: ./gradlew build
-
-      - name: generate versions
-        uses: HardNorth/github-version-generate@v1.1.1
-        with:
-          version-source: file
-          version-file: gradle.properties
-          version-file-extraction-pattern: 'version=([\d]+.[\d]+.[\d]+)'
-          
-      - name: setup git credentials
-        run: |
-          git config user.name 'Nozemi'
-          git config user.email ${{ secrets.EMAIL }}
-          git config user.password ${{ secrets.GITHUB_TOKEN }}
 
       - name: release
         uses: softprops/action-gh-release@v1
