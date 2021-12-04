@@ -1,5 +1,5 @@
 # Advent of Code Solutions
-[![license][license-badge]][mit] ![build][ci-badge]
+[![license][license-badge]][mit] [![build][ci-badge]](https://github.com/nozemi/advent-of-code/actions?query=workflow%3Abuild)
 
 This project will house my solutions for [Advent of Code][aoc-url] (AoC). I've decided to use this project to experiment with various functionalities. Such as creating a console interface for it, so it can be used more dynamically and outside an IDE. I treat this project as a learning opportunity both in the way I shape the solution, and all the different problems I have to solve in [AoC][aoc-url].
 
