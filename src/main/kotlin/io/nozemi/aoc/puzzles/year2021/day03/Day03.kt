@@ -1,6 +1,6 @@
 package io.nozemi.aoc.puzzles.year2021.day03
 
-import io.nozemi.aoc.puzzles.Puzzle
+import io.nozemi.aoc.puzzles.*
 import io.nozemi.aoc.puzzles.year2021.day03.impl.*
 import java.util.stream.Stream
 
