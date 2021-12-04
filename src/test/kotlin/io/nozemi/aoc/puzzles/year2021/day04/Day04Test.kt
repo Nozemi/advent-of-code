@@ -3,6 +3,7 @@ package io.nozemi.aoc.puzzles.year2021.day04
 import io.nozemi.aoc.puzzles.year2021.day04.impl.Bingo
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class Day04Test {
     private val input = """
@@ -34,11 +35,31 @@ internal class Day04Test {
         val bingo = Bingo.parse(day04.parsedInput)
         val winners = bingo.findWinningBoards()
 
-        val unmarkedSum = winners[0].findUnmarkedNumbers(bingo).sum()
-        val lastNumber = bingo.drawnNumbers.last()
+        assertTrue(winners.isNotEmpty())
 
+        val unmarkedSum = winners[0].findUnmarkedNumbers().sum()
+        val firstWinningNumber = winners[0].numbersWhenWon.last()
+
+        assertEquals(24, firstWinningNumber)
         assertEquals(188, unmarkedSum)
-        assertEquals(24, lastNumber)
-        assertEquals(4512, unmarkedSum * lastNumber)
+        assertEquals(4512, unmarkedSum * firstWinningNumber)
+    }
+
+    @Test
+    fun examplePart2Test() {
+        val bingo = Bingo.parse(day04.parsedInput)
+        val winners = bingo.findWinningBoards()
+
+        assertTrue(winners.isNotEmpty())
+
+        println(winners.last().numbersWhenWon.toList())
+        println(winners.last().values.map { it.toList() }.toList())
+
+        val unmarkedSum = winners.last().findUnmarkedNumbers().sum()
+        val lastWinningNumber = winners.last().numbersWhenWon.last()
+
+        assertEquals(13, lastWinningNumber)
+        assertEquals(148, unmarkedSum)
+        assertEquals(1924, unmarkedSum * lastWinningNumber)
     }
 }
