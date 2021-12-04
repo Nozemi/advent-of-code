@@ -33,7 +33,7 @@ fun List<String>.countBitsInPosition(): Map<Int, Pair<Int, Int>> {
             if (it.toCharArray()[i] == '0') zeroBits++
             if (it.toCharArray()[i] == '1') oneBits++
         }
-        positionCounts.put(i, Pair(zeroBits, oneBits))
+        positionCounts[i] = Pair(zeroBits, oneBits)
     }
 
     return positionCounts

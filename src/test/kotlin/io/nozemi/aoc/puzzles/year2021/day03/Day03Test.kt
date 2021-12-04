@@ -6,8 +6,6 @@ import io.nozemi.aoc.puzzles.year2021.day03.impl.toGammaRateBinary
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-private val logger = InlineLogger()
-
 internal class Day03Test {
     private val input = """
         00100
