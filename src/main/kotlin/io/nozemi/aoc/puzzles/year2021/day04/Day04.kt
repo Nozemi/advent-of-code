@@ -5,7 +5,7 @@ import io.nozemi.aoc.puzzles.year2021.day04.impl.Bingo
 import io.nozemi.aoc.puzzles.year2021.day04.impl.Board
 import java.util.stream.Stream
 
-class Day04(year: Int, input: String) : Puzzle<String>(year, input) {
+class Day04(input: String) : Puzzle<String>(input) {
 
     public override lateinit var parsedInput: String
 
@@ -13,7 +13,7 @@ class Day04(year: Int, input: String) : Puzzle<String>(year, input) {
         return this.toList().joinToString("\n")
     }
 
-    var winners: List<Board> = emptyList()
+    private val winners: List<Board>
 
     init {
         val bingo = Bingo.parse(parsedInput)

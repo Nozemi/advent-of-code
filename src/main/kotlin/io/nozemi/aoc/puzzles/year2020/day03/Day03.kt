@@ -3,7 +3,7 @@ package io.nozemi.aoc.puzzles.year2020.day03
 import io.nozemi.aoc.puzzles.Puzzle
 import java.util.stream.Stream
 
-class Day03(year: Int, input: String) : Puzzle<List<String>>(year, input) {
+class Day03(input: String) : Puzzle<List<String>>(input) {
 
     override lateinit var parsedInput: List<String>
 

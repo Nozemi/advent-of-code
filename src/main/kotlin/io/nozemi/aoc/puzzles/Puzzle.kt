@@ -15,7 +15,7 @@ import java.util.stream.Stream
 
 private val regex = Regex("io.nozemi.aoc.puzzles.year([\\d]{4}).(day0([\\d])|day([\\d]{2}))")
 
-abstract class Puzzle<T : Any>(year: Int, private var input: String) {
+abstract class Puzzle<T : Any>(private var input: String) {
 
     private var downloaded = false
     private val result = regex.find(this.javaClass.packageName)

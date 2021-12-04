@@ -5,7 +5,7 @@ import io.nozemi.aoc.puzzles.year2020.day04.impl.Passport
 import io.nozemi.aoc.puzzles.year2020.day04.impl.parseToPassport
 import java.util.stream.Stream
 
-class Day04(year: Int, input: String) : Puzzle<List<String>>(year, input) {
+class Day04(input: String) : Puzzle<List<String>>(input) {
 
     override lateinit var parsedInput: List<String>
 

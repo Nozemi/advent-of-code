@@ -17,7 +17,7 @@ internal class Day03Test {
         #...##....##...##....##...##....##...##....##...##....##...##....#
         .#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#
     """.trimIndent()
-    private val day03 = Day03(2020, input)
+    private val day03 = Day03(input)
 
     @Test
     fun traverseMapTest() {

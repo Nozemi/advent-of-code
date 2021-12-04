@@ -79,7 +79,7 @@ class PuzzleSelectScreen : CliktCommand() {
                 try {
                     val clazz = Class.forName("$basePackage.year$year.${dayPadded}.${className}")
                     logger.info { "$ANSI_BLUE$ANSI_BOLD==   Solution for ${clazz.simpleName}   ==$ANSI_RESET" }
-                    val instance = clazz.getDeclaredConstructor(Int::class.java, String::class.java).newInstance(year, "") as Puzzle<*>
+                    val instance = clazz.getDeclaredConstructor(String::class.java).newInstance("") as Puzzle<*>
                     instance.execute()
                 } catch (ignored: ClassNotFoundException) {
                 } catch (ignored: UninitializedPropertyAccessException) {}

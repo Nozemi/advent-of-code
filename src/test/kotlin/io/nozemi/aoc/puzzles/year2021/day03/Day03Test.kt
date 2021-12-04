@@ -1,6 +1,5 @@
 package io.nozemi.aoc.puzzles.year2021.day03
 
-import com.github.michaelbull.logging.InlineLogger
 import io.nozemi.aoc.puzzles.year2021.day03.impl.toEpsilonRateBinary
 import io.nozemi.aoc.puzzles.year2021.day03.impl.toGammaRateBinary
 import org.junit.jupiter.api.Assertions.*
@@ -21,7 +20,7 @@ internal class Day03Test {
         00010
         01010
     """.trimIndent()
-    private val day03 = Day03(2021, input)
+    private val day03 = Day03(input)
 
     @Test
     fun findPowerConsumptionTest() {

@@ -17,7 +17,7 @@ internal class Day01Test {
             263
         """.trimIndent()
 
-    private val day01 = Day01(2021, input)
+    private val day01 = Day01(input)
 
     @Test
     fun examplePart1Test() {

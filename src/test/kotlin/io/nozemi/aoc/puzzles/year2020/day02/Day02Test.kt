@@ -1,5 +1,6 @@
 package io.nozemi.aoc.puzzles.year2020.day02
 
+import io.nozemi.aoc.puzzles.countChar
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -10,7 +11,7 @@ internal class Day02Test {
         2-9 c: ccccccccc
     """.trimIndent()
 
-    private val day02 = Day02(2020, input)
+    private val day02 = Day02(input)
 
     @Test
     fun parsePasswordAndPolicyTest() {

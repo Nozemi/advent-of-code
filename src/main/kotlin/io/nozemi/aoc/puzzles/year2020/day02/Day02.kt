@@ -1,6 +1,7 @@
 package io.nozemi.aoc.puzzles.year2020.day02
 
 import io.nozemi.aoc.puzzles.Puzzle
+import io.nozemi.aoc.puzzles.countChar
 import java.util.regex.Pattern
 import java.util.stream.Stream
 
@@ -20,17 +21,9 @@ fun String.parsePasswordAndPolicy(): Day02.PasswordAndPolicy? {
     )
 }
 
-fun String.countChar(char: Char): Int {
-    var count = 0
 
-    for (i in 0 until this.length) {
-        if (this.toCharArray()[i] == char) count++
-    }
 
-    return count
-}
-
-class Day02(year: Int, input: String) : Puzzle<List<String>>(year, input) {
+class Day02(input: String) : Puzzle<List<String>>(input) {
 
     public override lateinit var parsedInput: List<String>
 
