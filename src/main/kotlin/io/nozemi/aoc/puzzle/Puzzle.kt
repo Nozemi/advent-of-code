@@ -10,7 +10,7 @@ import kotlin.reflect.KFunction0
 
 private val logger = InlineLogger()
 
-abstract class Puzzle<T : List<*>>(private var input: String) {
+abstract class Puzzle<T : List<*>>(private var input: String? = null) {
     private val inputFilePath: Path
 
     private val puzzleName = this.javaClass.simpleName
@@ -38,8 +38,8 @@ abstract class Puzzle<T : List<*>>(private var input: String) {
     }
 
     private fun loadInput() {
-        val data = if (input.isNotBlank()) {
-            input.lineSequence()
+        val data = if (input != null && input!!.isNotBlank()) {
+            input!!.lineSequence()
         } else {
             inputLoader.loadFromFile() ?: emptySequence()
         }

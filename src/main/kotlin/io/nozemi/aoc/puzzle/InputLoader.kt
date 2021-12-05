@@ -11,17 +11,17 @@ import kotlin.streams.asSequence
 
 private val logger = InlineLogger()
 
-class InputLoader(private val inputFile: Path? = null) {
+class InputLoader(private val inputFile: Path) {
 
     private var hasDownloaded = false
 
     fun loadFromFile(): Sequence<String>? {
-        if (inputFile == null || Files.notExists(inputFile)) return null
+        if (Files.notExists(inputFile)) return null
         return Files.lines(inputFile).asSequence()
     }
 
     fun download(year: Int, day: Int) {
-        if (token == null || hasDownloaded || inputFile == null) return
+        if (token == null || hasDownloaded) return
 
         hasDownloaded = true
 
