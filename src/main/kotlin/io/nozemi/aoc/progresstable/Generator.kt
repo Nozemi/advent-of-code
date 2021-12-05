@@ -40,29 +40,42 @@ class Generator {
                 val year = dayAndYear.groupValues[1].toInt()
                 val day = dayAndYear.groupValues[3].toInt()
 
-                val inputLoader = getInputLoader(it, year) ?: return@forEach
-                val input = inputLoader.loadFromFile()!!.joinToString("\n")
-                val rawAnswers = input.lines()[0]
-
-                val answersRegex = Regex("\\[([\\d]+)]\\[([\\d]+)]")
-                val matches = answersRegex.find(rawAnswers) ?: return@forEach
-
-                val expectedAnswer1 = matches.groupValues[1]
-                val expectedAnswer2 = matches.groupValues[2]
-
-                val instance = it.loadClass().getDeclaredConstructor(String::class.java).newInstance(input.replace("$rawAnswers\n", "")) as Puzzle<*>
-                val answer1 = instance.getAnswer(1).toString()
-                val answer2 = instance.getAnswer(2).toString()
+                val exampleDataResult = testPuzzle(it, year)
+                val actualDataResult = testPuzzle(it, year, true)
 
                 var status = mutableMapOf<Int, Pair<Boolean, Boolean>>()
                 if (solvedPuzzles.containsKey(year)) status = solvedPuzzles[year]!!
-                status[day] = Pair(answer1 == expectedAnswer1, answer2 == expectedAnswer2)
+                status[day] = Pair(
+                    exampleDataResult.first && actualDataResult.first,
+                    exampleDataResult.second && actualDataResult.second
+                )
                 solvedPuzzles[year] = status
             }
     }
 
-    private fun getInputLoader(classInfo: ClassInfo, year: Int): InputLoader? {
-        val inputFile = Path.of("./data/example-inputs/$year/${classInfo.simpleName.lowercase()}.txt")
+    private fun testPuzzle(classInfo: ClassInfo, year: Int, useActualData: Boolean = false): Pair<Boolean, Boolean> {
+        val inputLoader = getInputLoader(classInfo, year, useActualData)
+            ?: return if (useActualData) Pair(true, true) else Pair(false, false)
+
+        val input = inputLoader.loadFromFile()!!.joinToString("\n")
+        val rawAnswers = input.lines()[0]
+
+        val answersRegex = Regex("\\[([\\d]+)]\\[([\\d]+)]")
+        val matches = answersRegex.find(rawAnswers) ?: return Pair(false, false)
+
+        val expectedAnswer1 = matches.groupValues[1]
+        val expectedAnswer2 = matches.groupValues[2]
+
+        val instance = classInfo.loadClass().getDeclaredConstructor(String::class.java).newInstance(input.replace("$rawAnswers\n", "")) as Puzzle<*>
+        val answer1 = instance.getAnswer(1).toString()
+        val answer2 = instance.getAnswer(2).toString()
+
+        return Pair(answer1 == expectedAnswer1, answer2 == expectedAnswer2)
+    }
+
+    private fun getInputLoader(classInfo: ClassInfo, year: Int, useActualData: Boolean = false): InputLoader? {
+        val fileName = classInfo.simpleName.lowercase() + if (useActualData) "-actual.txt" else ".txt"
+        val inputFile = Path.of("./data/example-inputs/$year/$fileName")
         if (Files.notExists(inputFile)) return null
         return InputLoader(inputFile)
     }
