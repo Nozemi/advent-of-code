@@ -13,7 +13,7 @@ class Day05(input: String) : Puzzle<List<String>>(input) {
     }
 
     override fun part2(): String {
-        val dangerDiagram = DangerDiagram.fromRawData(parsedInput, considerDiagonals = true, draw = true, drawOnlyDangers = false)
+        val dangerDiagram = DangerDiagram.fromRawData(parsedInput, considerDiagonals = true, draw = false, drawOnlyDangers = false)
         val dangerousPoints = dangerDiagram.dangerousCoordinates.count()
         return "$dangerousPoints, the amount of danger points is $dangerousPoints."
     }
