@@ -11,6 +11,12 @@ class Coordinate(val x: Int, val y: Int) {
         return this.x == other.x && this.y == other.y
     }
 
+    override fun hashCode(): Int {
+        var result = x
+        result = 31 * result + y
+        return result
+    }
+
     companion object {
 
         fun parsePosition(raw: String): Coordinate {

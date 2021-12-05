@@ -5,7 +5,7 @@ import io.nozemi.aoc.commandline.ANSI_BOLD
 import io.nozemi.aoc.commandline.ANSI_RESET
 import io.nozemi.aoc.puzzles.addIfNotExists
 
-class DangerDiagram(segments: List<LineSegment>, draw: Boolean = false) {
+class DangerDiagram(segments: List<LineSegment>, draw: Boolean = false, private val drawOnlyDangers: Boolean = false) {
 
     private val coordinates: List<Coordinate>
     private val widestCoordinate: Coordinate
@@ -32,7 +32,16 @@ class DangerDiagram(segments: List<LineSegment>, draw: Boolean = false) {
         for (y in grid) {
             print("$ANSI_BOLD$ANSI_BLUE${line++}]$ANSI_RESET ")
             for (x in y) {
-                if (x == 0) print(". ") else print("$x ")
+                when (drawOnlyDangers) {
+                    true -> {
+                        if (x < 2) print(". ")
+                        if (x >= 2) print("$x ")
+                    }
+                    false -> {
+                        if (x == 0) print(". ")
+                        if (x > 0) print("$x ")
+                    }
+                }
             }
             println()
         }
@@ -65,7 +74,7 @@ class DangerDiagram(segments: List<LineSegment>, draw: Boolean = false) {
 
     companion object {
 
-        fun fromRawData(input: List<String>, draw: Boolean = false): DangerDiagram =
-            DangerDiagram(input.map { LineSegment.parseStartToEnd(it) }, draw)
+        fun fromRawData(input: List<String>, draw: Boolean = false, drawOnlyDangers: Boolean = false, considerDiagonals: Boolean = false): DangerDiagram =
+            DangerDiagram(input.map { LineSegment.parseStartToEnd(it, considerDiagonals) }, draw, drawOnlyDangers)
     }
 }
