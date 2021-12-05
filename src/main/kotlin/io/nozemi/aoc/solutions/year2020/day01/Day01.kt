@@ -13,10 +13,38 @@ class Day01(input: String) : Puzzle<List<Int>>(input) {
     )
 
     private fun part1(): Int {
-        return 0
+        val result = findTwoNumbersThatAmountsTo(2020, this.rawInput) ?: return 0
+        return result.first * result.second
     }
 
     private fun part2(): Int {
-        return 0
+        val result = findThreeNumbersThatAmountsTo(2020, this.rawInput)
+        if (result.size < 3) return 0
+        return result[0] * result[1] * result[2]
+    }
+
+    fun findTwoNumbersThatAmountsTo(amountsTo: Int, input: List<Int>): Pair<Int, Int>? {
+        for (x in input.indices) {
+            for (y in input.indices) {
+                if(input[x] + input[y] == amountsTo) {
+                    return Pair(input[x], input[y])
+                }
+            }
+        }
+
+        return null
+    }
+
+    fun findThreeNumbersThatAmountsTo(amountsTo: Int, input: List<Int>): IntArray {
+        for (x in input.indices) {
+            for (y in input.indices) {
+                for (z in input.indices) {
+                    if(input[x] + input[y] + input[z] == amountsTo) {
+                        return intArrayOf(input[x], input[y], input[z])
+                    }
+                }
+            }
+        }
+        return intArrayOf()
     }
 }

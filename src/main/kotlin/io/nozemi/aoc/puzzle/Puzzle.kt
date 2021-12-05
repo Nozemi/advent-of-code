@@ -5,6 +5,7 @@ import io.nozemi.aoc.commandline.ANSI_BLUE
 import io.nozemi.aoc.commandline.ANSI_RESET
 import io.nozemi.aoc.commandline.basePackage
 import io.nozemi.aoc.commandline.dayOfYearRegex
+import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.reflect.KFunction0
 
@@ -32,7 +33,8 @@ abstract class Puzzle<T : List<*>>(private var input: String? = null) {
         inputFilePath = Path.of("./data/inputs/${this.year}/${puzzleName.lowercase()}.txt")
 
         inputLoader = InputLoader(inputFilePath)
-        inputLoader.download(year, day)
+
+        if (Files.notExists(inputFilePath)) inputLoader.download(year, day)
 
         loadInput()
     }
@@ -47,8 +49,8 @@ abstract class Puzzle<T : List<*>>(private var input: String? = null) {
         rawInput = data.parse()
     }
 
-    abstract fun solutions(): List<KFunction0<Any>>
     abstract fun Sequence<String>.parse(): T
+    abstract fun solutions(): List<KFunction0<Any>>
 
     fun getAnswer(part: Int): Any {
         if (rawInput.isEmpty()) return "No input data."

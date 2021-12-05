@@ -70,7 +70,9 @@ class PuzzleSelectScreen : CliktCommand() {
         val years = parseInput(year)
         val days = parseInput(day)
 
+
         years.forEach { year ->
+            if (Package.getPackages().none { it.name.contains("$basePackage.year$year") }) return@forEach
             logger.info { "$ANSI_PURPLE$ANSI_BOLD==== Solutions for $year ====" }
             logger.info { "$ANSI_PURPLE$ANSI_BOLD============================$ANSI_RESET" }
             days.forEach { day ->

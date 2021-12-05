@@ -60,6 +60,13 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.create<JavaExec>("runAll") {
+    group = "application"
+    classpath = java.sourceSets["main"].runtimeClasspath
+    mainClass.set("io.nozemi.aoc.Application")
+    args = "-y2000-3000 -d1-25 -t0".split(" ")
+}
+
 tasks.create<JavaExec>("runThisYear") {
     group = "application"
     classpath = java.sourceSets["main"].runtimeClasspath

@@ -14,7 +14,7 @@ class ProgressTable(private val solvedPuzzles: SolvedPuzzles) {
     private fun generateHeading() {
         table += "| Days  |"
         solvedPuzzles.keys.forEach {
-            table += " $it[$it]   |"
+            table += " [$it][$it]   |"
         }
         table += "\n|-------|"
         repeat(solvedPuzzles.keys.size) {
@@ -26,7 +26,7 @@ class ProgressTable(private val solvedPuzzles: SolvedPuzzles) {
         for (i in 1 until rows + 1) {
             table += "\n| ${i.toString().padStart(2, ' ')}    |"
             solvedPuzzles.forEach {
-                val puzzle = it.value[i - 1]
+                val puzzle = it.value[i]
                 if (puzzle != null) {
                     if (puzzle.first && puzzle.second) table += " ✅           |"
                     if (puzzle.first && !puzzle.second) table += " \uD83D\uDEA7           |"
