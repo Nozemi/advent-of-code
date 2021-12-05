@@ -1,4 +1,4 @@
-package io.nozemi.aoc.puzzles.year2021.day05.impl
+package io.nozemi.aoc.solutions.year2021.day05.impl
 
 class Coordinate(val x: Int, val y: Int) {
 

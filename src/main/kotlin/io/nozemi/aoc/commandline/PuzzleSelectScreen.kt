@@ -8,12 +8,14 @@ import com.github.michaelbull.logging.InlineLogger
 import io.github.cdimascio.dotenv.dotenv
 import io.nozemi.aoc.currentDay
 import io.nozemi.aoc.currentYear
-import io.nozemi.aoc.puzzles.Puzzle
+import io.nozemi.aoc.puzzle.Puzzle
 import java.util.*
 
 private val logger = InlineLogger()
 
 var token: String? = null
+const val basePackage = "io.nozemi.aoc.solutions"
+val dayOfYearRegex = Regex("$basePackage.year([\\d]{4}).(day0([\\d])|day([\\d]{2}))")
 
 class PuzzleSelectScreen : CliktCommand() {
     private val year: String by option("-y", "--year", help = "input year(s) [example: 2020,2021,... || 2020-2025 || both together]").prompt(default = currentYear.toString())
@@ -68,8 +70,6 @@ class PuzzleSelectScreen : CliktCommand() {
         val years = parseInput(year)
         val days = parseInput(day)
 
-        val basePackage = "io.nozemi.aoc.puzzles"
-
         years.forEach { year ->
             logger.info { "$ANSI_PURPLE$ANSI_BOLD==== Solutions for $year ====" }
             logger.info { "$ANSI_PURPLE$ANSI_BOLD============================$ANSI_RESET" }
@@ -80,9 +80,10 @@ class PuzzleSelectScreen : CliktCommand() {
                     val clazz = Class.forName("$basePackage.year$year.${dayPadded}.${className}")
                     logger.info { "$ANSI_BLUE$ANSI_BOLD==   Solution for ${clazz.simpleName}   ==$ANSI_RESET" }
                     val instance = clazz.getDeclaredConstructor(String::class.java).newInstance("") as Puzzle<*>
-                    instance.execute()
+                    instance.printAnswers()
                 } catch (ignored: ClassNotFoundException) {
-                } catch (ignored: UninitializedPropertyAccessException) {}
+                    // We ignore this, because that will inevitably happen if an unimplemented day is provided.
+                }
             }
             println()
         }

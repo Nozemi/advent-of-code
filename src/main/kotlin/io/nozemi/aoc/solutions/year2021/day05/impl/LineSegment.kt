@@ -1,4 +1,4 @@
-package io.nozemi.aoc.puzzles.year2021.day05.impl
+package io.nozemi.aoc.solutions.year2021.day05.impl
 
 import com.github.michaelbull.logging.InlineLogger
 import java.lang.Integer.max
