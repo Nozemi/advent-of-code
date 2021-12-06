@@ -8,6 +8,10 @@ import io.nozemi.aoc.commandline.dayOfYearRegex
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.reflect.KFunction0
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimedValue
+import kotlin.time.measureTimedValue
 
 private val logger = InlineLogger()
 
@@ -52,17 +56,22 @@ abstract class Puzzle<T : List<*>>(private var input: String? = null) {
     abstract fun Sequence<String>.parse(): T
     abstract fun solutions(): List<KFunction0<Any>>
 
-    fun getAnswer(part: Int): Any {
-        if (rawInput.isEmpty()) return "No input data."
-        return solutions()[part - 1].invoke()
+    @ExperimentalTime
+    fun getAnswer(part: Int): TimedValue<Any> {
+        if (rawInput.isEmpty()) return TimedValue("No input data.", Duration.INFINITE)
+        return measureTimedValue {
+            solutions()[part].invoke()
+        }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun printAnswer(part: Int) {
-        logger.info { "$ANSI_BLUE[Part $part]$ANSI_RESET: ${getAnswer(part)}" }
+        val answer = getAnswer(part)
+        logger.info { "$ANSI_BLUE[Part ${part + 1}]$ANSI_RESET: ${answer.value} (took ${answer.duration})" }
     }
 
     fun printAnswers() {
-        for (i in 1 until solutions().size + 1) {
+        for (i in 0 until solutions().size) {
             printAnswer(i)
         }
     }

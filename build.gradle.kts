@@ -40,7 +40,7 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-opt-in=kotlin.RequiresOptIn")
         jvmTarget = "17"
     }
 }
@@ -58,6 +58,12 @@ tasks.jar {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.create<JavaExec>("generateDocs") {
+    group = "application"
+    classpath = java.sourceSets["main"].runtimeClasspath
+    mainClass.set("io.nozemi.aoc.progresstable.Generator")
 }
 
 tasks.create<JavaExec>("runAll") {

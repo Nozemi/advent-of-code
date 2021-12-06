@@ -71,8 +71,8 @@ class LineSegment(val first: Coordinate, val last: Coordinate, val considerDiago
             val positions = raw.split("->")
 
             return LineSegment(
-                first = Coordinate.parsePosition(positions[0]),
-                last = Coordinate.parsePosition(positions[1]),
+                first = Coordinate[positions[0]],
+                last = Coordinate[positions[1]],
                 considerDiagonals
             )
         }

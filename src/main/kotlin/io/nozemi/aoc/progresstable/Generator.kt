@@ -8,6 +8,7 @@ import io.nozemi.aoc.puzzle.InputLoader
 import io.nozemi.aoc.puzzle.Puzzle
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.time.ExperimentalTime
 
 typealias SolvedPuzzles = MutableMap<Int, MutableMap<Int, Pair<Boolean, Boolean>>>
 
@@ -53,6 +54,7 @@ class Generator {
             }
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun testPuzzle(classInfo: ClassInfo, year: Int, useActualData: Boolean = false): Pair<Boolean, Boolean> {
         val inputLoader = getInputLoader(classInfo, year, useActualData)
             ?: return if (useActualData) Pair(true, true) else Pair(false, false)
@@ -67,8 +69,8 @@ class Generator {
         val expectedAnswer2 = matches.groupValues[2]
 
         val instance = classInfo.loadClass().getDeclaredConstructor(String::class.java).newInstance(input.replace("$rawAnswers\n", "")) as Puzzle<*>
-        val answer1 = instance.getAnswer(1).toString()
-        val answer2 = instance.getAnswer(2).toString()
+        val answer1 = instance.getAnswer(0).value.toString()
+        val answer2 = instance.getAnswer(1).value.toString()
 
         return Pair(answer1 == expectedAnswer1, answer2 == expectedAnswer2)
     }

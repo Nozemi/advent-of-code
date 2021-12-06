@@ -25,24 +25,18 @@ class Day06(input: String) : Puzzle<List<Int>>(input) {
      * Gets the amount of lantern fish after the provided amount of days.
      */
     private fun getLanternFishForDuration(days: Int): Long {
-        val fish: Array<Long> = Array(9) { 0L }
+        val lanternfish: Array<Long> = Array(9) { 0L }
         rawInput.forEach {
-            fish[it] = ++fish[it]
+            lanternfish[it] = ++lanternfish[it]
         }
 
-        for (day in 1 until days + 1) {
-            val born = fish[0]
-
-            fish.forEachIndexed { age, amount ->
-                run {
-                    if (age == 0) return@forEachIndexed
-                    fish[age - 1] = amount
-                }
-            }
-            fish[8] = born
-            fish[6] += born
+        repeat(days) {
+            val born = lanternfish[0]
+            lanternfish.forEachIndexed { age, amount -> if (age == 0) return@forEachIndexed else lanternfish[age - 1] = amount }
+            lanternfish[8] = born
+            lanternfish[6] += born
         }
 
-        return fish.sum()
+        return lanternfish.sum()
     }
 }
