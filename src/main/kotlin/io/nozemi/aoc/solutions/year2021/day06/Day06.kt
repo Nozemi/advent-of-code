@@ -9,36 +9,40 @@ class Day06(input: String) : Puzzle<List<Int>>(input) {
         = this.first().split(",").toList().map { it.trim().toInt() }
 
     override fun solutions(): List<KFunction0<Any>> = listOf(
-        ::part1
+        ::part1,
+        ::part2
     )
 
     private fun part1(): Long {
         return getLanternFishForDuration(80)
     }
 
+    private fun part2(): Long {
+        return getLanternFishForDuration(256)
+    }
+
     /**
      * Gets the amount of lantern fish after the provided amount of days.
      */
     private fun getLanternFishForDuration(days: Int): Long {
-        val fish = rawInput.toMutableList()
-        for (day in 1 until days + 1) {
-            // Each number represents a lanternfish and it's counter.
-            // Every day we decrement the numbers by 1.
-            // When a number reaches the count of 0:
-            // - Reset it back to 6
-            // - Add another lanternfish with counter of 8
-            //print("Day ${day.toString().padStart(days.toString().length, ' ')}: ")
-            for (f in 0 until fish.size) {
-                //print("${fish[f]}")
-                //if (f < fish.size - 1) print(", ")
-                fish[f]--
-            }
-            for (f in 0 until fish.size) {
-                if (fish[f] == -1) fish.add(8);
-                if (fish[f] == -1) fish[f] = 6
-            }
-            //println()
+        val fish: Array<Long> = Array(9) { 0L }
+        rawInput.forEach {
+            fish[it] = ++fish[it]
         }
-        return fish.size.toLong()
+
+        for (day in 1 until days + 1) {
+            val born = fish[0]
+
+            fish.forEachIndexed { age, amount ->
+                run {
+                    if (age == 0) return@forEachIndexed
+                    fish[age - 1] = amount
+                }
+            }
+            fish[8] = born
+            fish[6] += born
+        }
+
+        return fish.sum()
     }
 }
