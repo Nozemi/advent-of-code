@@ -1,11 +1,11 @@
 package io.nozemi.aoc.solutions.year2020.day02
 
 import io.nozemi.aoc.puzzle.Puzzle
-import io.nozemi.aoc.solutions.countChar
+import io.nozemi.aoc.utils.countChar
 import java.util.regex.Pattern
 import kotlin.reflect.KFunction0
 
-class Day02(input: String) : Puzzle<List<String>>(input) {
+class PasswordPhilosophy(input: String) : Puzzle<List<String>>(input) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 
@@ -61,7 +61,7 @@ class Day02(input: String) : Puzzle<List<String>>(input) {
     )
 }
 
-fun String.parsePasswordAndPolicy(): Day02.PasswordAndPolicy? {
+fun String.parsePasswordAndPolicy(): PasswordPhilosophy.PasswordAndPolicy? {
     val pattern = Pattern.compile("(\\d*)-(\\d*) (\\w): (.*)")
     val matcher = pattern.matcher(this)
 
@@ -69,7 +69,7 @@ fun String.parsePasswordAndPolicy(): Day02.PasswordAndPolicy? {
         return null
     }
 
-    return Day02.PasswordAndPolicy(
+    return PasswordPhilosophy.PasswordAndPolicy(
         minimum = matcher.group(1).toInt(),
         maximum = matcher.group(2).toInt(),
         character = matcher.group(3).toCharArray()[0],

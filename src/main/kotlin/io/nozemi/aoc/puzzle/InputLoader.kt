@@ -15,12 +15,20 @@ class InputLoader(private val inputFile: Path) {
 
     private var hasDownloaded = false
 
-    fun loadFromFile(): Sequence<String>? {
+    var inputData = loadFromFile()
+        private set
+
+    private fun loadFromFile(): Sequence<String>? {
         if (Files.notExists(inputFile)) return null
         return Files.lines(inputFile).asSequence()
     }
 
-    fun download(year: Int, day: Int) {
+    /**
+     * Downloads input from [Advent of Code (AoC)](https://adventofcode.com/) using the provided year and day.
+     * If a token isn't specified, the download won't happen. It will also only download once each time the puzzle
+     * is initialized.
+     */
+    fun downloadInput(year: Int, day: Int) {
         if (token == null || hasDownloaded) return
 
         hasDownloaded = true
@@ -35,6 +43,8 @@ class InputLoader(private val inputFile: Path) {
                 Files.newBufferedWriter(inputFile).use {
                     it.write(connection.inputStream.bufferedReader().readText())
                 }
+
+                inputData = loadFromFile()
             }
         } catch (exception: IOException) {
             logger.debug { exception.message }

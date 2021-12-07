@@ -22,21 +22,21 @@ class TheTreacheryOfWhales(input: String) : Puzzle<List<Int>>(input) {
     }
 
     private fun findFuelConsumption(input: List<Int> = rawInput, constantBurnRate: Boolean = true): Int {
-        var targetPosition = input.minOrNull() ?: 0
+        var nextPosition = input.minOrNull() ?: 0
         val maxTargetPosition = input.maxOrNull() ?: 0
 
         var cheapestOutcome = Int.MAX_VALUE
-        repeat(maxTargetPosition) {
+        for(currentPosition in nextPosition until maxTargetPosition) {
             val fuelConsumption = if (constantBurnRate) {
-                input.sumOf { abs(it - targetPosition) }
+                input.sumOf { abs(it - currentPosition) }
             } else {
                 input.sumOf {
-                    val distance = abs(it - targetPosition)
+                    val distance = abs(it - currentPosition)
                     distance * (distance + 1) / 2
                 }
             }
             if (fuelConsumption < cheapestOutcome) cheapestOutcome = fuelConsumption
-            targetPosition++
+            nextPosition++
         }
 
         return cheapestOutcome

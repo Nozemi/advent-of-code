@@ -8,8 +8,9 @@ import com.github.michaelbull.logging.InlineLogger
 import io.github.cdimascio.dotenv.dotenv
 import io.nozemi.aoc.currentDay
 import io.nozemi.aoc.currentYear
-import io.nozemi.aoc.puzzle.Puzzle
-import java.util.*
+import io.nozemi.aoc.puzzle.PuzzleResolver
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 private val logger = InlineLogger()
 
@@ -18,16 +19,31 @@ const val basePackage = "io.nozemi.aoc.solutions"
 val dayOfYearRegex = Regex("$basePackage.year([\\d]{4}).(day0([\\d])|day([\\d]{2}))")
 
 class PuzzleSelectScreen : CliktCommand() {
-    private val year: String by option("-y", "--year", help = "input year(s) [example: 2020,2021,... || 2020-2025 || both together]").prompt(default = currentYear.toString())
-    private val day: String by option("-d", "--day", help = "input day(s) [example: 1,2,... || 3-5 || both together]").prompt(default = currentDay.toString())
-    private val aocToken: String by option("-t", "--token", help = "Token used to download puzzle input data from AoC directly.").prompt(default = "N/A")
+    private val year: String by option(
+        "-y",
+        "--year",
+        help = "input year(s) [example: 2020,2021,... || 2020-2025 || both together]"
+    ).prompt(default = currentYear.toString())
+    private val day: String by option(
+        "-d",
+        "--day",
+        help = "input day(s) [example: 1,2,... || 3-5 || both together]"
+    ).prompt(default = currentDay.toString())
+    private val aocToken: String by option(
+        "-t",
+        "--token",
+        help = "Token used to download puzzle input data from AoC directly.",
+    ).prompt(default = "N/A", hideInput = true, text = "AoC Token (default:", promptSuffix = "): ")
+
+    private val puzzleResolver: PuzzleResolver
 
     init {
         context {
             helpOptionNames = setOf("--help")
         }
 
-        println("""$ANSI_BLUE
+        println(
+            """$ANSI_BLUE
 ███╗░░██╗░█████╗░███████╗███████╗███╗░░░███╗██╗██╗░██████╗  ░█████╗░░█████╗░░█████╗░
 ████╗░██║██╔══██╗╚════██║██╔════╝████╗░████║██║╚█║██╔════╝  ██╔══██╗██╔══██╗██╔══██╗
 ██╔██╗██║██║░░██║░░███╔═╝█████╗░░██╔████╔██║██║░╚╝╚█████╗░  ███████║██║░░██║██║░░╚═╝
@@ -35,22 +51,30 @@ class PuzzleSelectScreen : CliktCommand() {
 ██║░╚███║╚█████╔╝███████╗███████╗██║░╚═╝░██║██║░░░██████╔╝  ██║░░██║╚█████╔╝╚█████╔╝
 ╚═╝░░╚══╝░╚════╝░╚══════╝╚══════╝╚═╝░░░░░╚═╝╚═╝░░░╚═════╝░  ╚═╝░░╚═╝░╚════╝░░╚════╝░${ANSI_GREEN}
 ======================================================================================${ANSI_RESET}
-        """.trimIndent())
-        println("""
+        """.trimIndent()
+        )
+        println(
+            """
             This is Nozemi's AoC implementation, and you may use it to test your own puzzle data.
-        """.trimIndent())
+        """.trimIndent()
+        )
         println()
-        println("""
+        println(
+            """
             You're now asked to provide year(s) and day(s) you want solution for.
             You can press enter for default values (current year and day).
             $ANSI_BOLD$ANSI_YELLOW
             You can also provide your AoC token (found in the session cookie) if you want
             your input to be automatically downloaded.$ANSI_RESET
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         println()
+
+        puzzleResolver = PuzzleResolver()
     }
 
+    @OptIn(ExperimentalTime::class)
     override fun run() {
         println()
         logger.info { "Hold your $ANSI_BOLD${ANSI_UNDERLINE}beer$ANSI_RESET$ANSI_GREEN! Solutions coming up for day(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$day$ANSI_RESET$ANSI_GREEN of year(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$year$ANSI_RESET$ANSI_GREEN!" }
@@ -70,25 +94,25 @@ class PuzzleSelectScreen : CliktCommand() {
         val years = parseInput(year)
         val days = parseInput(day)
 
+        runPuzzles(years, days)
+    }
 
-        years.forEach { year ->
-            if (Package.getPackages().none { it.name.contains("$basePackage.year$year") }) return@forEach
-            logger.info { "$ANSI_PURPLE$ANSI_BOLD==== Solutions for $year ====" }
-            logger.info { "$ANSI_PURPLE$ANSI_BOLD============================$ANSI_RESET" }
-            days.forEach { day ->
-                val dayPadded = "day${day.toString().padStart(2, '0')}"
-                val className = dayPadded.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-                try {
-                    val clazz = Class.forName("$basePackage.year$year.${dayPadded}.${className}")
-                    logger.info { "$ANSI_BLUE$ANSI_BOLD==   Solution for ${clazz.simpleName}   ==$ANSI_RESET" }
-                    val instance = clazz.getDeclaredConstructor(String::class.java).newInstance("") as Puzzle<*>
-                    instance.printAnswers()
-                } catch (ignored: ClassNotFoundException) {
-                    // We ignore this, because that will inevitably happen if an unimplemented day is provided.
+    @ExperimentalTime
+    private fun runPuzzles(years: List<Int>, days: List<Int>) {
+        val timing = measureTime {
+            years.forEach YearsLoop@ { year ->
+                if (!puzzleResolver.hasPuzzlesForYear(year)) return@YearsLoop
+                println("$ANSI_PURPLE$ANSI_BOLD==== Solutions for $year ====")
+                println("$ANSI_PURPLE$ANSI_BOLD============================$ANSI_RESET")
+                days.forEach DaysLoop@ { day ->
+                    val puzzle = puzzleResolver.getPuzzle(year, day) ?: return@DaysLoop
+                    println("$ANSI_BLUE$ANSI_BOLD== Day $day - ${puzzle.javaClass.simpleName}$ANSI_RESET")
+                    puzzle.printAnswers()
                 }
             }
-            println()
         }
+        println("$ANSI_UNDERLINE                                        $ANSI_RESET")
+        println("$ANSI_GREEN${ANSI_BOLD}Solving above puzzles took $timing. Including initialization, loading and parsing input.$ANSI_RESET")
     }
 
     private fun parseInput(input: String): List<Int> {

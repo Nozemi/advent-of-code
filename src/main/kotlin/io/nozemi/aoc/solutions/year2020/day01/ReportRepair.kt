@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2020.day01
 import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
-class Day01(input: String) : Puzzle<List<Int>>(input) {
+class ReportRepair(input: String) : Puzzle<List<Int>>(input) {
 
     override fun Sequence<String>.parse(): List<Int> = this.toList().map { it.trim().toInt() }
 

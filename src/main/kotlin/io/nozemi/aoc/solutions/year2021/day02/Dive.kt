@@ -4,7 +4,7 @@ import io.nozemi.aoc.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2021.day02.impl.Submarine
 import kotlin.reflect.KFunction0
 
-class Day02(input: String) : Puzzle<List<String>>(input) {
+class Dive(input: String) : Puzzle<List<String>>(input) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 

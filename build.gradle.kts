@@ -35,7 +35,7 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
     implementation("org.junit.jupiter:junit-jupiter:5.8.2")
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.0")
 }
 
 tasks.withType<KotlinCompile> {

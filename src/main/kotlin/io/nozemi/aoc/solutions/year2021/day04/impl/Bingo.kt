@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2021.day04.impl
 
-import io.nozemi.aoc.solutions.transposeMatrix
+import io.nozemi.aoc.utils.transposeMatrix
 
 class Bingo(private val numbers: IntArray, private val boards: MutableList<Board>) {
     private val drawnNumbers = mutableListOf<Int>()

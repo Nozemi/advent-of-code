@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2021.day05.impl
 import io.nozemi.aoc.commandline.ANSI_BLUE
 import io.nozemi.aoc.commandline.ANSI_BOLD
 import io.nozemi.aoc.commandline.ANSI_RESET
-import io.nozemi.aoc.solutions.addIfNotExists
+import io.nozemi.aoc.utils.addIfNotExists
 import java.nio.file.Files
 import java.nio.file.Path
 
