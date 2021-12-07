@@ -1,4 +1,4 @@
-package io.nozemi.aoc.progresstable
+package io.nozemi.aoc.tools.generators
 
 class ProgressTable(private val solvedPuzzles: SolvedPuzzles) {
     private val rows = 25

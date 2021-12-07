@@ -1,4 +1,4 @@
-package io.nozemi.aoc.commandline
+package io.nozemi.aoc.puzzle
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.context
@@ -8,7 +8,6 @@ import com.github.michaelbull.logging.InlineLogger
 import io.github.cdimascio.dotenv.dotenv
 import io.nozemi.aoc.currentDay
 import io.nozemi.aoc.currentYear
-import io.nozemi.aoc.puzzle.PuzzleResolver
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 

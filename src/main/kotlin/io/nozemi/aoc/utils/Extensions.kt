@@ -1,5 +1,7 @@
 package io.nozemi.aoc.utils
 
+import java.nio.file.Path
+
 fun Array<IntArray>.transposeMatrix() = Array(this[0].size) { i -> IntArray(this.size) { j -> this[j][i] } }
 
 fun String.countChar(char: Char): Int {
@@ -10,6 +12,10 @@ fun String.countChar(char: Char): Int {
     }
 
     return count
+}
+
+fun String.toPath(): Path {
+    return Path.of(this)
 }
 
 fun <T> MutableList<T>.addIfNotExists(value: T) {

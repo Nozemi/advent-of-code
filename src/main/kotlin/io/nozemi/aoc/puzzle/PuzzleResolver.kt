@@ -1,7 +1,6 @@
 package io.nozemi.aoc.puzzle
 
 import io.github.classgraph.ClassGraph
-import io.nozemi.aoc.commandline.basePackage
 import io.nozemi.aoc.utils.get
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimedValue

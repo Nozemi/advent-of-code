@@ -1,7 +1,6 @@
 package io.nozemi.aoc.puzzle
 
 import com.github.michaelbull.logging.InlineLogger
-import io.nozemi.aoc.commandline.token
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL

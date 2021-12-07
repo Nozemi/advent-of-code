@@ -1,6 +1,6 @@
 package io.nozemi.aoc
 
-import io.nozemi.aoc.commandline.PuzzleSelectScreen
+import io.nozemi.aoc.puzzle.PuzzleSelectScreen
 import java.time.MonthDay
 import java.time.Year
 

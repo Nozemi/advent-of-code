@@ -1,9 +1,5 @@
 package io.nozemi.aoc.puzzle
 
-import io.nozemi.aoc.commandline.ANSI_BLUE
-import io.nozemi.aoc.commandline.ANSI_RESET
-import io.nozemi.aoc.commandline.basePackage
-import io.nozemi.aoc.commandline.dayOfYearRegex
 import java.nio.file.Path
 import kotlin.reflect.KFunction0
 import kotlin.time.Duration
