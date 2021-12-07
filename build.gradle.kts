@@ -60,10 +60,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
-tasks.create<JavaExec>("generateDocs") {
-    group = "application"
+tasks.create<JavaExec>("injectNewReadme") {
+    group = "tools"
     classpath = java.sourceSets["main"].runtimeClasspath
-    mainClass.set("io.nozemi.aoc.progresstable.Generator")
+    mainClass.set("io.nozemi.aoc.tools.ToolSelectorScreen")
 }
 
 tasks.create<JavaExec>("runAll") {

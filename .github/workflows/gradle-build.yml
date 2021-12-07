@@ -25,3 +25,5 @@ jobs:
           distribution: 'adopt'
 
       - run: ./gradlew build
+
+      - run: ./gradlew injectNewReadme
