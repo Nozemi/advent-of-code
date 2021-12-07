@@ -31,10 +31,10 @@ Below is a table showing which statuses for each day of each year.
 |  6    | ✅           | ❌           |
 |  7    | ✅           | ❌           |
 |  8    | ❌           | ❌           |
-|  9    | ✅           | ❌           |
+|  9    | ❌           | ❌           |
 | 10    | ❌           | ❌           |
-| 11    | ✅           | ❌           |
-| 12    | ❌           | ✅           |
+| 11    | ❌           | ❌           |
+| 12    | ❌           | ❌           |
 | 13    | ❌           | ❌           |
 | 14    | ❌           | ❌           |
 | 15    | ❌           | ❌           |
@@ -47,7 +47,7 @@ Below is a table showing which statuses for each day of each year.
 | 22    | ❌           | ❌           |
 | 23    | ❌           | ❌           |
 | 24    | ❌           | ❌           |
-| 25    | ✅Kidding!           | ✅REALLY!?           |
+| 25    | ❌           | ❌           |
 
 [aoc-url]:https://adventofcode.com/
 [mit]: https://opensource.org/licenses/MIT
