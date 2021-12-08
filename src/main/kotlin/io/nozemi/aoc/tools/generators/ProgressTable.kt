@@ -37,8 +37,4 @@ class ProgressTable(private val solvedPuzzles: SolvedPuzzles) {
             }
         }
     }
-
-    private val emojiIncomplete = "❌"
-    private val EMOJI_PART1ONLY = "\uD83D\uDEA7"
-    private val EMOJI_COMPLETED = "✅"
 }
