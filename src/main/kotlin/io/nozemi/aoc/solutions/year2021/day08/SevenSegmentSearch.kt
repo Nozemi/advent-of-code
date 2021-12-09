@@ -22,6 +22,7 @@ class SevenSegmentSearch(input: String) : Puzzle<List<SegmentPattern>>(input) {
 
     private fun part2(): Int {
         return rawInput.sumOf {
+            it.rewireOutputPattern()
             it.getOutputNumber()
         }
     }

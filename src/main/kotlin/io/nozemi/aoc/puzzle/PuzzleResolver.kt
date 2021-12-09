@@ -1,7 +1,12 @@
 package io.nozemi.aoc.puzzle
 
 import io.github.classgraph.ClassGraph
+import io.nozemi.aoc.puzzle.exceptions.HasAlreadyDownloadedException
+import io.nozemi.aoc.puzzle.exceptions.InputFileDownloadFailedException
+import io.nozemi.aoc.puzzle.exceptions.NoDataProvidedException
+import io.nozemi.aoc.puzzle.exceptions.NoDownloadTokenProvidedException
 import io.nozemi.aoc.utils.get
+import java.lang.reflect.InvocationTargetException
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimedValue
 import kotlin.time.measureTime
@@ -13,12 +18,8 @@ class PuzzleResolver {
 
     private val puzzleMap: PuzzleMap = mutableMapOf()
 
-    init {
-        resolvePuzzles()
-    }
-
     @ExperimentalTime
-    private fun resolvePuzzles() {
+    fun resolvePuzzles(): PuzzleResolver {
         val dayAndYearRegex = Regex("$basePackage\\.year([\\d]{4})\\.day([\\d]{2})")
 
         val duration = measureTime {
@@ -34,15 +35,42 @@ class PuzzleResolver {
         }
 
         println("Resolved ${puzzleMap.flatMap { it.value.values }.size} puzzles in $duration.")
+        println()
+
+        return this
     }
 
     fun hasPuzzlesForYear(year: Int): Boolean {
         return puzzleMap.containsKey(year)
     }
 
+    @Throws(NoDataProvidedException::class)
     fun getPuzzle(year: Int, day: Int): Puzzle<*>? {
         val puzzleClass = puzzleMap[year][day] ?: return null
-        return Class.forName(puzzleClass).getDeclaredConstructor(String::class.java).newInstance("") as Puzzle<*>
+        val puzzleInstance: Puzzle<*>
+        try {
+            puzzleInstance = Class.forName(puzzleClass).getDeclaredConstructor(String::class.java).newInstance("") as Puzzle<*>
+        } catch(exception: InvocationTargetException) {
+            if (exception.cause?.message?.contains("No data provided") == true) {
+                throw NoDataProvidedException()
+            }
+
+            if (exception.cause?.message?.contains("provided for downloading") == true) {
+                throw NoDownloadTokenProvidedException()
+            }
+
+            if (exception.cause?.message?.contains("attempt to download has already") == true) {
+                throw HasAlreadyDownloadedException()
+            }
+
+            if (exception.cause != null && exception.cause.toString().contains("InputFileDownloadFailedException")) {
+                throw InputFileDownloadFailedException(exception.cause?.message ?: "Downloading input file failed.")
+            }
+
+            throw exception
+        }
+
+        return puzzleInstance
     }
 
     fun getAllPuzzles(): List<String> {

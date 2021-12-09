@@ -5,11 +5,7 @@ class SegmentPattern(
     val signalPatterns: Array<Set<Char>>,
 ) {
     private val knownLetters: MutableMap<Char, Char> = mutableMapOf()
-    private val knownNumbers: Array<Set<Char>> = Array(10) { "".toSet() }
-
-    init {
-        rewireOutputPattern()
-    }
+    private val knownNumbers: Array<Set<Char>> = Array(10) { emptySet() }
 
     /**
      * [AoC - Day 8, Part 2](https://adventofcode.com/2021/day/8)
@@ -27,7 +23,7 @@ class SegmentPattern(
      *
      * We need to map the scrambled letters to the actual one to get the correct numbers for the output number.
      */
-    private fun rewireOutputPattern() {
+    fun rewireOutputPattern() {
         mapKnownNumbers()
         mapRemainingNumbers()
         mapLetters()
@@ -130,6 +126,10 @@ class SegmentPattern(
         }
     }.joinToString("").toInt()
 
+    /**
+     * This is the only things we ever need to know to solve part 1.
+     *
+     */
     fun uniqueLengthPatternsInOutput(): Int {
         return outputPatterns.count {
             when (it.size) {

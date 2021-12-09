@@ -19,7 +19,9 @@ fun String.toPath(): Path {
 }
 
 fun <T> MutableList<T>.addIfNotExists(value: T) {
-    if (value !in this) this.add(value)
+    if (value !in this) {
+        this.add(value)
+    }
 }
 
 operator fun MutableMap<Int, String>?.get(key: Int): String? {

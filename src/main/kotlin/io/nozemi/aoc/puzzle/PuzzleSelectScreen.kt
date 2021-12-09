@@ -8,6 +8,10 @@ import com.github.michaelbull.logging.InlineLogger
 import io.github.cdimascio.dotenv.dotenv
 import io.nozemi.aoc.currentDay
 import io.nozemi.aoc.currentYear
+import io.nozemi.aoc.puzzle.exceptions.HasAlreadyDownloadedException
+import io.nozemi.aoc.puzzle.exceptions.InputFileDownloadFailedException
+import io.nozemi.aoc.puzzle.exceptions.NoDataProvidedException
+import io.nozemi.aoc.puzzle.exceptions.NoDownloadTokenProvidedException
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
@@ -17,6 +21,7 @@ var token: String? = null
 const val basePackage = "io.nozemi.aoc.solutions"
 val dayOfYearRegex = Regex("$basePackage.year([\\d]{4}).(day0([\\d])|day([\\d]{2}))")
 
+@OptIn(ExperimentalTime::class)
 class PuzzleSelectScreen : CliktCommand() {
     private val year: String by option(
         "-y",
@@ -70,10 +75,9 @@ class PuzzleSelectScreen : CliktCommand() {
 
         println()
 
-        puzzleResolver = PuzzleResolver()
+        puzzleResolver = PuzzleResolver().resolvePuzzles()
     }
 
-    @OptIn(ExperimentalTime::class)
     override fun run() {
         println()
         logger.info { "Hold your $ANSI_BOLD${ANSI_UNDERLINE}beer$ANSI_RESET$ANSI_GREEN! Solutions coming up for day(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$day$ANSI_RESET$ANSI_GREEN of year(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$year$ANSI_RESET$ANSI_GREEN!" }
@@ -104,12 +108,25 @@ class PuzzleSelectScreen : CliktCommand() {
                 println("$ANSI_PURPLE$ANSI_BOLD==== Solutions for $year ====")
                 println("$ANSI_PURPLE$ANSI_BOLD============================$ANSI_RESET")
                 days.forEach DaysLoop@ { day ->
-                    val puzzle = puzzleResolver.getPuzzle(year, day) ?: return@DaysLoop
-                    println("$ANSI_BLUE$ANSI_BOLD== Day $day - ${puzzle.javaClass.simpleName}$ANSI_RESET")
-                    repeat(10) {
-                        puzzle.solutions().forEach { it.invoke() }
+                    try {
+                        val puzzle = puzzleResolver.getPuzzle(year, day) ?: return@DaysLoop
+                        println("$ANSI_BLUE$ANSI_BOLD== Day $day - ${puzzle.javaClass.simpleName}$ANSI_RESET")
+                        repeat(10) { // TODO: Easy way to toggle the warmup. We don't want to have this during debugging for example.
+                            puzzle.solutions().forEach { it.invoke() }
+                        }
+                        puzzle.printAnswers()
+                    } catch (ex: Exception) {
+                        println("$ANSI_BLUE$ANSI_BOLD== Day $day - ${ANSI_RED}Error Occurred$ANSI_RESET")
+                        print("$ANSI_RED${ANSI_BOLD}Skipping puzzle. $ANSI_RESET$ANSI_RED")
+                        when(ex) {
+                            is InputFileDownloadFailedException -> print("Failed to download input file: ${ex.message}.")
+                            is HasAlreadyDownloadedException,
+                            is NoDataProvidedException,
+                            is NoDownloadTokenProvidedException -> print(ex.message)
+                            else -> throw ex
+                        }
+                        println(ANSI_RESET)
                     }
-                    puzzle.printAnswers()
                 }
             }
         }

@@ -13,11 +13,12 @@ typealias SolvedPuzzles = MutableMap<Int, MutableMap<Int, Pair<Boolean, Boolean>
 /**
  * This will generate the table found in the [README.md](/README.md) that shows status of solved puzzles.
  */
+@OptIn(ExperimentalTime::class)
 class PuzzlesSolvedTableGenerator {
 
     private var solvedPuzzles: SolvedPuzzles = mutableMapOf()
 
-    private val puzzleResolver = PuzzleResolver()
+    private val puzzleResolver = PuzzleResolver().resolvePuzzles()
 
     private var progressTable: ProgressTable? = null
 
@@ -99,6 +100,6 @@ class PuzzlesSolvedTableGenerator {
         val fileName = "day" + day.toString().padStart(2, '0') + if (useActualData) "-actual.txt" else ".txt"
         val inputFile = Path.of("./data/example-inputs/$year/$fileName")
         if (Files.notExists(inputFile)) return null
-        return InputLoader(inputFile)
+        return InputLoader(inputFile, year, day)
     }
 }

@@ -2,12 +2,11 @@ package io.nozemi.aoc.puzzle
 
 import java.nio.file.Path
 import kotlin.reflect.KFunction0
-import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimedValue
 import kotlin.time.measureTimedValue
 
-abstract class Puzzle<T>(private var input: String? = null) {
+abstract class Puzzle<T : Any>(private var input: String? = null) {
     private val inputFilePath: Path
 
     private val puzzleName = this.javaClass.simpleName
@@ -33,19 +32,18 @@ abstract class Puzzle<T>(private var input: String? = null) {
 
         inputFilePath = Path.of("./data/inputs/${this.year}/${dayDirectory}.txt")
 
-        inputLoader = InputLoader(inputFilePath)
-
-        if (inputLoader.inputData == null)
-            inputLoader.downloadInput(year, day)
+        inputLoader = InputLoader(inputFilePath, year, day)
 
         rawInput = loadInput().parse()
     }
 
     private fun loadInput(): Sequence<String> {
-        val data = if (input != null && input!!.isNotBlank()) {
-            input!!.lineSequence()
+        val input = input
+
+        val data = if (input?.isNotEmpty() == true) {
+            input.lineSequence()
         } else {
-            inputLoader.inputData ?: emptySequence()
+            inputLoader.inputData
         }
 
         return data
@@ -56,7 +54,6 @@ abstract class Puzzle<T>(private var input: String? = null) {
 
     @ExperimentalTime
     fun getAnswer(part: Int): TimedValue<Any> {
-        if (rawInput.isEmpty()) return TimedValue("No input data.", Duration.INFINITE)
         return measureTimedValue {
             solutions()[part - 1].invoke()
         }
@@ -73,14 +70,4 @@ abstract class Puzzle<T>(private var input: String? = null) {
             printAnswer(i + 1)
         }
     }
-}
-
-private fun <T> T.isEmpty(): Boolean {
-    if (this == null) return true
-    if (this is String) {
-        return this.isBlank()
-    } else if (this is List<*>) {
-        return this.isEmpty()
-    }
-    return true
 }

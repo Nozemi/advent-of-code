@@ -1,6 +1,10 @@
 package io.nozemi.aoc.puzzle
 
 import com.github.michaelbull.logging.InlineLogger
+import io.nozemi.aoc.puzzle.exceptions.HasAlreadyDownloadedException
+import io.nozemi.aoc.puzzle.exceptions.InputFileDownloadFailedException
+import io.nozemi.aoc.puzzle.exceptions.NoDataProvidedException
+import io.nozemi.aoc.puzzle.exceptions.NoDownloadTokenProvidedException
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
@@ -10,15 +14,20 @@ import kotlin.streams.asSequence
 
 private val logger = InlineLogger()
 
-class InputLoader(private val inputFile: Path) {
+class InputLoader(private val inputFile: Path, year: Int, day: Int) {
 
     private var hasDownloaded = false
 
-    var inputData = loadFromFile()
+    var inputData = loadFromFile(year, day)
         private set
 
-    private fun loadFromFile(): Sequence<String>? {
-        if (Files.notExists(inputFile)) return null
+    private fun loadFromFile(year: Int, day: Int): Sequence<String> {
+        // If file exists and is empty or doesn't exist, we need to download the file.
+        if ((Files.exists(inputFile) && Files.readString(inputFile).isEmpty()) || !Files.exists(inputFile)) {
+            // If download fails, we throw a NoDataProvidedException that is later caught.
+            if (!downloadInput(year, day)) throw NoDataProvidedException()
+        }
+
         return Files.lines(inputFile).asSequence()
     }
 
@@ -27,8 +36,9 @@ class InputLoader(private val inputFile: Path) {
      * If a token isn't specified, the download won't happen. It will also only download once each time the puzzle
      * is initialized.
      */
-    fun downloadInput(year: Int, day: Int) {
-        if (token == null || hasDownloaded) return
+    private fun downloadInput(year: Int, day: Int): Boolean {
+        if (hasDownloaded) throw HasAlreadyDownloadedException()
+        else if (token == null) throw NoDownloadTokenProvidedException()
 
         hasDownloaded = true
 
@@ -43,10 +53,14 @@ class InputLoader(private val inputFile: Path) {
                     it.write(connection.inputStream.bufferedReader().readText())
                 }
 
-                inputData = loadFromFile()
+                return true
+            } else {
+                throw InputFileDownloadFailedException("${connection.responseCode} - ${connection.responseMessage}")
             }
         } catch (exception: IOException) {
             logger.debug { exception.message }
         }
+
+        return false
     }
 }
