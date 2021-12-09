@@ -16,8 +16,7 @@ class SevenSegmentSearch(input: String) : Puzzle<List<SegmentPattern>>(input) {
 
     private fun part1(): Int {
         return rawInput.sumOf {
-            it.amountOfDigitsInOutput(1, 4, 7, 8,
-                applyRule = { number, code -> code.length == number.letterCount })
+            it.uniqueLengthPatternsInOutput()
         }
     }
 

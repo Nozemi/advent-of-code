@@ -2,26 +2,36 @@ package io.nozemi.aoc.solutions.year2021.day08.impl
 
 class SegmentPattern(
     val outputPatterns: List<String>,
-    val signalPatterns: List<String>,
+    val signalPatterns: MutableList<String>,
 ) {
-    val outputNumbers: MutableList<Int> = mutableListOf()
+    private val knownLetters: MutableMap<Char, Char> = mutableMapOf()
+    private val knownNumbers: MutableMap<Int, String> = mutableMapOf()
 
     init {
+        repeat(10) { index ->
+            knownNumbers[index] = ""
+        }
+        rewireOutputPattern()
+    }
 
-        // be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
-        val knownNumbers: MutableMap<Int, String> = mutableMapOf(
-            Pair(0, ""),
-            Pair(1, ""),
-            Pair(2, ""),
-            Pair(3, ""),
-            Pair(4, ""),
-            Pair(5, ""),
-            Pair(6, ""),
-            Pair(7, ""),
-            Pair(8, ""),
-            Pair(9, ""),
-        )
-
+    /**
+     * [AoC - Day 8, Part 2](https://adventofcode.com/2021/day/8)
+     *
+     * The wire/segment connections are scrambled. They no longer match the correct one. (See below)
+     * ```
+     *  aaaa
+     * b    c
+     * b    c
+     *  dddd
+     * e    f
+     * e    f
+     *  gggg
+     * ```
+     *
+     * We need to map the scrambled letters to the actual one to get the correct numbers for the output number.
+     */
+    private fun rewireOutputPattern() {
+        // We already know that the numbers 1, 4, 7 & 8 are easy to differentiate from the rest.
         signalPatterns.forEach {
             when (it.length) {
                 2 -> knownNumbers[1] = it
@@ -31,153 +41,102 @@ class SegmentPattern(
             }
         }
 
-        val knownLetters: MutableMap<Char, Char> = mutableMapOf()
-
-        // we have 3 numbers with 6 of length, we don't know the order they come in
-        // thus the repeat of 3. I know it's shitty dw!!!!
-        repeat(3) {
-            signalPatterns.filter { it.length == 6 }.forEach {
-                // If the current number's pattern already is known to us, we don't need to continue
+        while (knownNumbers.any { it.value == "" }) {
+            signalPatterns.forEach {
                 if (knownNumbers.values.contains(it)) return@forEach
 
-                val one = knownNumbers[1]!!
-                val four = knownNumbers[4]!!
-
-                // if this pattern contains all the letters in 1, it'll be 6.
-                // both 9 and 0 contains both c and f. 6 is missing c.
-                if (!it.toList().containsAll(one.toList()) && knownNumbers[6]!!.isEmpty()
-                && !knownNumbers.values.contains(it))  {
-                    knownNumbers[6] = it
-                }
-
-                // if this pattern contains all letters of 4, we know it's 9.
-                // 0 is missing d, 6 is missing c
-                if (it.toList().containsAll(four.toList()) && knownNumbers[9]!!.isEmpty()
-                && !knownNumbers.values.contains(it)) {
-                    knownNumbers[9] = it
-                }
-
-                // Now that we know 6 and 9, we can easily tell that the last one is 0.
-                if (knownNumbers[6]!!.isNotEmpty() && knownNumbers[9]!!.isNotEmpty()
-                && !knownNumbers.values.contains(it)) {
-                    knownNumbers[0] = it
+                when (it.length) {
+                    6 -> {
+                        // We'll process the numbers with 6 letter patterns, being 0, 6 & 9.
+                        if (!it.toList().containsAll(knownNumbers[1]!!.toList())) {
+                            // We know that 6 is the only from these 3 that does not contain both letters of 1.
+                            knownNumbers[6] = it
+                        } else if (it.toList().containsAll(knownNumbers[4]!!.toList())) {
+                            // We know that 9 is the only from these 3 that contains all the letters from 4.
+                            knownNumbers[9] = it
+                        }
+                        // We'll eventually find the 6 and 9, and then we know that the last one is 0
+                        if (knownNumbers[6]!!.isNotBlank() && knownNumbers[9]!!.isNotBlank()) {
+                            knownNumbers[0] = it
+                        }
+                    }
+                    5 -> {
+                        // We'll process the numbers with 5 letter patterns, being 2, 3 & 5.
+                        if (it.toList().containsAll(knownNumbers[7]!!.toList())) {
+                            // We know that this is 3, because it contains all 3 letters from 7's pattern.
+                            knownNumbers[3] = it
+                        } else if (it.toList().intersect(knownNumbers[6]!!.toSet()).size == 4) {
+                            knownNumbers[2] = it
+                        } else if (it.toList().intersect(knownNumbers[6]!!.toSet()).size == 5) {
+                            knownNumbers[5] = it
+                        }
+                    }
                 }
             }
         }
 
-        val one = knownNumbers[1]!!
-        val six = knownNumbers[6]!!
-        val seven = knownNumbers[7]!!
+        /*
+         * Now we know all the numbers, now we can map the letters.
+         */
 
-        knownLetters['a'] = seven.toList().first { char -> !one.toList().contains(char) && !knownLetters.values.contains(char) }
-        knownLetters['c'] = one.toList().first { char -> !six.toList().contains(char) && !knownLetters.values.contains(char) }
-        knownLetters['f'] = six.toList().first { char -> one.toList().contains(char) && !knownLetters.values.contains(char) }
-
-        // We know that we have 3 patterns with 5 letters, so we run the code 3 times to make sure.
-        // We don't know the order we are given them in so.
-        repeat(3) {
-            signalPatterns.filter { it.length == 5 }.forEach {
-                // If we already know this pattern, we don't need to continue.
-                if (knownNumbers.values.contains(it)) return@forEach
-
-                val four = knownNumbers[4]!!
-
-                // if this pattern contains all numbers of 7, it'll be a 3.
-                // neither 2 or 5 has all letters of 7
-                if (it.toList().containsAll(seven.toList()) && knownNumbers[3]!!.isEmpty()
-                    && !knownNumbers.values.contains(it)) {
-                    knownNumbers[3] = it
-                }
-
-                // We know that 2 and 3 contains the letter c, so it has to be 5 if the pattern contains c
-                if (!it.toList().contains(knownLetters['c']) && knownNumbers[5]!!.isEmpty()) {
-                    knownNumbers[5] = it
-                }
-            }
-        }
-
-        knownNumbers[2] = signalPatterns.firstOrNull {
-            !knownNumbers.values.contains(it)
-        } ?: ""
-
-        knownLetters['d'] = knownNumbers[8]!!.toList().first { !knownNumbers[0]!!.toList().contains(it) && !knownLetters.values.contains(it) }
-        knownLetters['b'] = knownNumbers[9]!!.toList().first { !knownNumbers[3]!!.toList().contains(it) && !knownLetters.values.contains(it) }
-        knownLetters['e'] = knownNumbers[8]!!.toList().first { !knownNumbers[9]!!.toList().contains(it) && !knownLetters.values.contains(it) }
-        knownLetters['g'] = knownNumbers[9]!!.toList().first { !knownNumbers[7]!!.toList().contains(it) && !knownLetters.values.contains(it) }
-
-        // a=d, b=g, c=c, d=g, e=f, f=b, g=c
-        // a=d, b=e, c=a, d=f, e=g, f=b, g=c
-
-        val lol = knownLetters.toSortedMap()
-        val lol2 = knownNumbers.toSortedMap()
-
-        //lol.onEachIndexed { _, entry ->
-        //    print("$entry, ")
-        //}
-        //println()
-        //lol2.forEach { entry ->
-        //    print("$entry, ")
-        //}
-        //println(outputPatterns)
-        outputPatterns.forEach {
-            outputNumbers.add(when (it.length) {
-                2 -> 1
-                3 -> 7
-                4 -> 4
-                7 -> 8
-                5 -> {
-                    if (it.toList().containsAll(knownNumbers[2]!!.toList())) 2
-                    else if (it.toList().containsAll(knownNumbers[3]!!.toList())) 3
-                    else 5
-                }
-                6 -> {
-                    if (it.toList().containsAll(knownNumbers[6]!!.toList())) 6
-                    else if (it.toList().containsAll(knownNumbers[9]!!.toList())) 9
-                    else 0
-                }
-                else -> throw RuntimeException("You fucked up!")
-            })
-        }
+        // We know that 1 has only "c" and "f", so the last one in 7 is the letter "a".
+        knownLetters['a'] = knownNumbers[7]!!.toList().first { !knownNumbers[1]!!.contains(it) }
+        // We know that the only missing letter from 1 in six is "c", which gets us the position of "c".
+        knownLetters['c'] = knownNumbers[1]!!.toList().first { !knownNumbers[6]!!.contains(it) }
+        // We know that the only letter 6 and 1 has in common is "f", which gets us the position of "f".
+        knownLetters['f'] = knownNumbers[6]!!.toList().first { knownNumbers[1]!!.contains(it) }
+        // Number 0 will never have "d", and number 8 has all letters, which gets us the position of "d".
+        knownLetters['d'] = knownNumbers[8]!!.toList().first { !knownNumbers[0]!!.contains(it) }
+        // We know that the only missing letter from 9 in 3 is "b", which gets us the position of "b".
+        knownLetters['b'] = knownNumbers[9]!!.toList().first { !knownNumbers[3]!!.contains(it) }
+        // We know that the only missing letter from 8 in 9 is "e", which gets us the position of "e".
+        knownLetters['e'] = knownNumbers[8]!!.toList().first { !knownNumbers[9]!!.contains(it) }
+        // We know that the only missing letter from 9 in 4 that we don't already know about is "g".
+        knownLetters['g'] =
+            knownNumbers[9]!!.toList().first { !knownNumbers[4]!!.contains(it) && knownLetters['a'] != it }
     }
 
-    fun getOutputNumber(): Int = outputNumbers.joinToString("").toInt()
+    fun getOutputNumber(): Int = outputPatterns.map {
+        when (it.length) {
+            5 -> {
+                if (it.toList().containsAll(knownNumbers[2]!!.toList())) 2
+                else if (it.toList().containsAll(knownNumbers[3]!!.toList())) 3
+                else 5
+            }
+            6 -> {
+                if (it.toList().containsAll(knownNumbers[6]!!.toList())) 6
+                else if (it.toList().containsAll(knownNumbers[9]!!.toList())) 9
+                else 0
+            }
+            2 -> 1
+            3 -> 7
+            4 -> 4
+            7 -> 8
+            else -> throw RuntimeException("You fucked up!")
+        }
+    }.joinToString("").toInt()
 
-    fun amountOfDigitsInOutput(vararg numbers: Int, applyRule: (number: Number, code: String) -> Boolean): Int {
-        return numbers.sumOf { number ->
-            outputPatterns.count {
-                applyRule(Number.findByInt(number), it)
+    fun uniqueLengthPatternsInOutput(): Int {
+        return outputPatterns.count {
+            when (it.length) {
+                2, 3, 4, 7 -> true
+                else -> false
             }
         }
     }
 
-    enum class Number(val actual: Int, val letterCount: Int, letterCode: CharArray = CharArray(0)) {
-        ZERO(actual = 0, letterCount = 6, "abcef"),
-        ONE(actual = 1, letterCount = 2),
-        TWO(actual = 2, letterCount = 5, "acdeg"),
-        THREE(actual = 3, letterCount = 5, "acdfg"),
-        FOUR(actual = 4, letterCount = 4),
-        FIVE(actual = 5, letterCount = 5, "abdfg"),
-        SIX(actual = 6, letterCount = 6, "abdefg"),
-        SEVEN(actual = 7, letterCount = 3),
-        EIGHT(actual = 8, letterCount = 7),
-        NINE(actual = 9, letterCount = 6, "abcdfg");
-
-        constructor(actual: Int, letterCount: Int, letterCode: String)
-                : this(actual, letterCount, letterCode.toList().toCharArray())
-
-        companion object {
-
-            fun findByInt(int: Int): Number {
-                return values().first { it.actual == int }
-            }
-        }
+    /**
+     * Override the normal set method for this one, so we can also remove from signalPatterns at the same time.
+     */
+    private operator fun MutableMap<Int, String>.set(key: Int, value: String) {
+        this.put(key, value)
     }
 
     companion object {
         fun String.toSegmentPattern(): SegmentPattern {
             val (first, last) = split(" | ")
             return SegmentPattern(
-                signalPatterns = first.split(' '),
+                signalPatterns = first.split(' ').toMutableList(),
                 outputPatterns = last.split(' ')
             )
         }

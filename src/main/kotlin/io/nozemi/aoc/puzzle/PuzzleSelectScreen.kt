@@ -106,6 +106,9 @@ class PuzzleSelectScreen : CliktCommand() {
                 days.forEach DaysLoop@ { day ->
                     val puzzle = puzzleResolver.getPuzzle(year, day) ?: return@DaysLoop
                     println("$ANSI_BLUE$ANSI_BOLD== Day $day - ${puzzle.javaClass.simpleName}$ANSI_RESET")
+                    repeat(10) {
+                        puzzle.solutions().forEach { it.invoke() }
+                    }
                     puzzle.printAnswers()
                 }
             }
