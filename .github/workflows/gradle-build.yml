@@ -25,16 +25,3 @@ jobs:
           distribution: 'adopt'
 
       - run: ./gradlew build
-
-      - run: ./gradlew injectNewReadme
-
-      - name: setup git credentials
-        run: |
-          git config user.name 'Nozemi'
-          git config user.email ${{ secrets.EMAIL }}
-          git config user.password ${{ secrets.GITHUB_TOKEN }}
-
-      - name: commit changes
-        run: |
-          git commit -a -m "Automagically Updated README.md From Workflow!"
-          git push --force
