@@ -5,7 +5,7 @@ import io.nozemi.aoc.utils.countChar
 import java.util.regex.Pattern
 import kotlin.reflect.KFunction0
 
-class PasswordPhilosophy(input: String) : Puzzle<List<String>>(input) {
+class PasswordPhilosophy(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 

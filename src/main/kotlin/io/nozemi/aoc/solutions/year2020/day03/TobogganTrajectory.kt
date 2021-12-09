@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2020.day03
 import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
-class TobogganTrajectory(input: String) : Puzzle<List<String>>(input) {
+class TobogganTrajectory(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 

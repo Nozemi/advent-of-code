@@ -5,7 +5,7 @@ import io.nozemi.aoc.solutions.year2021.day08.impl.SegmentPattern
 import io.nozemi.aoc.solutions.year2021.day08.impl.SegmentPattern.Companion.toSegmentPattern
 import kotlin.reflect.KFunction0
 
-class SevenSegmentSearch(input: String) : Puzzle<List<SegmentPattern>>(input) {
+class SevenSegmentSearch(input: String, unitTest: Boolean = false) : Puzzle<List<SegmentPattern>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<SegmentPattern> = map { it.toSegmentPattern() }.toList()
 

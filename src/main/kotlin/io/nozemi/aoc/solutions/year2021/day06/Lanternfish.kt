@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2021.day06
 import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
-class Lanternfish(input: String) : Puzzle<List<Int>>(input) {
+class Lanternfish(input: String, unitTest: Boolean = false) : Puzzle<List<Int>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<Int> = this.first().split(",").toList().map { it.trim().toInt() }
 

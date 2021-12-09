@@ -5,7 +5,7 @@ import io.nozemi.aoc.solutions.year2021.day04.impl.Bingo
 import io.nozemi.aoc.solutions.year2021.day04.impl.Board
 import kotlin.reflect.KFunction0
 
-class GiantSquid(input: String) : Puzzle<List<String>>(input) {
+class GiantSquid(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 

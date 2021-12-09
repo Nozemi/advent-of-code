@@ -4,7 +4,7 @@ import io.nozemi.aoc.puzzle.Puzzle
 import io.nozemi.aoc.utils.addIfNotExists
 import kotlin.reflect.KFunction0
 
-class SmokeBasin(input: String) : Puzzle<Array<IntArray>>(input) {
+class SmokeBasin(input: String, unitTest: Boolean = false) : Puzzle<Array<IntArray>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): Array<IntArray> = this.map { line ->
         line.toCharArray().map { digit -> digit.digitToInt() }.toIntArray()

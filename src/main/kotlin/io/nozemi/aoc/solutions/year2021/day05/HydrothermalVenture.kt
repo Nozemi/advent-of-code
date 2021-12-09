@@ -4,7 +4,7 @@ import io.nozemi.aoc.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2021.day05.impl.DangerDiagram
 import kotlin.reflect.KFunction0
 
-class HydrothermalVenture(input: String) : Puzzle<List<String>>(input) {
+class HydrothermalVenture(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
 
     override fun solutions(): List<KFunction0<Any>> = listOf(
         ::part1,

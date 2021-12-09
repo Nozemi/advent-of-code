@@ -4,7 +4,7 @@ import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.math.abs
 import kotlin.reflect.KFunction0
 
-class TheTreacheryOfWhales(input: String) : Puzzle<List<Int>>(input) {
+class TheTreacheryOfWhales(input: String, unitTest: Boolean = false) : Puzzle<List<Int>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<Int> = this.toList().single()
         .split(",").map { it.trim().toInt() }
