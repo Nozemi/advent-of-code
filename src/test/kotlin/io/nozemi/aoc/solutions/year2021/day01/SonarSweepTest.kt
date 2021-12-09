@@ -18,7 +18,7 @@ internal class SonarSweepTest {
         260
         263
     """.trimIndent()
-    private val sonarSweep = SonarSweep(input, unitTest = true)
+    private val sonarSweep = SonarSweep(input)
 
     @Test
     fun part1Test() {
