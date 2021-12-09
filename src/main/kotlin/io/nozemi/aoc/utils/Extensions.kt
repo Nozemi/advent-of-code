@@ -26,3 +26,7 @@ operator fun MutableMap<Int, String>?.get(key: Int): String? {
     if (this == null) return null
     return this[key]
 }
+
+operator fun Array<Set<Char>>.set(index: Int, value: String) {
+    this[index] = value
+}
