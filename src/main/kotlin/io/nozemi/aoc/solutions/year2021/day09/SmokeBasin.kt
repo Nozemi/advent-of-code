@@ -65,68 +65,23 @@ class SmokeBasin(input: String) : Puzzle<Array<IntArray>>(input) {
         visitedNodes.addIfNotExists(Position(row, column, currentNumber))
 
         if (aboveConditionBasin(input, row, column, currentNumber)) {
-            visitedNodes.addIfNotExists(Position(row - 1, column, input[row - 1][column]))
-        }
-        if (belowConditionBasin(input, row, column, currentNumber)) {
-            visitedNodes.addIfNotExists(Position(row + 1, column, input[row + 1][column]))
-        }
-        if (leftConditionBasin(input, row, column, currentNumber)) {
-            visitedNodes.addIfNotExists(Position(row, column - 1, input[row][column - 1]))
-        }
-        if (rightConditionBasin(input, row, column, currentNumber)) {
-            visitedNodes.addIfNotExists(Position(row, column + 1, input[row][column + 1]))
-        }
-
-        if (aboveConditionBasin(input, row, column, currentNumber)) {
             visitedNodes.addIfNotExists(Position(row, column, input[row - 1][column]))
             traverseBasin(input, visitedNodes, input[row - 1][column], row - 1, column)
-        } else {
-            val currentPosition = Position(row, column, currentNumber)
-            if (row == 0) {
-                //println("Nothing above $currentPosition.")
-            } else {
-                val abovePosition = Position(row - 1, column, input[row - 1][column])
-                //println("At $currentPosition we're skipping the above of $abovePosition.")
-            }
         }
 
         if (belowConditionBasin(input, row, column, currentNumber)) {
             visitedNodes.addIfNotExists(Position(row, column, input[row + 1][column]))
             traverseBasin(input, visitedNodes, input[row + 1][column], row + 1, column)
-        } else {
-            val currentPosition = Position(row, column, currentNumber)
-            if (row == input.size - 1) {
-                //println("Nothing below $currentPosition.")
-            } else {
-                val belowPosition = Position(row + 1, column, input[row + 1][column])
-                //println("At $currentPosition we're skipping the below of $belowPosition.")
-            }
         }
 
         if (leftConditionBasin(input, row, column, currentNumber)) {
             visitedNodes.addIfNotExists(Position(row, column, input[row][column - 1]))
             traverseBasin(input, visitedNodes, input[row][column - 1], row, column - 1)
-        } else {
-            val currentPosition = Position(row, column, currentNumber)
-            if (column == 0) {
-                //println("Nothing left of $currentPosition.")
-            } else {
-                val leftPosition = Position(row, column - 1, input[row][column - 1])
-                //println("At $currentPosition we're skipping the left of $leftPosition.")
-            }
         }
 
         if (rightConditionBasin(input, row, column, currentNumber)) {
             visitedNodes.addIfNotExists(Position(row, column, input[row][column + 1]))
             traverseBasin(input, visitedNodes, input[row][column + 1], row, column + 1)
-        } else {
-            val currentPosition = Position(row, column, currentNumber)
-            if (column == input[row].size - 1) {
-                //println("Nothing right of $currentPosition.")
-            } else {
-                val rightPosition = Position(row, column + 1, input[row][column + 1])
-                //println("At $currentPosition we're skipping the right of $rightPosition.")
-            }
         }
 
         return visitedNodes
