@@ -82,6 +82,9 @@ tasks.create<JavaExec>("runThisYear") {
 
 tasks.create<JavaExec>("runToday") {
     group = "application"
+
+    dependsOn(":injectNewReadme")
+
     classpath = java.sourceSets["main"].runtimeClasspath
     mainClass.set("io.nozemi.aoc.Application")
     args = "-y$currentYear -d$currentDay -t0".split(" ")
