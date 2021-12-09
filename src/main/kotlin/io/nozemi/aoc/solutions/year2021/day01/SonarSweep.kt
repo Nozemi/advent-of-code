@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2021.day01
 import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
-class SonarSweep(input: String) : Puzzle<List<Int>>(input) {
+class SonarSweep(input: String, unitTest: Boolean = false) : Puzzle<List<Int>>(input, unitTest) {
 
     override fun Sequence<String>.parse(): List<Int> = this.map { it.trim().toInt() }.toList()
 
