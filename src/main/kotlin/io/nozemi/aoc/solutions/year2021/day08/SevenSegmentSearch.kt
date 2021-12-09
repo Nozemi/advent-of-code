@@ -22,13 +22,13 @@ class SevenSegmentSearch(input: String) : Puzzle<List<SegmentPattern>>(input) {
         return getSumOfOutputNumbers()
     }
 
-    fun getSumOfUniqueLengthPatternsInOutputs(input: List<SegmentPattern> = rawInput): Int {
+    fun getSumOfUniqueLengthPatternsInOutputs(input: List<SegmentPattern> = parsedInput): Int {
         return input.sumOf {
             it.uniqueLengthPatternsInOutput()
         }
     }
 
-    fun getSumOfOutputNumbers(input: List<SegmentPattern> = rawInput): Int {
+    fun getSumOfOutputNumbers(input: List<SegmentPattern> = parsedInput): Int {
         return input.sumOf {
             it.rewireOutputPattern()
             it.getOutputNumber()

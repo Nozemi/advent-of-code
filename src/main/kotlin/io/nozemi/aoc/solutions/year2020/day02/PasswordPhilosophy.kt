@@ -25,7 +25,7 @@ class PasswordPhilosophy(input: String) : Puzzle<List<String>>(input) {
     fun countValidPart1(): Int {
         var validPasswords = 0
 
-        rawInput.forEach {
+        parsedInput.forEach {
             val passwordAndPolicy = it.parsePasswordAndPolicy()
 
             if (passwordAndPolicy != null) {
@@ -40,7 +40,7 @@ class PasswordPhilosophy(input: String) : Puzzle<List<String>>(input) {
     fun countValidPart2(): Int {
         var validPasswords = 0
 
-        rawInput.forEach {
+        parsedInput.forEach {
             var passwordAndPolicy = it.parsePasswordAndPolicy()
 
             if (passwordAndPolicy != null) {

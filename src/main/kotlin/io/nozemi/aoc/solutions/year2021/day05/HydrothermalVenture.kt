@@ -22,7 +22,7 @@ class HydrothermalVenture(input: String) : Puzzle<List<String>>(input) {
     }
 
     fun solve(considerDiagonals: Boolean = false): Int {
-        val dangerDiagram = DangerDiagram.fromRawData(rawInput, considerDiagonals = considerDiagonals)
+        val dangerDiagram = DangerDiagram.fromRawData(parsedInput, considerDiagonals = considerDiagonals)
         return dangerDiagram.dangerousCoordinates.count()
     }
 }

@@ -23,14 +23,14 @@ class BinaryDiagnostic(input: String) : Puzzle<List<String>>(input) {
         return findLifeSupportRating()
     }
 
-    fun findPowerConsumption(input: List<String> = this.rawInput): Long {
+    fun findPowerConsumption(input: List<String> = this.parsedInput): Long {
         val mostCommon = findMostCommonValuesForEachBit(input)
         val gammaRate = mostCommon.toGammaRateBinary().toLong(radix = 2)
         val epsilonRate = mostCommon.toEpsilonRateBinary().toLong(radix = 2)
         return (gammaRate * epsilonRate)
     }
 
-    fun findLifeSupportRating(input: List<String> = this.rawInput): Long {
+    fun findLifeSupportRating(input: List<String> = this.parsedInput): Long {
         val oxygenGeneratorRating = findMeasureTypeRating(MeasureType.OXYGEN_GENERATOR_RATING, input).toInt(radix = 2)
         val co2ScrubberRatingFound = findMeasureTypeRating(MeasureType.CO2_SCRUBBER_RATING, input).toInt(radix = 2)
         return (oxygenGeneratorRating * co2ScrubberRatingFound).toLong()
@@ -40,7 +40,7 @@ class BinaryDiagnostic(input: String) : Puzzle<List<String>>(input) {
      * Return a map of bit's position and which was most common for that position in the current List<String>.
      */
     fun findMostCommonValuesForEachBit(
-        input: List<String> = this.rawInput
+        input: List<String> = this.parsedInput
     ): Map<Int, Int> {
         // Map<Position, Most Common Bit>
         val mostCommon = mutableMapOf<Int, Int>()
@@ -55,7 +55,7 @@ class BinaryDiagnostic(input: String) : Puzzle<List<String>>(input) {
         return mostCommon
     }
 
-    fun findMeasureTypeRating(measureType: MeasureType, input: List<String> = this.rawInput): String {
+    fun findMeasureTypeRating(measureType: MeasureType, input: List<String> = this.parsedInput): String {
         var ratings = input
 
         var counts = ratings.countBitsInPosition()

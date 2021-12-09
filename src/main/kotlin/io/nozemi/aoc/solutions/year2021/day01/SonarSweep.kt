@@ -23,7 +23,7 @@ class SonarSweep(input: String) : Puzzle<List<Int>>(input) {
     private fun totalIncreases(groupSize: Int): Int {
         var totalIncreases = 0
 
-        val groups = rawInput.windowed(groupSize)
+        val groups = parsedInput.windowed(groupSize)
 
         for (i in 1 until groups.size) {
             if (groups[i].sum() > groups[i - 1].sum())

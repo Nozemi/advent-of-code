@@ -12,7 +12,7 @@ class GiantSquid(input: String) : Puzzle<String>(input) {
     val winners: List<Board>
 
     init {
-        val bingo = Bingo.parse(rawInput)
+        val bingo = Bingo.parse(parsedInput)
         winners = bingo.findWinningBoards()
     }
 

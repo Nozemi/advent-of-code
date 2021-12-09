@@ -15,13 +15,13 @@ class Dive(input: String) : Puzzle<List<String>>(input) {
 
     private fun part1(): Long {
         val submarine = Submarine()
-        submarine.moveSubmarine(rawCommands = rawInput)
+        submarine.moveSubmarine(rawCommands = parsedInput)
         return submarine.horizontal * submarine.depth
     }
 
     private fun part2(): Long {
         val submarine = Submarine(aimedMode = true)
-        submarine.moveSubmarine(rawCommands = rawInput)
+        submarine.moveSubmarine(rawCommands = parsedInput)
         return submarine.horizontal * submarine.depth
     }
 }

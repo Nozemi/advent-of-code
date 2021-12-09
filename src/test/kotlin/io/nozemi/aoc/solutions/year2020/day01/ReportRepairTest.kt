@@ -17,7 +17,7 @@ internal class ReportRepairTest {
 
     @Test
     fun part1Test() {
-        val result = reportRepair.findTwoNumbersThatAmountsTo(2020, reportRepair.rawInput)
+        val result = reportRepair.findTwoNumbersThatAmountsTo(2020, reportRepair.parsedInput)
         assertNotNull(result)
         assertEquals(Pair(1721, 299), result)
         assertEquals(514579, result!!.first * result.second)
@@ -25,7 +25,7 @@ internal class ReportRepairTest {
 
     @Test
     fun part2Test() {
-        val result = reportRepair.findThreeNumbersThatAmountsTo(2020, reportRepair.rawInput)
+        val result = reportRepair.findThreeNumbersThatAmountsTo(2020, reportRepair.parsedInput)
         assertArrayEquals(intArrayOf(979, 366, 675), result)
         assertEquals(241861950, result[0] * result[1] * result[2])
     }

@@ -17,7 +17,7 @@ abstract class Puzzle<T : Any>(private var input: String? = null) {
 
     private val inputLoader: InputLoader?
 
-    var rawInput: T
+    var parsedInput: T
 
     init {
         val dayAndYear = dayOfYearRegex.find(this.javaClass.packageName)
@@ -34,7 +34,7 @@ abstract class Puzzle<T : Any>(private var input: String? = null) {
 
         inputLoader = if (input?.isNotEmpty() == true) null else InputLoader(inputFilePath, year, day)
 
-        rawInput = loadInput().parse()
+        parsedInput = loadInput().parse()
     }
 
     private fun loadInput(): Sequence<String> {

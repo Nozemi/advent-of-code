@@ -29,8 +29,8 @@ class TobogganTrajectory(input: String) : Puzzle<List<String>>(input) {
         var x = 0
         var trees = 0
 
-        for (y in rawInput.indices step stepsDown) {
-            val level = rawInput[y]
+        for (y in parsedInput.indices step stepsDown) {
+            val level = parsedInput[y]
             if (level.toCharArray()[x] == '#') trees++
             x = (x + stepsRight) % level.length
         }

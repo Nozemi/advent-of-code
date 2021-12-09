@@ -22,7 +22,7 @@ class TheTreacheryOfWhales(input: String) : Puzzle<List<Int>>(input) {
         return findFuelConsumption(constantBurnRate = false)
     }
 
-    fun findFuelConsumption(input: List<Int> = rawInput, constantBurnRate: Boolean = true): Int =
+    fun findFuelConsumption(input: List<Int> = parsedInput, constantBurnRate: Boolean = true): Int =
         input.range.minOf { currentPosition ->
             input.sumOf {
                 val distance = abs(it - currentPosition)

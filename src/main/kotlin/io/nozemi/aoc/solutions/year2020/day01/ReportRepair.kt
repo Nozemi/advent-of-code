@@ -13,12 +13,12 @@ class ReportRepair(input: String) : Puzzle<List<Int>>(input) {
     )
 
     private fun part1(): Int {
-        val result = findTwoNumbersThatAmountsTo(2020, this.rawInput) ?: return 0
+        val result = findTwoNumbersThatAmountsTo(2020, this.parsedInput) ?: return 0
         return result.first * result.second
     }
 
     private fun part2(): Int {
-        val result = findThreeNumbersThatAmountsTo(2020, this.rawInput)
+        val result = findThreeNumbersThatAmountsTo(2020, this.parsedInput)
         if (result.size < 3) return 0
         return result[0] * result[1] * result[2]
     }

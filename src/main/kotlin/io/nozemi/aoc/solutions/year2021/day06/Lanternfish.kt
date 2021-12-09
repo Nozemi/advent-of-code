@@ -27,7 +27,7 @@ class Lanternfish(input: String) : Puzzle<List<Int>>(input) {
      */
     fun getLanternFishForDuration(days: Int): Long {
         val fish: Array<Long> = Array(9) { 0L }
-        rawInput.forEach {
+        parsedInput.forEach {
             fish[it] = ++fish[it]
         }
 

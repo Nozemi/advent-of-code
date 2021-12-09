@@ -128,6 +128,7 @@ class PuzzleSelectScreen : CliktCommand() {
                         println(ANSI_RESET)
                     }
                 }
+                println()
             }
         }
         println("$ANSI_UNDERLINE                                        $ANSI_RESET")

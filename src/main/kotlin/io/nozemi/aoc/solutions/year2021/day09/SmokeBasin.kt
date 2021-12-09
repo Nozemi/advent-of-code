@@ -88,7 +88,7 @@ class SmokeBasin(input: String) : Puzzle<Array<IntArray>>(input) {
     }
 
     private inline fun iterateLowPoints(
-        input: Array<IntArray> = rawInput,
+        input: Array<IntArray> = parsedInput,
         doWithPosition: (input: Array<IntArray>, row: Int, column: Int, number: Int) -> Unit
     ) {
         input.forEachIndexed { row, columns ->
@@ -106,7 +106,7 @@ class SmokeBasin(input: String) : Puzzle<Array<IntArray>>(input) {
         }
     }
 
-    fun getLowPoints(input: Array<IntArray> = rawInput): List<Int> {
+    fun getLowPoints(input: Array<IntArray> = parsedInput): List<Int> {
         val lowPoints = mutableListOf<Int>()
 
         iterateLowPoints(input) { _, _, _, number ->
