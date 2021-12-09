@@ -26,18 +26,16 @@ class PuzzlesSolvedTableGenerator {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            PuzzlesSolvedTableGenerator()
+            val generator = PuzzlesSolvedTableGenerator().generate()
+            println(generator.progressTable?.getGeneratedString())
         }
     }
 
-    init {
-        generate()
-    }
-
-    private fun generate() {
+    fun generate(): PuzzlesSolvedTableGenerator {
         populateSolvedPuzzles()
         solvedPuzzles = solvedPuzzles.toSortedMap(compareByDescending { it })
         progressTable = ProgressTable(solvedPuzzles)
+        return this
     }
 
     /**
@@ -52,15 +50,12 @@ class PuzzlesSolvedTableGenerator {
 
     @OptIn(ExperimentalTime::class)
     private fun testPuzzle(
-        className: String,
-        year: Int,
-        day: Int,
-        useActualData: Boolean = false
+        className: String, year: Int, day: Int, useActualData: Boolean = false
     ): Pair<Boolean, Boolean> {
         val inputLoader = getInputLoader(year, day, useActualData)
             ?: return if (useActualData) Pair(true, true) else Pair(false, false)
 
-        val input = inputLoader.inputData!!.joinToString("\n")
+        val input = inputLoader.inputData.joinToString("\n")
         val rawAnswers = input.lines()[0]
 
         val answersRegex = Regex("\\[([\\d]+)]\\[([\\d]+)]")
@@ -73,6 +68,10 @@ class PuzzlesSolvedTableGenerator {
             .newInstance(input.replace("$rawAnswers\n", "")) as Puzzle<*>
         val answer1 = instance.getAnswer(1).value.toString()
         val answer2 = instance.getAnswer(2).value.toString()
+
+        val prefix = ""
+        println("$prefix ${instance::class.simpleName} (Part 1): expected: $expectedAnswer1, actual: $answer1")
+        println("$prefix ${instance::class.simpleName} (Part 2): expected: $expectedAnswer2, actual: $answer2")
 
         return Pair(answer1 == expectedAnswer1, answer2 == expectedAnswer2)
     }
@@ -100,6 +99,6 @@ class PuzzlesSolvedTableGenerator {
         val fileName = "day" + day.toString().padStart(2, '0') + if (useActualData) "-actual.txt" else ".txt"
         val inputFile = Path.of("./data/example-inputs/$year/$fileName")
         if (Files.notExists(inputFile)) return null
-        return InputLoader(inputFile, year, day)
+        return InputLoader(inputFile, year, day, shouldAttemptDownload = false)
     }
 }

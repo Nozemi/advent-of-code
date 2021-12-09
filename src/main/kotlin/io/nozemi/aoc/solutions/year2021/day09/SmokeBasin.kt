@@ -4,7 +4,7 @@ import io.nozemi.aoc.puzzle.Puzzle
 import io.nozemi.aoc.utils.addIfNotExists
 import kotlin.reflect.KFunction0
 
-class SmokeBasin(input: String, unitTest: Boolean = false) : Puzzle<Array<IntArray>>(input, unitTest) {
+class SmokeBasin(input: String) : Puzzle<Array<IntArray>>(input) {
 
     override fun Sequence<String>.parse(): Array<IntArray> = this.map { line ->
         line.toCharArray().map { digit -> digit.digitToInt() }.toIntArray()
@@ -37,7 +37,7 @@ class SmokeBasin(input: String, unitTest: Boolean = false) : Puzzle<Array<IntArr
         return threeLargestBasins[0] * threeLargestBasins[1] * threeLargestBasins[2]
     }
 
-    private fun findBasins(): List<Basin> {
+    fun findBasins(): List<Basin> {
         val basins = mutableListOf<Basin>()
         iterateLowPoints { input, row, column, number ->
             val positions = traverseBasin(input, mutableListOf(), number, row, column)
@@ -87,32 +87,26 @@ class SmokeBasin(input: String, unitTest: Boolean = false) : Puzzle<Array<IntArr
         return visitedNodes
     }
 
-    private fun iterateLowPoints(
+    private inline fun iterateLowPoints(
         input: Array<IntArray> = rawInput,
         doWithPosition: (input: Array<IntArray>, row: Int, column: Int, number: Int) -> Unit
     ) {
         input.forEachIndexed { row, columns ->
-            run {
-                columns.forEachIndexed { column, number ->
-                    run {
-                        // Get number above if row isn't 0
-                        val above = if (row == 0) 10 else input[row - 1][column]
-                        val below = if (row == input.size - 1) 10 else input[row + 1][column]
-                        val left = if (column == 0) 10 else input[row][column - 1]
-                        val right = if (column == columns.size - 1) 10 else input[row][column + 1]
+            columns.forEachIndexed { column, number ->
+                // Get number above if row isn't 0
+                val above = if (row == 0) 10 else input[row - 1][column]
+                val below = if (row == input.size - 1) 10 else input[row + 1][column]
+                val left = if (column == 0) 10 else input[row][column - 1]
+                val right = if (column == columns.size - 1) 10 else input[row][column + 1]
 
-                        if ((number < above) && (number < below)
-                            && (number < left) && (number < right)
-                        ) {
-                            doWithPosition(input, row, column, number)
-                        }
-                    }
+                if ((number < above) && (number < below) && (number < left) && (number < right)) {
+                    doWithPosition(input, row, column, number)
                 }
             }
         }
     }
 
-    private fun getLowPoints(input: Array<IntArray> = rawInput): List<Int> {
+    fun getLowPoints(input: Array<IntArray> = rawInput): List<Int> {
         val lowPoints = mutableListOf<Int>()
 
         iterateLowPoints(input) { _, _, _, number ->

@@ -5,16 +5,14 @@ import io.nozemi.aoc.solutions.year2021.day04.impl.Bingo
 import io.nozemi.aoc.solutions.year2021.day04.impl.Board
 import kotlin.reflect.KFunction0
 
-class GiantSquid(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
+class GiantSquid(input: String) : Puzzle<String>(input) {
 
-    override fun Sequence<String>.parse(): List<String> = this.toList()
+    override fun Sequence<String>.parse(): String = joinToString("\n")
 
-    private val data = rawInput.joinToString("\n")
-
-    private val winners: List<Board>
+    val winners: List<Board>
 
     init {
-        val bingo = Bingo.parse(data)
+        val bingo = Bingo.parse(rawInput)
         winners = bingo.findWinningBoards()
     }
 

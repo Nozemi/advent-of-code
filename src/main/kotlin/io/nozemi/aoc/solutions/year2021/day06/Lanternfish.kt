@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2021.day06
 import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
-class Lanternfish(input: String, unitTest: Boolean = false) : Puzzle<List<Int>>(input, unitTest) {
+class Lanternfish(input: String) : Puzzle<List<Int>>(input) {
 
     override fun Sequence<String>.parse(): List<Int> = this.first().split(",").toList().map { it.trim().toInt() }
 
@@ -25,7 +25,7 @@ class Lanternfish(input: String, unitTest: Boolean = false) : Puzzle<List<Int>>(
      * Gets the amount of lantern fish after the provided amount of days.
      *
      */
-    private fun getLanternFishForDuration(days: Int): Long {
+    fun getLanternFishForDuration(days: Int): Long {
         val fish: Array<Long> = Array(9) { 0L }
         rawInput.forEach {
             fish[it] = ++fish[it]

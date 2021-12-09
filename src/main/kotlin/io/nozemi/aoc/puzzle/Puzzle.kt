@@ -6,7 +6,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.TimedValue
 import kotlin.time.measureTimedValue
 
-abstract class Puzzle<T : Any>(private var input: String? = null, unitTest: Boolean = false) {
+abstract class Puzzle<T : Any>(private var input: String? = null) {
     private val inputFilePath: Path
 
     private val puzzleName = this.javaClass.simpleName
@@ -32,7 +32,7 @@ abstract class Puzzle<T : Any>(private var input: String? = null, unitTest: Bool
 
         inputFilePath = Path.of("./data/inputs/${this.year}/${dayDirectory}.txt")
 
-        inputLoader = if (!unitTest) InputLoader(inputFilePath, year, day) else null
+        inputLoader = if (input?.isNotEmpty() == true) null else InputLoader(inputFilePath, year, day)
 
         rawInput = loadInput().parse()
     }

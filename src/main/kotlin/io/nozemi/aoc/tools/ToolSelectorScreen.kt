@@ -11,7 +11,7 @@ import java.nio.file.Files
  */
 class ToolSelectorScreen {
 
-    private val generator = PuzzlesSolvedTableGenerator()
+    private val generator = PuzzlesSolvedTableGenerator().generate()
 
     init {
         writeNewReadme()

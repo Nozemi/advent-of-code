@@ -5,7 +5,7 @@ import io.nozemi.aoc.solutions.year2021.day08.impl.SegmentPattern
 import io.nozemi.aoc.solutions.year2021.day08.impl.SegmentPattern.Companion.toSegmentPattern
 import kotlin.reflect.KFunction0
 
-class SevenSegmentSearch(input: String, unitTest: Boolean = false) : Puzzle<List<SegmentPattern>>(input, unitTest) {
+class SevenSegmentSearch(input: String) : Puzzle<List<SegmentPattern>>(input) {
 
     override fun Sequence<String>.parse(): List<SegmentPattern> = map { it.toSegmentPattern() }.toList()
 
@@ -15,13 +15,21 @@ class SevenSegmentSearch(input: String, unitTest: Boolean = false) : Puzzle<List
     )
 
     private fun part1(): Int {
-        return rawInput.sumOf {
+        return getSumOfUniqueLengthPatternsInOutputs()
+    }
+
+    private fun part2(): Int {
+        return getSumOfOutputNumbers()
+    }
+
+    fun getSumOfUniqueLengthPatternsInOutputs(input: List<SegmentPattern> = rawInput): Int {
+        return input.sumOf {
             it.uniqueLengthPatternsInOutput()
         }
     }
 
-    private fun part2(): Int {
-        return rawInput.sumOf {
+    fun getSumOfOutputNumbers(input: List<SegmentPattern> = rawInput): Int {
+        return input.sumOf {
             it.rewireOutputPattern()
             it.getOutputNumber()
         }

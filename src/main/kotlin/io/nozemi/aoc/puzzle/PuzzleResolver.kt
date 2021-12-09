@@ -49,7 +49,7 @@ class PuzzleResolver {
         val puzzleClass = puzzleMap[year][day] ?: return null
         val puzzleInstance: Puzzle<*>
         try {
-            puzzleInstance = Class.forName(puzzleClass).getDeclaredConstructor(String::class.java, Boolean::class.java).newInstance("", false) as Puzzle<*>
+            puzzleInstance = Class.forName(puzzleClass).getDeclaredConstructor(String::class.java).newInstance("") as Puzzle<*>
         } catch(exception: InvocationTargetException) {
             if (exception.cause?.message?.contains("No data provided") == true) {
                 throw NoDataProvidedException()

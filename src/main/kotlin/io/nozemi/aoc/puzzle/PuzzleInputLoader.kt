@@ -14,7 +14,7 @@ import kotlin.streams.asSequence
 
 private val logger = InlineLogger()
 
-class InputLoader(private val inputFile: Path, year: Int, day: Int) {
+class InputLoader(private val inputFile: Path, year: Int, day: Int, private val shouldAttemptDownload: Boolean = true) {
 
     private var hasDownloaded = false
 
@@ -24,8 +24,12 @@ class InputLoader(private val inputFile: Path, year: Int, day: Int) {
     private fun loadFromFile(year: Int, day: Int): Sequence<String> {
         // If file exists and is empty or doesn't exist, we need to download the file.
         if ((Files.exists(inputFile) && Files.readString(inputFile).isEmpty()) || !Files.exists(inputFile)) {
-            // If download fails, we throw a NoDataProvidedException that is later caught.
-            if (!downloadInput(year, day)) throw NoDataProvidedException()
+            if (shouldAttemptDownload) {
+                // If download fails, we throw a NoDataProvidedException that is later caught.
+                if (!downloadInput(year, day)) throw NoDataProvidedException()
+            } else {
+                throw NoDataProvidedException()
+            }
         }
 
         return Files.lines(inputFile).asSequence()

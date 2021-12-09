@@ -3,7 +3,7 @@ package io.nozemi.aoc.solutions.year2020.day03
 import io.nozemi.aoc.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
-class TobogganTrajectory(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
+class TobogganTrajectory(input: String) : Puzzle<List<String>>(input) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 
@@ -25,7 +25,7 @@ class TobogganTrajectory(input: String, unitTest: Boolean = false) : Puzzle<List
         return slope1 * slope2 * slope3 * slope4 * slope5
     }
 
-    private fun traverseMap(stepsRight: Int, stepsDown: Int): Long {
+    fun traverseMap(stepsRight: Int, stepsDown: Int): Long {
         var x = 0
         var trees = 0
 

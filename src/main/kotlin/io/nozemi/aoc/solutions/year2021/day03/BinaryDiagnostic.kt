@@ -6,7 +6,7 @@ import io.nozemi.aoc.solutions.year2021.day03.impl.toEpsilonRateBinary
 import io.nozemi.aoc.solutions.year2021.day03.impl.toGammaRateBinary
 import kotlin.reflect.KFunction0
 
-class BinaryDiagnostic(input: String, unitTest: Boolean = false) : Puzzle<List<String>>(input, unitTest) {
+class BinaryDiagnostic(input: String) : Puzzle<List<String>>(input) {
 
     override fun Sequence<String>.parse(): List<String> = this.toList()
 
