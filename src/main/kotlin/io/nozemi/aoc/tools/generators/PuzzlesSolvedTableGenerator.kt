@@ -80,7 +80,7 @@ class PuzzlesSolvedTableGenerator {
         puzzleResolver.getAllPuzzles().forEach {
             val dayAndYear = dayOfYearRegex.find(it) ?: return@forEach
             val year = dayAndYear.groupValues[1].toInt()
-            val day = dayAndYear.groupValues[3].toInt()
+            val day = dayAndYear.groupValues[2].toInt()
 
             val exampleDataResult = testPuzzle(it, year, day)
             val actualDataResult = testPuzzle(it, year, day, true)

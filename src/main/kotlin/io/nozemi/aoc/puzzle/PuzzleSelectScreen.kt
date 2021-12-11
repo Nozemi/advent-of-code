@@ -19,7 +19,7 @@ private val logger = InlineLogger()
 
 var token: String? = null
 const val basePackage = "io.nozemi.aoc.solutions"
-val dayOfYearRegex = Regex("$basePackage.year([\\d]{4}).(day0([\\d])|day([\\d]{2}))")
+val dayOfYearRegex = Regex("$basePackage\\.year([\\d]{4})\\.day([\\d]{2})")
 
 @OptIn(ExperimentalTime::class)
 class PuzzleSelectScreen : CliktCommand() {

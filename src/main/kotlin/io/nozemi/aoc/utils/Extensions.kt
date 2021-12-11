@@ -24,6 +24,21 @@ fun <T> MutableList<T>.addIfNotExists(value: T) {
     }
 }
 
+fun MutableList<Long>.median(): Long {
+    this.sort()
+    val median: Long
+    val totalElements = this.size
+
+    median = if (totalElements % 2 == 0) {
+        val sumOfMiddleElements = this[totalElements / 2] + this[totalElements / 2 - 1]
+        sumOfMiddleElements
+    } else {
+        this[totalElements / 2]
+    }
+
+    return median
+}
+
 operator fun MutableMap<Int, String>?.get(key: Int): String? {
     if (this == null) return null
     return this[key]

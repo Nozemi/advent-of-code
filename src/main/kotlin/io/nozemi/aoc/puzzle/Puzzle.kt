@@ -27,7 +27,7 @@ abstract class Puzzle<T : Any>(private var input: String? = null) {
             )
 
         year = dayAndYear.groupValues[1].toInt()
-        day = dayAndYear.groupValues[3].toInt()
+        day = dayAndYear.groupValues[2].toInt()
         dayDirectory = "day" + day.toString().padStart(2, '0')
 
         inputFilePath = Path.of("./data/inputs/${this.year}/${dayDirectory}.txt")
