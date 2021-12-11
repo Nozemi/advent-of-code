@@ -4,6 +4,7 @@ import io.nozemi.aoc.puzzle.ANSI_BOLD
 import io.nozemi.aoc.puzzle.ANSI_RED
 import io.nozemi.aoc.puzzle.ANSI_RESET
 import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.utils.median
 import kotlin.reflect.KFunction0
 
 fun main() {
@@ -14,49 +15,77 @@ class SyntaxScoring(input: String) : Puzzle<List<String>>(input) {
     override fun Sequence<String>.parse(): List<String> = toList()
 
     override fun solutions(): List<KFunction0<Any>> = listOf(
-        ::part1
+        ::part1,
+        ::part2
     )
 
-    private fun part1(): Int {
-        return getSyntaxErrorScore()
+    private fun part1(): Long {
+        return getScore(ScoreType.ERROR)
     }
 
-    fun getSyntaxErrorScore(): Int {
-        var score = 0
+    private fun part2(): Long {
+        return getScore(ScoreType.AUTO_COMPLETE)
+    }
+
+    fun getScore(type: ScoreType): Long {
+        var errorScore = 0L
+        val autoCompleteLineScores = mutableListOf<Long>()
+        var currentLineAutoScore = 0L
         parsedInput.forEach {
-            val result = checkSyntax(it)
-            if (result != null) {
-                when (result) {
-                    ')' -> score += 3
-                    ']' -> score += 57
-                    '}' -> score += 1197
-                    '>' -> score += 25137
+            it.syntaxChecker(errorOccurred = { bracket ->
+                when (bracket) {
+                    ')' -> errorScore += 3
+                    ']' -> errorScore += 57
+                    '}' -> errorScore += 1197
+                    '>' -> errorScore += 25137
                 }
-            }
+            }, missingClosingBrackets = { stacks ->
+                stacks.filter { stack -> !stack.second }.forEach { stack ->
+                    currentLineAutoScore *= 5
+                    when (stack.first.toClosing()) {
+                        ')' -> currentLineAutoScore += 1
+                        ']' -> currentLineAutoScore += 2
+                        '}' -> currentLineAutoScore += 3
+                        '>' -> currentLineAutoScore += 4
+                    }
+                }
+                autoCompleteLineScores.add(currentLineAutoScore)
+                currentLineAutoScore = 0
+            })
         }
-        return score
+
+        return if (type == ScoreType.ERROR) {
+            errorScore
+        } else {
+            autoCompleteLineScores.median()
+        }
+    }
+
+    enum class ScoreType {
+        ERROR,
+        AUTO_COMPLETE
     }
 
     private val openingSymbols = listOf('[', '{', '(', '<')
     private val closingSymbols = listOf(']', '}', ')', '>')
-    private fun checkSyntax(input: String): Char? {
+    private fun String.syntaxChecker(
+        errorOccurred: (char: Char) -> Unit,
+        missingClosingBrackets: (stacks: ArrayDeque<Pair<Char, Boolean>>) -> Unit
+    ) {
         val stacks = ArrayDeque<Pair<Char, Boolean>>(0)
-        input.forEachIndexed { index, it ->
-            when(it) {
+        this.forEachIndexed { index, it ->
+            when (it) {
                 in openingSymbols -> stacks.addFirst(Pair(it, false))
                 in closingSymbols -> {
                     val lastNotClosedIndex = stacks.lastNotClosed() ?: return@forEachIndexed
                     val lastNotClosed = lastNotClosedIndex.second
-                    if (lastNotClosed.first.toClosing() != it) {
-                        println("Error! Expected ${lastNotClosed.first.toClosing()}, but found $it (col=$index) on line -> ${input.highlight(index)}")
-                        return it
-                    }
-                    if (lastNotClosed.first.toClosing() == it) stacks[lastNotClosedIndex.first] = Pair(it, true)
+                    if (lastNotClosed.first.toClosing() != it) return errorOccurred(it)
+                    else stacks[lastNotClosedIndex.first] = Pair(it, true)
                 }
             }
         }
 
-        return null
+        missingClosingBrackets(stacks)
     }
 
     private fun String.highlight(column: Int, color: String = ANSI_RED): String {
