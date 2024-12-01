@@ -66,6 +66,7 @@ Below is a table showing which statuses for each day of each year.
 
 [2020]: https://adventofcode.com/2020
 [2021]: https://adventofcode.com/2021
+[2024]: https://adventofcode.com/2024
 
 ## Features
 I've implemented some features for my [AoC][aoc-url] project I find very useful. You can read more about each particular feature below.
