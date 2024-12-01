@@ -7,12 +7,12 @@ val currentDay = MonthDay.now().dayOfMonth
 
 plugins {
     application
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "2.1.0"
     id("net.researchgate.release") version "2.8.1"
 }
 
 group = "io.nozemi.aoc"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 application {
     mainClass.set("io.nozemi.aoc.Application")
@@ -41,7 +41,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict", "-opt-in=kotlin.RequiresOptIn")
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
