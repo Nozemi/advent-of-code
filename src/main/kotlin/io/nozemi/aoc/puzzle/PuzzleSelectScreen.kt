@@ -111,7 +111,7 @@ class PuzzleSelectScreen : CliktCommand() {
                     try {
                         val puzzle = puzzleResolver.getPuzzle(year, day) ?: return@DaysLoop
                         println("$ANSI_BLUE$ANSI_BOLD== Day $day - ${puzzle.javaClass.simpleName}$ANSI_RESET")
-                        repeat(10) { // TODO: Easy way to toggle the warmup. We don't want to have this during debugging for example.
+                        repeat(0) { // TODO: Easy way to toggle the warmup. We don't want to have this during debugging for example.
                             puzzle.solutions().forEach { it.invoke() }
                         }
                         puzzle.printAnswers()
