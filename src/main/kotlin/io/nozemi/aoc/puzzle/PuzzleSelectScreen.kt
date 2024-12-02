@@ -81,7 +81,7 @@ class PuzzleSelectScreen : CliktCommand() {
     override fun run() {
         println()
         logger.info { "Hold your $ANSI_BOLD${ANSI_UNDERLINE}beer$ANSI_RESET$ANSI_GREEN! Solutions coming up for day(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$day$ANSI_RESET$ANSI_GREEN of year(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$year$ANSI_RESET$ANSI_GREEN!" }
-        if (aocToken.length == 96) {
+        if (aocToken.length == 128) {
             token = this.aocToken
             logger.info { "${ANSI_BOLD}${ANSI_YELLOW}Will attempt to fetch your puzzle inputs with the token you provided." }
         } else {
@@ -90,7 +90,7 @@ class PuzzleSelectScreen : CliktCommand() {
             }
 
             token = dotenv["AOC_TOKEN"] ?: null
-            if (token?.length != 96) token = null
+            if (token?.length != 128) token = null
         }
         println()
 
