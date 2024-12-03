@@ -29,7 +29,6 @@ class RedNoseReports(input: String) : Puzzle<List<RedNosedReport>>(input) {
         )
     }.toList()
 
-
     override fun solutions(): List<KFunction0<Any>> = listOf(
         ::part1,
         ::part2
@@ -42,16 +41,4 @@ class RedNoseReports(input: String) : Puzzle<List<RedNosedReport>>(input) {
     private fun part2() = parsedInput.count {
         it.isValid(maxLevelDiff, true)
     }
-
-/*
-    private fun part2(): Int {
-        println("")
-        println("")
-        val safeReports = parsedInput.filter { it.isValid(maxLevelDiff, true) }
-        safeReports.forEach {
-            println(it.levels)
-        }
-
-        return safeReports.size
-    }*/
 }
