@@ -102,5 +102,40 @@ class CaresSearch(input: String) : Puzzle<List<List<Char>>>(input) {
         return count
     }
 
-    private fun part2() = 0
+    private fun part2(): Int {
+        val rows = parsedInput.size
+        val columns = parsedInput.first().size
+
+        val topBottom = listOf('M', 'S')
+        val mas = listOf("MAS", "SAM")
+
+        var count = 0
+        for ((lineNumber, line) in parsedInput.withIndex()) {
+            for ((charColumn, char) in line.withIndex()) {
+                if (char != 'A') continue
+
+                if (charColumn - 1 < 0 || charColumn + 1 >= columns
+                    || lineNumber - 1 < 0 || lineNumber + 1 >= rows
+                ) continue
+
+                val topLeft = parsedInput[lineNumber - 1][charColumn - 1]
+                val topRight = parsedInput[lineNumber - 1][charColumn + 1]
+                val bottomLeft = parsedInput[lineNumber + 1][charColumn - 1]
+                val bottomRight = parsedInput[lineNumber + 1][charColumn + 1]
+
+                if (!topBottom.contains(topLeft)
+                    || !topBottom.contains(topRight)
+                    || !topBottom.contains(bottomLeft)
+                    || !topBottom.contains(bottomRight)
+                ) continue
+
+                if (mas.contains("${topLeft}A${bottomRight}")
+                    && mas.contains("${topRight}A${bottomLeft}")
+                ) count++
+
+            }
+        }
+
+        return count
+    }
 }
