@@ -1,6 +1,8 @@
 package io.nozemi.aoc.solutions.year2024.day05
 
 import io.nozemi.aoc.puzzle.Puzzle
+import java.util.*
+import kotlin.collections.ArrayDeque
 import kotlin.reflect.KFunction0
 
 private val example = """
@@ -62,32 +64,62 @@ class PrintQueue(input: String) : Puzzle<Pair<List<Pair<Int, Int>>, List<List<In
         ::part2
     )
 
-    private fun part1(): Int {
-        val updated = mutableListOf<List<Int>>()
+    private val orderingRules get() = parsedInput.first
+    private val updates get() = parsedInput.second
 
-        val order = parsedInput.first
-        val updates = parsedInput.second
+    private val correctlyOrderedUpdates
+        get(): List<List<Int>> {
+            val updated = mutableListOf<List<Int>>()
 
-        updates.forEach { update ->
-            val printed = mutableListOf<Int>()
+            updates.forEach { update ->
+                val printed = mutableListOf<Int>()
 
-            update.forEach { page ->
-                val mustBeBefore = order.filter { it.first == page }
-                    .map { it.second }
-                    .filter { update.contains(it) }
-                    .toList()
+                update.forEach { page ->
+                    val mustBeBefore = orderingRules.filter { it.first == page }
+                        .map { it.second }
+                        .filter { update.contains(it) }
+                        .toList()
 
-                if (mustBeBefore.isEmpty() || printed.containsAll(mustBeBefore)) {
-                    printed.add(page)
+                    if (mustBeBefore.isEmpty() || printed.containsAll(mustBeBefore)) {
+                        printed.add(page)
+                    }
                 }
+
+                if (printed.size == update.size)
+                    updated.add(update)
             }
 
-            if (printed.size == update.size)
-                updated.add(update)
+            return updated
         }
+
+    private fun part1(): Int {
+        return correctlyOrderedUpdates.sumOf { it[it.size / 2] }
+    }
+
+    private fun part2(): Int {
+        val updated = mutableListOf<List<Int>>()
+
+        updates.filter { !correctlyOrderedUpdates.contains(it) }
+            .forEach { update ->
+                val queue: ArrayDeque<Int> = ArrayDeque(update)
+                val printed = mutableListOf<Int>()
+
+                while (queue.isNotEmpty()) {
+                    val page = queue.removeFirst()
+                    val mustBeBefore = orderingRules.filter { it.first == page }
+                        .map { it.second }
+                        .filter { update.contains(it) }
+                        .toList()
+
+                    if (mustBeBefore.isEmpty() || printed.containsAll(mustBeBefore)) {
+                        printed.add(page)
+                    } else queue.add(page)
+
+                }
+
+                updated.add(printed)
+            }
 
         return updated.sumOf { it[it.size / 2] }
     }
-
-    private fun part2() = 0
 }
