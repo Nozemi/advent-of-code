@@ -24,6 +24,13 @@ fun <T> MutableList<T>.addIfNotExists(value: T) {
     }
 }
 
+fun <T> MutableList<T>.takeFirst(): T {
+    val first = this.first()
+    this.removeFirst()
+
+    return first
+}
+
 fun MutableList<Long>.median(): Long {
     this.sort()
     val median: Long
