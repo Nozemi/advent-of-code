@@ -4,6 +4,19 @@ import io.nozemi.aoc.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2024.day06.GuardGallivant.Direction.Companion.asDirection
 import kotlin.reflect.KFunction0
 
+/*
+....#.....
+.........#
+..........
+..#.......
+.......#..
+..........
+.#.O^.....
+......OO#.
+#O.O......
+......#O..
+ */
+
 fun main() {
     val example = """
         ....#.....
@@ -14,7 +27,7 @@ fun main() {
         ..........
         .#..^.....
         ........#.
-        #.........
+        #........
         ......#...
     """.trimIndent()
 
@@ -32,8 +45,23 @@ class GuardGallivant(input: String) : Puzzle<List<List<Char>>>(input) {
         ::part2
     )
 
-    private fun part1(): Int {
-        val initialPosition = parsedInput.mapIndexedNotNull rowLoop@{ y, gridY ->
+    private fun part1() = parsedInput.traverse().distinct().size
+
+    private fun part2(): Int {
+        val validObstacleSpots = mutableListOf<Coordinate>()
+        parsedInput.findAll('.').forEach { freeSpot ->
+            val currentGrid = parsedInput.map { it.toMutableList() }.toMutableList()
+            currentGrid[freeSpot.y][freeSpot.x] = '#'
+
+            if (currentGrid.traverse().isEmpty())
+                validObstacleSpots.add(freeSpot)
+        }
+
+        return validObstacleSpots.distinct().size
+    }
+
+    private fun List<List<Char>>.traverse(): List<Coordinate> {
+        val initialPosition = this.mapIndexedNotNull rowLoop@{ y, gridY ->
             val x = gridY.mapIndexedNotNull columnLoop@{ x, cell ->
                 return@columnLoop if (Direction.entries.map { it.symbol }.contains(cell)) x else null
             }.firstOrNull() ?: -1
@@ -43,10 +71,13 @@ class GuardGallivant(input: String) : Puzzle<List<List<Char>>>(input) {
         }.first()
 
         var isInMap = true
-        var direction = parsedInput[initialPosition.y][initialPosition.x].asDirection
+        var direction = this[initialPosition.y][initialPosition.x].asDirection
         var currentPosition = initialPosition
         val visitedCells = mutableListOf<Coordinate>()
         while (isInMap) {
+            if(visitedCells.size > (this.size * this.first().size) * 2)
+                return emptyList()
+
             visitedCells.add(currentPosition)
 
             val nextCell = when (direction) {
@@ -56,7 +87,7 @@ class GuardGallivant(input: String) : Puzzle<List<List<Char>>>(input) {
                 Direction.RIGHT -> Coordinate(currentPosition.x + 1, currentPosition.y)
             }
 
-            val nextSymbol = parsedInput.getOrNull(nextCell.y)?.getOrNull(nextCell.x)
+            val nextSymbol = this.getOrNull(nextCell.y)?.getOrNull(nextCell.x)
 
             if (nextSymbol == null) {
                 isInMap = false
@@ -70,10 +101,20 @@ class GuardGallivant(input: String) : Puzzle<List<List<Char>>>(input) {
             }
         }
 
-        return visitedCells.distinct().size
+        return visitedCells
     }
 
-    private fun part2() = 0
+    private fun List<List<Char>>.findAll(char: Char): List<Coordinate> {
+        val occurrences = mutableListOf<Coordinate>()
+        forEachIndexed { y, row ->
+            row.forEachIndexed { x, c ->
+                if (char == c)
+                    occurrences.add(Coordinate(x, y))
+            }
+        }
+
+        return occurrences.toList()
+    }
 
     private enum class Direction(val symbol: Char, val degrees: Int) {
         UP('^', 0),
