@@ -27,13 +27,14 @@ class BridgeRepair(input: String) : Puzzle<Map<Long, List<Long>>>(input) {
     }.toMap()
 
     override fun solutions() = listOf(
-        ::part1
+        ::part1,
+        ::part2
     )
 
     private fun part1(): Long {
         var sum = 0L
 
-        parsedInput.forEach calculationLoop@ { (total, numbers) ->
+        parsedInput.forEach calculationLoop@{ (total, numbers) ->
             if (numbers.sum() == total || numbers.reduce { a, b -> a * b } == total) {
                 sum += total
                 return@calculationLoop
@@ -63,6 +64,47 @@ class BridgeRepair(input: String) : Puzzle<Map<Long, List<Long>>>(input) {
         return sum
     }
 
+    private fun part2(): Long {
+        var sum = 0L
+
+        parsedInput.forEach calculationLoop@{ (total, numbers) ->
+            if (numbers.sum() == total
+                || numbers.reduce { a, b -> a * b } == total
+                || numbers.joinToString("") { it.toString() }.toLong() == total
+            ) {
+                sum += total
+                return@calculationLoop
+            }
+
+            if (numbers.size <= 2)
+                return@calculationLoop
+
+            val combos = generatePermutations(
+                listOf(Operator.PLUS, Operator.MULTIPLY, Operator.CONCATENATION),
+                numbers.size
+            )
+
+            combos.distinct().forEach { combo ->
+                val thisTotal = numbers.reduceIndexed { index, a, b ->
+                    val operator = combo[index]
+
+                    if (operator == Operator.PLUS)
+                        a + b
+                    else if (operator == Operator.MULTIPLY)
+                        a * b
+                    else listOf(a, b).joinToString("") { it.toString() }.toLong()
+                }
+
+                if (thisTotal == total) {
+                    sum += total
+                    return@calculationLoop
+                }
+            }
+        }
+
+        return sum
+    }
+
     private fun <T> generatePermutations(operators: List<T>, size: Int): List<List<T>> {
         if (size == 1) return operators.map { listOf(it) }
 
@@ -78,6 +120,7 @@ class BridgeRepair(input: String) : Puzzle<Map<Long, List<Long>>>(input) {
 
     private enum class Operator {
         PLUS,
-        MULTIPLY
+        MULTIPLY,
+        CONCATENATION
     }
 }
