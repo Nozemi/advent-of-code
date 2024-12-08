@@ -1,6 +1,7 @@
 package io.nozemi.aoc.solutions.year2024.day07
 
 import io.nozemi.aoc.puzzle.Puzzle
+import kotlin.time.measureTime
 
 fun main() {
     BridgeRepair(
@@ -31,96 +32,39 @@ class BridgeRepair(input: String) : Puzzle<Map<Long, List<Long>>>(input) {
         ::part2
     )
 
-    private fun part1(): Long {
-        var sum = 0L
+    private fun part1() = parsedInput.findValidCalculations(
+        listOf(Plus(), Multiply())
+    )
 
-        parsedInput.forEach calculationLoop@{ (total, numbers) ->
-            if (numbers.sum() == total || numbers.reduce { a, b -> a * b } == total) {
-                sum += total
-                return@calculationLoop
-            }
+    private fun part2() = parsedInput.findValidCalculations(
+        listOf(Plus(), Multiply(), Concatenate())
+    )
 
-            if (numbers.size <= 2)
-                return@calculationLoop
+    private fun Map<Long, List<Long>>.findValidCalculations(operators: List<Operator>) =
+        this.filter { (total, numbers) ->
+            if (operators.any { total == it.call(numbers) })
+                return@filter true
 
-            val combos = generatePermutations(listOf(Operator.PLUS, Operator.MULTIPLY), numbers.size)
-
-            combos.distinct().forEach { combo ->
-                val thisTotal = numbers.reduceIndexed { index, a, b ->
-                    val operator = combo[index]
-
-                    if (operator == Operator.PLUS)
-                        a + b
-                    else a * b
+            return@filter permutations(numbers.size, operators).distinct()
+                .any { combo ->
+                    total == numbers.reduceIndexed { index, a, b ->
+                        combo[index].call(listOf(a, b))
+                    }
                 }
+        }.map { it.key }
+            .sum()
 
-                if (thisTotal == total) {
-                    sum += total
-                    return@calculationLoop
-                }
+    private fun permutations(size: Int, values: List<Operator>): List<Array<Operator>> {
+        if (size == 1) return values.map { arrayOf(it) }
+
+        val permutations = mutableListOf<Array<Operator>>()
+        for (value in values) {
+            val smaller = permutations(size - 1, values)
+            for (permutation in smaller) {
+                permutations.add(arrayOf(value) + permutation)
             }
         }
 
-        return sum
-    }
-
-    private fun part2(): Long {
-        var sum = 0L
-
-        parsedInput.forEach calculationLoop@{ (total, numbers) ->
-            if (numbers.sum() == total
-                || numbers.reduce { a, b -> a * b } == total
-                || numbers.joinToString("") { it.toString() }.toLong() == total
-            ) {
-                sum += total
-                return@calculationLoop
-            }
-
-            if (numbers.size <= 2)
-                return@calculationLoop
-
-            val combos = generatePermutations(
-                listOf(Operator.PLUS, Operator.MULTIPLY, Operator.CONCATENATION),
-                numbers.size
-            )
-
-            combos.distinct().forEach { combo ->
-                val thisTotal = numbers.reduceIndexed { index, a, b ->
-                    val operator = combo[index]
-
-                    if (operator == Operator.PLUS)
-                        a + b
-                    else if (operator == Operator.MULTIPLY)
-                        a * b
-                    else listOf(a, b).joinToString("") { it.toString() }.toLong()
-                }
-
-                if (thisTotal == total) {
-                    sum += total
-                    return@calculationLoop
-                }
-            }
-        }
-
-        return sum
-    }
-
-    private fun <T> generatePermutations(operators: List<T>, size: Int): List<List<T>> {
-        if (size == 1) return operators.map { listOf(it) }
-
-        val permutations = mutableListOf<List<T>>()
-        for (op in operators) {
-            val smallerPermutations = generatePermutations(operators, size - 1)
-            for (perm in smallerPermutations) {
-                permutations.add(listOf(op) + perm)
-            }
-        }
         return permutations
-    }
-
-    private enum class Operator {
-        PLUS,
-        MULTIPLY,
-        CONCATENATION
     }
 }
