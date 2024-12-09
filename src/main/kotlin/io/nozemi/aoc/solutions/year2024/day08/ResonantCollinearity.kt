@@ -1,6 +1,9 @@
 ﻿package io.nozemi.aoc.solutions.year2024.day08
 
 import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.CharMatrix
+import io.nozemi.aoc.types.Coordinates
+import io.nozemi.aoc.types.charMatrix
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.reflect.KFunction0
@@ -24,32 +27,21 @@ fun main() {
     ).printAnswers()
 }
 
-class ResonantCollinearity(input: String) : Puzzle<Array<CharArray>>(input) {
+class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
 
-    override fun Sequence<String>.parse(): Array<CharArray> =
-        this.toList()
-            .map { it.toCharArray() }
-            .toTypedArray()
+    override fun Sequence<String>.parse() = charMatrix(this)
 
-    override fun solutions(): List<KFunction0<Any>> =
-        listOf(
-            ::part1,
-            ::part2
-        )
+    override fun solutions(): List<KFunction0<Any>> = listOf(
+        ::part1,
+        ::part2
+    )
 
     private fun part1(): Int {
-        val rows = parsedInput.size
-        val cols = parsedInput.first().size
+        val antiNodes = mutableListOf<Coordinates>()
 
-        val antiNodes = mutableListOf<Coordinate>()
-
-        val frequencies = parsedInput.map {
-            it.distinct()
-        }.distinct()
-            .flatten()
+        val frequencies = parsedInput.distinctValues
             .filter { !listOf('.', '#').contains(it) }
 
-        val grid = parsedInput.copyOf()
         frequencies.forEach { frq ->
             val antennas = parsedInput.findAll(frq)
 
@@ -82,41 +74,30 @@ class ResonantCollinearity(input: String) : Puzzle<Array<CharArray>>(input) {
                         x2 = antenna2.x - distanceX
                     }
 
-                    if (!(x1 < 0 || x1 >= cols || y1 < 0 || y1 >= rows)) {
-                        antiNodes.add(Coordinate(x1, y1))
+                    if (!(x1 < 0 || x1 >= parsedInput.cols || y1 < 0 || y1 >= parsedInput.rows)) {
+                        antiNodes.add(Coordinates(x1, y1))
                     }
 
-                    if (!(x2 < 0 || x2 >= cols || y2 < 0 || y2 >= rows)) {
-                        antiNodes.add(Coordinate(x2, y2))
+                    if (!(x2 < 0 || x2 >= parsedInput.cols || y2 < 0 || y2 >= parsedInput.rows)) {
+                        antiNodes.add(Coordinates(x2, y2))
                     }
                 }
             }
         }
 
+        //val grid = parsedInput.copyOf()
         //antiNodes.forEach {
-        //    grid[it.y][it.x] = '#'
+        //    grid.set(it, '#')
         //}
-
-        //grid.forEach { row ->
-        //    row.forEach { column ->
-        //        print(column)
-        //    }
-        //    println()
-        //}
+        //println(grid)
 
         return antiNodes.distinct().count()
     }
 
     private fun part2(): Int {
-        val rows = parsedInput.size
-        val cols = parsedInput.first().size
+        val antiNodes = mutableListOf<Coordinates>()
 
-        val antiNodes = mutableListOf<Coordinate>()
-
-        val frequencies = parsedInput.map {
-            it.distinct()
-        }.distinct()
-            .flatten()
+        val frequencies = parsedInput.distinctValues
             .filter { !listOf('.', '#').contains(it) }
 
         val grid = parsedInput.copyOf()
@@ -125,7 +106,7 @@ class ResonantCollinearity(input: String) : Puzzle<Array<CharArray>>(input) {
 
             antennas.forEach a1@{ antenna1 ->
                 antiNodes.add(antenna1)
-                
+
                 antennas.forEach a2@{ antenna2 ->
                     if (antenna1 == antenna2)
                         return@a2
@@ -133,14 +114,16 @@ class ResonantCollinearity(input: String) : Puzzle<Array<CharArray>>(input) {
                     val distanceX = max(antenna1.x, antenna2.x) - min(antenna1.x, antenna2.x)
                     val distanceY = max(antenna1.y, antenna2.y) - min(antenna1.y, antenna2.y)
 
-                    val frqNodes = mutableListOf<Coordinate>()
+                    val frqNodes = mutableListOf<Coordinates>()
 
                     var currX1: Int? = null
                     var currY1: Int? = null
                     var currX2: Int? = null
                     var currY2: Int? = null
 
-                    while ((currX1 in 0..<cols || currX2 in 0..<cols || currY1 in 0..<rows || currY2 in 0..<rows) || listOf(currX1, currX2, currY1, currY2).any { it == null }) {
+                    while ((currX1 in 0..<parsedInput.cols || currX2 in 0..<parsedInput.cols || currY1 in 0..<parsedInput.rows || currY2 in 0..<parsedInput.rows)
+                        || listOf(currX1, currX2, currY1, currY2).any { it == null }
+                    ) {
                         if (antenna1.y < antenna2.y) {
                             currY1 = (currY1 ?: antenna1.y) - distanceY
                             currY2 = (currY2 ?: antenna2.y) + distanceY
@@ -157,46 +140,28 @@ class ResonantCollinearity(input: String) : Puzzle<Array<CharArray>>(input) {
                             currX2 = (currX2 ?: antenna2.x) - distanceX
                         }
 
-                        frqNodes.addAll(listOf(Coordinate(currX1, currY1), Coordinate(currX2, currY2)))
+                        frqNodes.addAll(listOf(Coordinates(currX1, currY1), Coordinates(currX2, currY2)))
                     }
 
                     antiNodes.addAll(frqNodes.filter {
-                        it.x in 0..<cols && it.y in 0..<rows
+                        it.x in 0..<parsedInput.cols && it.y in 0..<parsedInput.rows
                     })
                 }
             }
         }
 
-        antiNodes.forEach {
-            grid[it.y][it.x] = '#'
-        }
-
-        grid.forEach { row ->
-            row.forEach { column ->
-                print(column)
-            }
-            println()
-        }
-
         return antiNodes.distinct().count()
     }
 
-    private fun Array<CharArray>.findAll(char: Char): List<Coordinate> {
-        val occurrences = mutableListOf<Coordinate>()
+    private fun Array<CharArray>.findAll(char: Char): List<Coordinates> {
+        val occurrences = mutableListOf<Coordinates>()
         forEachIndexed { y, row ->
             row.forEachIndexed { x, c ->
                 if (char == c)
-                    occurrences.add(Coordinate(x, y))
+                    occurrences.add(Coordinates(x, y))
             }
         }
 
         return occurrences.toList()
-    }
-
-    private data class Coordinate(val x: Int, val y: Int) {
-
-        override fun toString(): String {
-            return "Coordinate(x=${x + 1}, y=${y + 1})"
-        }
     }
 }
