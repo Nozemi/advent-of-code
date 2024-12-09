@@ -32,14 +32,16 @@ class DiskFragmenter(input: String) : Puzzle<IntArray>(input) {
             isFile = !isFile
         }
         
+        val diskMapArray = diskMap.toIntArray()
+        
         diskMap.mapIndexedNotNull { index, i -> if (i == -1) index else null }
             .forEach { freeSlot ->
-                val lastFileBlock = diskMap.indexOfLast { it != -1 }
-                diskMap[freeSlot] = diskMap[lastFileBlock]
-                diskMap[lastFileBlock] = -1
+                val lastFileBlock = diskMapArray.indexOfLast { it != -1 }
+                diskMapArray[freeSlot] = diskMapArray[lastFileBlock]
+                diskMapArray[lastFileBlock] = -1
             }
 
-        return diskMap.filter { it != -1 }
+        return diskMapArray.filter { it != -1 }
             .mapIndexed { pos, id -> 1L * id * pos }
             .sum()
     }
