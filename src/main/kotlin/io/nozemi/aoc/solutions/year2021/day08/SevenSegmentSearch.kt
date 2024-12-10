@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2021.day08
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2021.day08.impl.SegmentPattern
 import io.nozemi.aoc.solutions.year2021.day08.impl.SegmentPattern.Companion.toSegmentPattern
 import kotlin.reflect.KFunction0

@@ -1,9 +1,9 @@
 package io.nozemi.aoc.solutions.year2024.day10
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.types.Coordinates
-import io.nozemi.aoc.types.IntMatrix
-import io.nozemi.aoc.types.intMatrix
+import io.nozemi.aoc.types.matrix.IntMatrix
+import io.nozemi.aoc.types.matrix.intMatrix
 
 class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
 
@@ -14,16 +14,18 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
         ::part1,
         ::part2
     )
-    
-    private fun part1() = parsedInput.findAll(0).sumOf { 
-        parsedInput.traverseFrom(it).flatten().filter { 
-            pos -> parsedInput.getAt(pos) == 9
-        }.distinct().count()
-    }
 
-    private fun part2() = parsedInput.findAll(0).sumOf {
-        parsedInput.traverseFrom(it).count()
-    }
+    private fun part1() =
+        parsedInput.findAll(0).sumOf {
+            parsedInput.traverseFrom(it).flatten().filter { pos ->
+                parsedInput.getAt(pos) == 9
+            }.distinct().count()
+        }
+
+    private fun part2() =
+        parsedInput.findAll(0).sumOf {
+            parsedInput.traverseFrom(it).count()
+        }
 
     private fun IntMatrix.traverseFrom(pos: Coordinates): List<List<Coordinates>> {
         val trails = mutableListOf<List<Coordinates>>()

@@ -1,9 +1,9 @@
 package io.nozemi.aoc.solutions.year2021.day10
 
-import io.nozemi.aoc.puzzle.ANSI_BOLD
-import io.nozemi.aoc.puzzle.ANSI_RED
-import io.nozemi.aoc.puzzle.ANSI_RESET
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.ANSI_BOLD
+import io.nozemi.aoc.types.puzzle.ANSI_RED
+import io.nozemi.aoc.types.puzzle.ANSI_RESET
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.utils.median
 import kotlin.reflect.KFunction0
 

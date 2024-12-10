@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2020.day04
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2020.day04.impl.Height
 import io.nozemi.aoc.solutions.year2020.day04.impl.Passport
 import io.nozemi.aoc.utils.toPath

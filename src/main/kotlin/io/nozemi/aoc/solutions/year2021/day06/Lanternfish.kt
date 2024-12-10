@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2021.day06
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
 class Lanternfish(input: String) : Puzzle<List<Int>>(input) {

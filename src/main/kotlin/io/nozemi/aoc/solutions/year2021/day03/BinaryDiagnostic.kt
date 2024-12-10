@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2021.day03
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2021.day03.impl.countBitsInPosition
 import io.nozemi.aoc.solutions.year2021.day03.impl.toEpsilonRateBinary
 import io.nozemi.aoc.solutions.year2021.day03.impl.toGammaRateBinary

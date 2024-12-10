@@ -48,7 +48,7 @@ tasks.withType<KotlinCompile> {
 tasks.jar {
     manifest {
         attributes["Implementation-Version"] = archiveVersion
-        attributes["Main-Class"] = "io.nozemi.aoc.Application"
+        attributes["Main-Class"] = "io.nozemi.aoc.ApplicationKt"
     }
 
     from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
@@ -69,14 +69,14 @@ tasks.create<JavaExec>("injectNewReadme") {
 tasks.create<JavaExec>("runAll") {
     group = "application"
     classpath = java.sourceSets["main"].runtimeClasspath
-    mainClass.set("io.nozemi.aoc.Application")
+    mainClass.set("io.nozemi.aoc.ApplicationKt")
     args = "-y2000-3000 -d1-25 -t0".split(" ")
 }
 
 tasks.create<JavaExec>("runThisYear") {
     group = "application"
     classpath = java.sourceSets["main"].runtimeClasspath
-    mainClass.set("io.nozemi.aoc.Application")
+    mainClass.set("io.nozemi.aoc.ApplicationKt")
     args = "-y$currentYear -d1-25 -t0".split(" ")
 }
 
@@ -86,7 +86,7 @@ tasks.create<JavaExec>("runYesterday") {
     //dependsOn(":injectNewReadme")
 
     classpath = java.sourceSets["main"].runtimeClasspath
-    mainClass.set("io.nozemi.aoc.Application")
+    mainClass.set("io.nozemi.aoc.ApplicationKt")
     args = "-y$currentYear -d${currentDay - 1} -t0".split(" ")
 }
 
@@ -96,13 +96,13 @@ tasks.create<JavaExec>("runToday") {
     //dependsOn(":injectNewReadme")
 
     classpath = java.sourceSets["main"].runtimeClasspath
-    mainClass.set("io.nozemi.aoc.Application")
+    mainClass.set("io.nozemi.aoc.ApplicationKt")
     args = "-y$currentYear -d$currentDay -t0".split(" ")
 }
 
 tasks.create<JavaExec>("runWithInput") {
     group = "application"
     classpath = java.sourceSets["main"].runtimeClasspath
-    mainClass.set("io.nozemi.aoc.Application")
+    mainClass.set("io.nozemi.aoc.ApplicationKt")
     standardInput = System.`in`
 }

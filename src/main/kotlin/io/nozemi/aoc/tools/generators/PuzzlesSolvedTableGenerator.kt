@@ -1,9 +1,9 @@
 package io.nozemi.aoc.tools.generators
 
-import io.nozemi.aoc.puzzle.InputLoader
-import io.nozemi.aoc.puzzle.Puzzle
-import io.nozemi.aoc.puzzle.PuzzleResolver
-import io.nozemi.aoc.puzzle.dayOfYearRegex
+import io.nozemi.aoc.types.puzzle.InputLoader
+import io.nozemi.aoc.types.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.PuzzleResolver
+import io.nozemi.aoc.types.puzzle.dayOfYearRegex
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.time.ExperimentalTime

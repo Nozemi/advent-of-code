@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2021.day09
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.utils.addIfNotExists
 import kotlin.reflect.KFunction0
 

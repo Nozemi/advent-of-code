@@ -1,10 +1,10 @@
-package io.nozemi.aoc.puzzle
+package io.nozemi.aoc.types.puzzle
 
 import io.github.classgraph.ClassGraph
-import io.nozemi.aoc.puzzle.exceptions.HasAlreadyDownloadedException
-import io.nozemi.aoc.puzzle.exceptions.InputFileDownloadFailedException
-import io.nozemi.aoc.puzzle.exceptions.NoDataProvidedException
-import io.nozemi.aoc.puzzle.exceptions.NoDownloadTokenProvidedException
+import io.nozemi.aoc.types.puzzle.exceptions.HasAlreadyDownloadedException
+import io.nozemi.aoc.types.puzzle.exceptions.InputFileDownloadFailedException
+import io.nozemi.aoc.types.puzzle.exceptions.NoDataProvidedException
+import io.nozemi.aoc.types.puzzle.exceptions.NoDownloadTokenProvidedException
 import io.nozemi.aoc.utils.get
 import java.lang.reflect.InvocationTargetException
 import kotlin.time.ExperimentalTime

@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2020.day02
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.utils.countChar
 import java.util.regex.Pattern
 import kotlin.reflect.KFunction0

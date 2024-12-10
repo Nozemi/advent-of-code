@@ -1,4 +1,4 @@
-package io.nozemi.aoc.puzzle
+package io.nozemi.aoc.types.puzzle
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.context
@@ -8,10 +8,10 @@ import com.github.michaelbull.logging.InlineLogger
 import io.github.cdimascio.dotenv.dotenv
 import io.nozemi.aoc.currentDay
 import io.nozemi.aoc.currentYear
-import io.nozemi.aoc.puzzle.exceptions.HasAlreadyDownloadedException
-import io.nozemi.aoc.puzzle.exceptions.InputFileDownloadFailedException
-import io.nozemi.aoc.puzzle.exceptions.NoDataProvidedException
-import io.nozemi.aoc.puzzle.exceptions.NoDownloadTokenProvidedException
+import io.nozemi.aoc.types.puzzle.exceptions.HasAlreadyDownloadedException
+import io.nozemi.aoc.types.puzzle.exceptions.InputFileDownloadFailedException
+import io.nozemi.aoc.types.puzzle.exceptions.NoDataProvidedException
+import io.nozemi.aoc.types.puzzle.exceptions.NoDownloadTokenProvidedException
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
@@ -53,8 +53,8 @@ class PuzzleSelectScreen : CliktCommand() {
 ██╔██╗██║██║░░██║░░███╔═╝█████╗░░██╔████╔██║██║░╚╝╚█████╗░  ███████║██║░░██║██║░░╚═╝
 ██║╚████║██║░░██║██╔══╝░░██╔══╝░░██║╚██╔╝██║██║░░░░╚═══██╗  ██╔══██║██║░░██║██║░░██╗
 ██║░╚███║╚█████╔╝███████╗███████╗██║░╚═╝░██║██║░░░██████╔╝  ██║░░██║╚█████╔╝╚█████╔╝
-╚═╝░░╚══╝░╚════╝░╚══════╝╚══════╝╚═╝░░░░░╚═╝╚═╝░░░╚═════╝░  ╚═╝░░╚═╝░╚════╝░░╚════╝░${ANSI_GREEN}
-======================================================================================${ANSI_RESET}
+╚═╝░░╚══╝░╚════╝░╚══════╝╚══════╝╚═╝░░░░░╚═╝╚═╝░░░╚═════╝░  ╚═╝░░╚═╝░╚════╝░░╚════╝░$ANSI_GREEN
+======================================================================================$ANSI_RESET
         """.trimIndent()
         )
         println(
@@ -83,7 +83,7 @@ class PuzzleSelectScreen : CliktCommand() {
         logger.info { "Hold your $ANSI_BOLD${ANSI_UNDERLINE}beer$ANSI_RESET$ANSI_GREEN! Solutions coming up for day(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$day$ANSI_RESET$ANSI_GREEN of year(s) $ANSI_PURPLE$ANSI_BOLD$ANSI_UNDERLINE$year$ANSI_RESET$ANSI_GREEN!" }
         if (aocToken.length == 128) {
             token = this.aocToken
-            logger.info { "${ANSI_BOLD}${ANSI_YELLOW}Will attempt to fetch your puzzle inputs with the token you provided." }
+            logger.info { "$ANSI_BOLD${ANSI_YELLOW}Will attempt to fetch your puzzle inputs with the token you provided." }
         } else {
             val dotenv = dotenv {
                 ignoreIfMissing = true

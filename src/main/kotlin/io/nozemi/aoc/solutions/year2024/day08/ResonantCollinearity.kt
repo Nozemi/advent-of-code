@@ -1,9 +1,9 @@
 ﻿package io.nozemi.aoc.solutions.year2024.day08
 
-import io.nozemi.aoc.puzzle.Puzzle
-import io.nozemi.aoc.types.CharMatrix
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.types.Coordinates
-import io.nozemi.aoc.types.charMatrix
+import io.nozemi.aoc.types.matrix.CharMatrix
+import io.nozemi.aoc.types.matrix.charMatrix
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.reflect.KFunction0
@@ -85,12 +85,6 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
             }
         }
 
-        //val grid = parsedInput.copyOf()
-        //antiNodes.forEach {
-        //    grid.set(it, '#')
-        //}
-        //println(grid)
-
         return antiNodes.distinct().count()
     }
 
@@ -100,7 +94,6 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
         val frequencies = parsedInput.distinctValues
             .filter { !listOf('.', '#').contains(it) }
 
-        val grid = parsedInput.copyOf()
         frequencies.forEach { frq ->
             val antennas = parsedInput.findAll(frq)
 
@@ -151,17 +144,5 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
         }
 
         return antiNodes.distinct().count()
-    }
-
-    private fun Array<CharArray>.findAll(char: Char): List<Coordinates> {
-        val occurrences = mutableListOf<Coordinates>()
-        forEachIndexed { y, row ->
-            row.forEachIndexed { x, c ->
-                if (char == c)
-                    occurrences.add(Coordinates(x, y))
-            }
-        }
-
-        return occurrences.toList()
     }
 }

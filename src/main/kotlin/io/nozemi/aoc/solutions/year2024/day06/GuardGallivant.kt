@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2024.day06
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2024.day06.GuardGallivant.Direction.Companion.asDirection
 import kotlin.reflect.KFunction0
 
@@ -75,7 +75,7 @@ class GuardGallivant(input: String) : Puzzle<List<List<Char>>>(input) {
         var currentPosition = initialPosition
         val visitedCells = mutableListOf<Coordinate>()
         while (isInMap) {
-            if(visitedCells.size > (this.size * this.first().size) * 2)
+            if(visitedCells.size > (this.size * this.first().size) * 1.2)
                 return emptyList()
 
             visitedCells.add(currentPosition)

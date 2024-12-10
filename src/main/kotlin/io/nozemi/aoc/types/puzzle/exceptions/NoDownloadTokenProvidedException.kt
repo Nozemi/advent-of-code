@@ -1,3 +1,3 @@
-package io.nozemi.aoc.puzzle.exceptions
+package io.nozemi.aoc.types.puzzle.exceptions
 
 class NoDownloadTokenProvidedException() : Exception("No token was provided for downloading AoC input.")

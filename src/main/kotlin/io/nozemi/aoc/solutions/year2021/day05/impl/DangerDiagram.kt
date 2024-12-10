@@ -1,8 +1,8 @@
 package io.nozemi.aoc.solutions.year2021.day05.impl
 
-import io.nozemi.aoc.puzzle.ANSI_BLUE
-import io.nozemi.aoc.puzzle.ANSI_BOLD
-import io.nozemi.aoc.puzzle.ANSI_RESET
+import io.nozemi.aoc.types.puzzle.ANSI_BLUE
+import io.nozemi.aoc.types.puzzle.ANSI_BOLD
+import io.nozemi.aoc.types.puzzle.ANSI_RESET
 import io.nozemi.aoc.utils.addIfNotExists
 import java.nio.file.Files
 import java.nio.file.Path

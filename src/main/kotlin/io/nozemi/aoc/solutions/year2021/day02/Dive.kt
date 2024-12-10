@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2021.day02
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import io.nozemi.aoc.solutions.year2021.day02.impl.Submarine
 import kotlin.reflect.KFunction0
 

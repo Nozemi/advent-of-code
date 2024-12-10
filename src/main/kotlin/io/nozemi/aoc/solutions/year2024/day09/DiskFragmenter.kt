@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2024.day09
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import kotlin.math.max
 import kotlin.math.min
 

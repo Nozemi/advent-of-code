@@ -1,6 +1,6 @@
 package io.nozemi.aoc.solutions.year2020.day01
 
-import io.nozemi.aoc.puzzle.Puzzle
+import io.nozemi.aoc.types.puzzle.Puzzle
 import kotlin.reflect.KFunction0
 
 class ReportRepair(input: String) : Puzzle<List<Int>>(input) {

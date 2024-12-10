@@ -1,12 +1,13 @@
-package io.nozemi.aoc.puzzle
+package io.nozemi.aoc.types.puzzle
 
 import com.github.michaelbull.logging.InlineLogger
-import io.nozemi.aoc.puzzle.exceptions.HasAlreadyDownloadedException
-import io.nozemi.aoc.puzzle.exceptions.InputFileDownloadFailedException
-import io.nozemi.aoc.puzzle.exceptions.NoDataProvidedException
-import io.nozemi.aoc.puzzle.exceptions.NoDownloadTokenProvidedException
+import io.nozemi.aoc.types.puzzle.exceptions.HasAlreadyDownloadedException
+import io.nozemi.aoc.types.puzzle.exceptions.InputFileDownloadFailedException
+import io.nozemi.aoc.types.puzzle.exceptions.NoDataProvidedException
+import io.nozemi.aoc.types.puzzle.exceptions.NoDownloadTokenProvidedException
 import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
@@ -46,7 +47,7 @@ class InputLoader(private val inputFile: Path, year: Int, day: Int, private val 
 
         hasDownloaded = true
 
-        val url = URL("https://adventofcode.com/${year}/day/${day}/input")
+        val url = URI.create("https://adventofcode.com/${year}/day/${day}/input").toURL()
         try {
             val connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("Cookie", "session=$token")

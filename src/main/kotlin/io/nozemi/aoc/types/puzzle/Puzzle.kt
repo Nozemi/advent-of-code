@@ -1,4 +1,4 @@
-package io.nozemi.aoc.puzzle
+package io.nozemi.aoc.types.puzzle
 
 import java.nio.file.Path
 import kotlin.reflect.KFunction0
