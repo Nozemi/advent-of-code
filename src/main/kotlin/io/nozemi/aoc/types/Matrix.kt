@@ -4,13 +4,25 @@ interface IMatrix<T> {
     val cols: Int
     val rows: Int
 
-    fun getAt(x: Int, y: Int): T
-    fun getAt(coords: Coordinates): T
+    fun isWithinBounds(coords: Coordinates) = coords.x in 0..<cols && coords.y in 0..<rows
 
-    fun set(x: Int, y: Int, value: T)
-    fun set(coords: Coordinates, value: T)
+    fun getAt(coords: Coordinates): T?
+    fun getAt(x: Int, y: Int) = getAt(Coordinates(x, y))
+    fun getAt(coords: List<Coordinates>): List<T> = coords.mapNotNull { getAt(it) }
+
+    fun setAt(x: Int, y: Int, value: T) = setAt(Coordinates(x, y), value)
+    fun setAt(coords: Coordinates, value: T): Boolean
+    fun setAt(coords: List<Coordinates>, value: T): Map<Coordinates, Boolean> = coords.associateWith { setAt(it, value) }
 
     fun findAll(search: T): List<Coordinates>
+
+    fun surrounding(coords: Coordinates, allowDiagonal: Boolean = false) = mapOf(
+        Direction.WEST to Coordinates(coords.x - 1, coords.y),
+        Direction.EAST to Coordinates(coords.x + 1, coords.y),
+        Direction.SOUTH to Coordinates(coords.x, coords.y + 1),
+        Direction.NORTH to Coordinates(coords.x, coords.y - 1)
+    ).filter { isWithinBounds(it.value) }
+        .map { it.value }
 
     fun copyOf(): IMatrix<T>
 }
@@ -21,15 +33,19 @@ class IntMatrix(
     override val cols get() = values[0].size
     override val rows get() = values.size
 
-    override fun getAt(x: Int, y: Int) = values[y][x]
-    override fun getAt(coords: Coordinates) = values[coords.y][coords.x]
+    override fun getAt(coords: Coordinates): Int? {
+        if (!isWithinBounds(coords))
+            return null
 
-    override fun set(coords: Coordinates, value: Int) {
-        values[coords.y][coords.x] = value
+        return values[coords.y][coords.x]
     }
 
-    override fun set(x: Int, y: Int, value: Int) {
-        values[y][x] = value
+    override fun setAt(coords: Coordinates, value: Int): Boolean {
+        if (!isWithinBounds(coords))
+            return false
+
+        values[coords.y][coords.x] = value
+        return true
     }
 
     override fun findAll(search: Int): List<Coordinates> = values.flatMapIndexed { y, row ->
@@ -42,7 +58,6 @@ class IntMatrix(
     }
 
     override fun toString() = values.joinToString("\n") { it.joinToString(" ") }
-
     override fun copyOf() = IntMatrix(values.copyOf())
 }
 
@@ -54,15 +69,19 @@ class CharMatrix(
     override val cols get() = values[0].size
     override val rows get() = values.size
 
-    override fun getAt(x: Int, y: Int) = values[y][x]
-    override fun getAt(coords: Coordinates) = values[coords.y][coords.x]
+    override fun getAt(coords: Coordinates): Char? {
+        if (!isWithinBounds(coords))
+            return null
 
-    override fun set(coords: Coordinates, value: Char) {
-        values[coords.y][coords.x] = value
+        return values[coords.y][coords.x]
     }
 
-    override fun set(x: Int, y: Int, value: Char) {
-        values[y][x] = value
+    override fun setAt(coords: Coordinates, value: Char): Boolean {
+        if (!isWithinBounds(coords))
+            return false
+
+        values[coords.y][coords.x] = value
+        return true
     }
 
     override fun findAll(search: Char): List<Coordinates> = values.flatMapIndexed { y, row ->
@@ -80,6 +99,16 @@ class CharMatrix(
 
 fun intMatrix(rows: Int, cols: Int, defaultValue: Int = 0) =
     IntMatrix(Array(rows) { IntArray(cols) { defaultValue } })
+
+fun intMatrix(raw: String) = IntMatrix(raw.split("\n").map { row ->
+    row.map { it.digitToInt() }.toIntArray()
+}.toTypedArray())
+
+fun intMatrix(raw: Sequence<String>) = IntMatrix(raw.map {
+    it.map { row ->
+        row.digitToInt()
+    }.toIntArray()
+}.toList().toTypedArray())
 
 fun charMatrix(rows: Int, cols: Int, defaultValue: Char = Char.MIN_VALUE) =
     CharMatrix(Array(rows) { CharArray(cols) { defaultValue } })
