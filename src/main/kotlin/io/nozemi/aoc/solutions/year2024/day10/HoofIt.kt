@@ -14,54 +14,29 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
         ::part1,
         ::part2
     )
-
-    private fun part1(): Int {
-        val trails = mutableListOf<List<Coordinates>>()
-
-        fun traverseTrail(pos: Coordinates, trail: List<Coordinates> = emptyList()) {
-            val currentHeight = parsedInput.getAt(pos)
-                ?: Int.MIN_VALUE
-
-            val currentTrail = trail.toMutableList()
-            currentTrail.add(pos)
-
-            val surrounding = parsedInput.surrounding(pos).map {
-                Pair(it, parsedInput.getAt(it))
-            }.filter { it.second != null && currentHeight + 1 == it.second }
-                .map { it.first }
-
-            surrounding.forEach {
-                traverseTrail(it, currentTrail)
-            }
-
-            if (currentTrail.lastOrNull { parsedInput.getAt(it) == 9 } != null) {
-                trails.add(currentTrail)
-            }
-        }
-
-        var score = 0
-        parsedInput.findAll(0).forEach {
-            trails.clear()
-            traverseTrail(it)
-
-            score += trails.flatten().filter { pos -> parsedInput.getAt(pos) == 9 }.distinct().count()
-        }
-
-        return score
+    
+    private fun part1() = parsedInput.findAll(0).sumOf { 
+        parsedInput.traverseFrom(it).flatten().filter { 
+            pos -> parsedInput.getAt(pos) == 9
+        }.distinct().count()
     }
 
-    private fun part2(): Int {
+    private fun part2() = parsedInput.findAll(0).sumOf {
+        parsedInput.traverseFrom(it).count()
+    }
+
+    private fun IntMatrix.traverseFrom(pos: Coordinates): List<List<Coordinates>> {
         val trails = mutableListOf<List<Coordinates>>()
 
         fun traverseTrail(pos: Coordinates, trail: List<Coordinates> = emptyList()) {
-            val currentHeight = parsedInput.getAt(pos)
+            val currentHeight = this.getAt(pos)
                 ?: Int.MIN_VALUE
 
             val currentTrail = trail.toMutableList()
             currentTrail.add(pos)
 
-            val surrounding = parsedInput.surrounding(pos).map {
-                Pair(it, parsedInput.getAt(it))
+            val surrounding = this.surrounding(pos).map {
+                Pair(it, this.getAt(it))
             }.filter { it.second != null && currentHeight + 1 == it.second }
                 .map { it.first }
 
@@ -69,19 +44,13 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
                 traverseTrail(it, currentTrail)
             }
 
-            if (currentTrail.lastOrNull { parsedInput.getAt(it) == 9 } != null) {
+            if (currentTrail.lastOrNull { this.getAt(it) == 9 } != null) {
                 trails.add(currentTrail)
             }
         }
 
-        var rating = 0
-        parsedInput.findAll(0).forEach {
-            trails.clear()
-            traverseTrail(it)
+        traverseTrail(pos)
 
-            rating += trails.count()
-        }
-
-        return rating
+        return trails
     }
 }
