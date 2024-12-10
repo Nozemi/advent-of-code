@@ -11,7 +11,8 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
         intMatrix(this)
 
     override fun solutions() = listOf(
-        ::part1
+        ::part1,
+        ::part2
     )
 
     private fun part1(): Int {
@@ -37,9 +38,9 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
                 trails.add(currentTrail)
             }
         }
-        
+
         var score = 0
-        parsedInput.findAll(0).forEach { 
+        parsedInput.findAll(0).forEach {
             trails.clear()
             traverseTrail(it)
 
@@ -47,5 +48,40 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
         }
 
         return score
+    }
+
+    private fun part2(): Int {
+        val trails = mutableListOf<List<Coordinates>>()
+
+        fun traverseTrail(pos: Coordinates, trail: List<Coordinates> = emptyList()) {
+            val currentHeight = parsedInput.getAt(pos)
+                ?: Int.MIN_VALUE
+
+            val currentTrail = trail.toMutableList()
+            currentTrail.add(pos)
+
+            val surrounding = parsedInput.surrounding(pos).map {
+                Pair(it, parsedInput.getAt(it))
+            }.filter { it.second != null && currentHeight + 1 == it.second }
+                .map { it.first }
+
+            surrounding.forEach {
+                traverseTrail(it, currentTrail)
+            }
+
+            if (currentTrail.lastOrNull { parsedInput.getAt(it) == 9 } != null) {
+                trails.add(currentTrail)
+            }
+        }
+
+        var rating = 0
+        parsedInput.findAll(0).forEach {
+            trails.clear()
+            traverseTrail(it)
+
+            rating += trails.count()
+        }
+
+        return rating
     }
 }
