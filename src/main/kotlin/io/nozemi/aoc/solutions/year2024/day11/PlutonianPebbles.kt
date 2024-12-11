@@ -22,7 +22,10 @@ class PlutonianPebbles(input: String) : Puzzle<List<Long>>(input) {
     private fun part2() = blink(75, parsedInput)
 
     private fun blink(blinks: Int, stones: List<Long>): Long {
-        var stoneCounts = stones.groupingBy { it }.eachCount().mapValues { it.value.toLong() }.toMutableMap()
+        var stoneCounts = stones.groupingBy { it }
+            .eachCount()
+            .mapValues { it.value.toLong() }
+            .toMutableMap()
 
         repeat(blinks) {
             val newStoneCounts = mutableMapOf<Long, Long>()
@@ -37,6 +40,7 @@ class PlutonianPebbles(input: String) : Puzzle<List<Long>>(input) {
                         newStoneCounts[leftHalf] = newStoneCounts.getOrDefault(leftHalf, 0L) + count
                         newStoneCounts[rightHalf] = newStoneCounts.getOrDefault(rightHalf, 0L) + count
                     }
+
                     else -> {
                         val newStone = stone * 2024
                         newStoneCounts[newStone] = newStoneCounts.getOrDefault(newStone, 0L) + count
