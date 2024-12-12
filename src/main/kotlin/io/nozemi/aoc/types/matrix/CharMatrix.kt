@@ -5,10 +5,14 @@ import io.nozemi.aoc.types.Coordinates
 class CharMatrix(
     private val values: Array<CharArray>
 ) : IMatrix<Char> {
-    val distinctValues get() = values.map { it.distinct() }.flatten().distinct()
-
     override val cols get() = values[0].size
     override val rows get() = values.size
+
+    override val distinctValues get() = values.map { it.distinct() }.flatten().distinct()
+
+    fun forEach(action: (row: CharArray) -> Unit) {
+        values.forEach { action(it) }
+    }
 
     override fun getAt(coords: Coordinates): Char? {
         if (!isWithinBounds(coords))
@@ -36,4 +40,8 @@ class CharMatrix(
 
     override fun toString() = values.joinToString("\n") { it.joinToString(" ") }
     override fun copyOf() = CharMatrix(values.copyOf())
+
+    override fun iterator() = values.mapIndexed { y, row ->
+        row.mapIndexed { x, _ -> MatrixCell(x, y, values[y][x]) }
+    }.flatten().iterator()
 }

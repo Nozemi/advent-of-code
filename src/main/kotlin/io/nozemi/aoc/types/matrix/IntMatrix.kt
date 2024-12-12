@@ -8,6 +8,8 @@ class IntMatrix(
     override val cols get() = values[0].size
     override val rows get() = values.size
 
+    override val distinctValues get() = values.map { it.distinct() }.flatten().distinct()
+
     override fun getAt(coords: Coordinates): Int? {
         if (!isWithinBounds(coords))
             return null
@@ -34,4 +36,8 @@ class IntMatrix(
 
     override fun toString() = values.joinToString("\n") { it.joinToString(" ") }
     override fun copyOf() = IntMatrix(values.copyOf())
+
+    override fun iterator() = values.mapIndexed { y, row ->
+        row.mapIndexed { x, _ -> MatrixCell(x, y, values[y][x]) }
+    }.flatten().iterator()
 }
