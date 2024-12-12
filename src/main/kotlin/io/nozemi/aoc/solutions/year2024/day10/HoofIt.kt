@@ -37,7 +37,7 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
             val currentTrail = trail.toMutableList()
             currentTrail.add(pos)
 
-            val surrounding = this.surrounding(pos).map {
+            val surrounding = this.surrounding(pos).map { it.coordinates }.map {
                 Pair(it, this.getAt(it))
             }.filter { it.second != null && currentHeight + 1 == it.second }
                 .map { it.first }

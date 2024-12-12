@@ -22,24 +22,42 @@ interface IMatrix<T> : Iterable<MatrixCell<T>> {
 
     fun findAll(search: T): List<Coordinates>
 
-    fun surrounding(coords: Coordinates, allowDiagonal: Boolean = false, onlyWithinBounds: Boolean = true) = mapOf(
-        Direction.WEST to Coordinates(coords.x - 1, coords.y),
-        Direction.EAST to Coordinates(coords.x + 1, coords.y),
-        Direction.SOUTH to Coordinates(coords.x, coords.y + 1),
-        Direction.NORTH to Coordinates(coords.x, coords.y - 1)
-    ).filter { !onlyWithinBounds || isWithinBounds(it.value) }
-        .map { it.value }
+    fun surrounding(
+        coords: Coordinates,
+        allowDiagonal: Boolean = false,
+        onlyWithinBounds: Boolean = true
+    ): List<MatrixCell<T>> {
+        val surroundingTiles = mutableMapOf(
+            Direction.WEST to Coordinates(coords.x - 1, coords.y),
+            Direction.EAST to Coordinates(coords.x + 1, coords.y),
+            Direction.SOUTH to Coordinates(coords.x, coords.y + 1),
+            Direction.NORTH to Coordinates(coords.x, coords.y - 1)
+        )
 
-    fun findGroups() = this.distinctValues.map {
+        if (allowDiagonal)
+            surroundingTiles += mapOf(
+                Direction.NORTH_WEST to Coordinates(coords.x - 1, coords.y - 1),
+                Direction.NORTH_EAST to Coordinates(coords.x + 1, coords.y - 1),
+                Direction.SOUTH_WEST to Coordinates(coords.x - 1, coords.y + 1),
+                Direction.SOUTH_EAST to Coordinates(coords.x + 1, coords.y + 1),
+            )
+
+        return surroundingTiles.filter { !onlyWithinBounds || isWithinBounds(it.value) }
+            .map { MatrixCell(it.value, getAt(it.value)) }
+    }
+
+    val allGroups get() = distinctValues.associateWith { findGroups(it) }
+
+    fun findGroups(value: T): List<List<Coordinates>> {
         val visited = mutableSetOf<Coordinates>()
         val currentGroups = mutableListOf<List<Coordinates>>()
 
-        this.findAll(it).forEach valueLoop@{ v ->
+        this.findAll(value).forEach valueLoop@{ v ->
             if (v in visited)
                 return@valueLoop
 
             val group = mutableListOf<Coordinates>()
-            floodFill(v, it, visited, group)
+            floodFill(v, value, visited, group)
 
             if (group.isEmpty())
                 return@valueLoop
@@ -47,10 +65,10 @@ interface IMatrix<T> : Iterable<MatrixCell<T>> {
             currentGroups.add(group)
         }
 
-        it to currentGroups
-    }.toMap()
+        return currentGroups
+    }
 
-    private fun floodFill(
+    fun floodFill(
         start: Coordinates,
         value: T,
         visited: MutableSet<Coordinates>,
@@ -70,6 +88,7 @@ interface IMatrix<T> : Iterable<MatrixCell<T>> {
 
                 stack.addAll(
                     this.surrounding(current)
+                        .map { it.coordinates }
                         .filter {
                             it !in visited && this.getAt(current) == value
                         }

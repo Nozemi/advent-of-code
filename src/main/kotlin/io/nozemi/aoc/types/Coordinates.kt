@@ -1,5 +1,8 @@
 package io.nozemi.aoc.types
 
+import kotlin.math.max
+import kotlin.math.min
+
 data class Coordinates(
     private var xPos: Int,
     private var yPos: Int
@@ -26,10 +29,35 @@ data class Coordinates(
             Direction.SOUTH -> yPos += steps
             Direction.WEST -> xPos -= steps
             Direction.EAST -> xPos += steps
+
+            Direction.NORTH_WEST -> {
+                yPos -= steps
+                xPos -= steps
+            }
+
+            Direction.NORTH_EAST -> {
+                yPos -= steps
+                xPos += steps
+            }
+
+            Direction.SOUTH_WEST -> {
+                yPos += steps
+                xPos -= steps
+            }
+
+            Direction.SOUTH_EAST -> {
+                yPos += steps
+                xPos += steps
+            }
         }
 
         return this
     }
+
+    fun distanceTo(other: Coordinates) = Coordinates(
+        max(x, other.x) - min(x, other.x),
+        max(y, other.y) - min(y, other.y)
+    )
 
     override fun toString(): String {
         return "Coordinate(x=${x + 1}, y=${y + 1})"
