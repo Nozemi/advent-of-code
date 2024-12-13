@@ -1,9 +1,9 @@
 package io.nozemi.aoc.solutions.year2024.day10
 
 import io.nozemi.aoc.types.puzzle.Puzzle
-import io.nozemi.aoc.types.Coordinates
-import io.nozemi.aoc.types.matrix.IntMatrix
-import io.nozemi.aoc.types.matrix.intMatrix
+import io.nozemi.aoc.types.Vector2
+import io.nozemi.aoc.types.datastructures.matrix.IntMatrix
+import io.nozemi.aoc.types.datastructures.matrix.intMatrix
 
 class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
 
@@ -27,17 +27,17 @@ class HoofIt(input: String) : Puzzle<IntMatrix>(input) {
             parsedInput.traverseFrom(it).count()
         }
 
-    private fun IntMatrix.traverseFrom(pos: Coordinates): List<List<Coordinates>> {
-        val trails = mutableListOf<List<Coordinates>>()
+    private fun IntMatrix.traverseFrom(pos: Vector2): List<List<Vector2>> {
+        val trails = mutableListOf<List<Vector2>>()
 
-        fun traverseTrail(pos: Coordinates, trail: List<Coordinates> = emptyList()) {
+        fun traverseTrail(pos: Vector2, trail: List<Vector2> = emptyList()) {
             val currentHeight = this.getAt(pos)
                 ?: Int.MIN_VALUE
 
             val currentTrail = trail.toMutableList()
             currentTrail.add(pos)
 
-            val surrounding = this.surrounding(pos).map { it.coordinates }.map {
+            val surrounding = this.adjacent(pos).map { it.first.coordinates }.map {
                 Pair(it, this.getAt(it))
             }.filter { it.second != null && currentHeight + 1 == it.second }
                 .map { it.first }

@@ -1,4 +1,4 @@
-﻿package io.nozemi.aoc.types.matrix
+﻿package io.nozemi.aoc.types.datastructures.matrix
 
 fun intMatrix(rows: Int, cols: Int, defaultValue: Int = 0) =
     IntMatrix(Array(rows) { IntArray(cols) { defaultValue } })

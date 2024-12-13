@@ -1,9 +1,9 @@
 ﻿package io.nozemi.aoc.solutions.year2024.day08
 
+import io.nozemi.aoc.types.Vector2
 import io.nozemi.aoc.types.puzzle.Puzzle
-import io.nozemi.aoc.types.Coordinates
-import io.nozemi.aoc.types.matrix.CharMatrix
-import io.nozemi.aoc.types.matrix.charMatrix
+import io.nozemi.aoc.types.datastructures.matrix.CharMatrix
+import io.nozemi.aoc.types.datastructures.matrix.charMatrix
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.reflect.KFunction0
@@ -37,7 +37,7 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
     )
 
     private fun part1(): Int {
-        val antiNodes = mutableListOf<Coordinates>()
+        val antiNodes = mutableListOf<Vector2>()
 
         val frequencies = parsedInput.distinctValues
             .filter { !listOf('.', '#').contains(it) }
@@ -75,11 +75,11 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
                     }
 
                     if (!(x1 < 0 || x1 >= parsedInput.cols || y1 < 0 || y1 >= parsedInput.rows)) {
-                        antiNodes.add(Coordinates(x1, y1))
+                        antiNodes.add(Vector2(x1, y1))
                     }
 
                     if (!(x2 < 0 || x2 >= parsedInput.cols || y2 < 0 || y2 >= parsedInput.rows)) {
-                        antiNodes.add(Coordinates(x2, y2))
+                        antiNodes.add(Vector2(x2, y2))
                     }
                 }
             }
@@ -89,7 +89,7 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
     }
 
     private fun part2(): Int {
-        val antiNodes = mutableListOf<Coordinates>()
+        val antiNodes = mutableListOf<Vector2>()
 
         val frequencies = parsedInput.distinctValues
             .filter { !listOf('.', '#').contains(it) }
@@ -107,7 +107,7 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
                     val distanceX = max(antenna1.x, antenna2.x) - min(antenna1.x, antenna2.x)
                     val distanceY = max(antenna1.y, antenna2.y) - min(antenna1.y, antenna2.y)
 
-                    val frqNodes = mutableListOf<Coordinates>()
+                    val frqNodes = mutableListOf<Vector2>()
 
                     var currX1: Int? = null
                     var currY1: Int? = null
@@ -133,7 +133,7 @@ class ResonantCollinearity(input: String) : Puzzle<CharMatrix>(input) {
                             currX2 = (currX2 ?: antenna2.x) - distanceX
                         }
 
-                        frqNodes.addAll(listOf(Coordinates(currX1, currY1), Coordinates(currX2, currY2)))
+                        frqNodes.addAll(listOf(Vector2(currX1, currY1), Vector2(currX2, currY2)))
                     }
 
                     antiNodes.addAll(frqNodes.filter {

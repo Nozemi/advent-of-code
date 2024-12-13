@@ -4,15 +4,7 @@ import java.nio.file.Path
 
 fun Array<IntArray>.transposeMatrix() = Array(this[0].size) { i -> IntArray(this.size) { j -> this[j][i] } }
 
-fun String.countChar(char: Char): Int {
-    var count = 0
-
-    for (i in 0 until this.length) {
-        if (this.toCharArray()[i] == char) count++
-    }
-
-    return count
-}
+fun String.countChar(char: Char) = count { it == char }
 
 fun String.toPath(): Path {
     return Path.of(this)
