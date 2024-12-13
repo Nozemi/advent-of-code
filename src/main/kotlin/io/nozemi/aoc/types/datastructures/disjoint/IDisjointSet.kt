@@ -1,4 +1,4 @@
-package io.nozemi.aoc.types.datastructures.distjoint
+package io.nozemi.aoc.types.datastructures.disjoint
 
 interface IDisjointSet<T> : Iterable<IDisjointSet.Partition<T>> {
     interface Partition<T> : Iterable<T>

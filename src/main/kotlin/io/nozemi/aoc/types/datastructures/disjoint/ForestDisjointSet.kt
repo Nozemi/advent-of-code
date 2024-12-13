@@ -1,4 +1,4 @@
-package io.nozemi.aoc.types.datastructures.distjoint
+package io.nozemi.aoc.types.datastructures.disjoint
 
 import io.nozemi.aoc.extensions.arrayDequeOf
 

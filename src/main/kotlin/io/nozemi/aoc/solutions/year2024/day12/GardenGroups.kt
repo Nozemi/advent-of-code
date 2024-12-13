@@ -1,7 +1,7 @@
 package io.nozemi.aoc.solutions.year2024.day12
 
 import io.nozemi.aoc.types.Direction
-import io.nozemi.aoc.types.datastructures.distjoint.ForestDisjointSet
+import io.nozemi.aoc.types.datastructures.disjoint.ForestDisjointSet
 import io.nozemi.aoc.types.Vector2
 import io.nozemi.aoc.types.datastructures.matrix.CharMatrix
 import io.nozemi.aoc.types.datastructures.matrix.charMatrix
